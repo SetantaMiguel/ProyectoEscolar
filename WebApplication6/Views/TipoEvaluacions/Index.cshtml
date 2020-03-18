@@ -1,0 +1,57 @@
+﻿@model IEnumerable<WebApplication6.Models.TipoEvaluacion>
+
+@{
+}
+<div class="container">
+    <hr />
+    <p>
+        @Html.ActionLink("Crear nuevo tipo evaluacion", "Create", null, new { @class = "btn btn-success", data_modal = "" })
+    </p>
+    <h2 class="text-center alert alert-secondary">Menu de Tipos de evaluaciones</h2>
+    <div class="table-responsive shadow  bg-white rounded">
+        <table class="table table-hover" id="table">
+            <tr class="table-info ">
+                <th>
+                    @Html.DisplayNameFor(model => model.strTipoEvaluacion)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DescripcionTipEvaluacion)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.bl_EstadoTipo)
+                </th>
+                <th>Opciones</th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.strTipoEvaluacion)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DescripcionTipEvaluacion)
+                    </td>
+                    <td>
+
+                        @Html.DisplayFor(modelItem => item.bl_EstadoTipo)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Editar", "Edit", new { id = item.Id_TipoEvaluacion }, new { data_modal = "" })
+                        @Html.ActionLink("Desactivar", "Delete", new { id = item.Id_TipoEvaluacion }, new {@class="text-danger", data_modal = "" })
+                    </td>
+                </tr>
+            }
+
+        </table>
+
+    </div>
+
+</div>
+@section scripts{
+    <script src="~/Scripts/jquery-ui-1.12.1.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+
+}

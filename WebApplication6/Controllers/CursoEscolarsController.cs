@@ -12,6 +12,7 @@ using WebApplication6.viewModels;
 
 namespace WebApplication6.Controllers
 {
+    [Authorize]
     public class CursoEscolarsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -57,7 +58,7 @@ namespace WebApplication6.Controllers
                 catch (Exception)
                 {
                     ViewBag.Anio = db.tbAniosACursar.Find(IdAño).Str_Curso;
-                    return PartialView(tbCursoEscolar.ToList());
+                    return PartialView(tbCursoEscolar);
 
                 }
                 return PartialView(tbCursoEscolar.ToList());
@@ -106,11 +107,16 @@ namespace WebApplication6.Controllers
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id_Curso,Id_Modalidad,Bl_Estado,Id_Año,Id_Seccion")] CursoEscolar cursoEscolar)
         {
+            var resultado = new Validador.BaseRespuesta();
             var aux = db.tbCursoEscolar.Where(x => x.Id_Modalidad == cursoEscolar.Id_Modalidad).Where(x=>x.Id_Seccion==cursoEscolar.Id_Seccion);
-
+            if (aux.Count()!=0)
+            {
+                resultado.Ok = false;
+                resultado.Mensaje = "Ya hay un aula en esa modalidad";
+                return Json(resultado);
+            }
             if (ModelState.IsValid&&aux.Count()==0)
             {
 
@@ -151,10 +157,12 @@ namespace WebApplication6.Controllers
                 db.tbCursoEscolar.Add(cursoEscolar);
                 db.Secciones.Find(cursoEscolar.Id_Seccion).AulaLLena = false;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+
+                resultado.Ok = true;
+                resultado.Mensaje = "Se creo correctamente el curso";
+                return Json(resultado);
             }
-            TempData["ErrorCreation"] = true;
-            return RedirectToAction("Index");
+            return PartialView(cursoEscolar);
         }
 
         // GET: CursoEscolars/Delete/5
@@ -187,6 +195,7 @@ namespace WebApplication6.Controllers
             CursoEscolar cursoEscolar = db.tbCursoEscolar.Include(c => c.AniosACursar).Include(x => x.Modalidades).Include(c => c.Secciones).Where(x => x.Id_Curso == id).First();
             db.Secciones.Find(cursoEscolar.Id_Seccion).AulaLLena = true;
             db.tbCursoEscolar.Find(id).Bl_Estado=false;
+            db.tbCursoEscolar.Remove(cursoEscolar);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

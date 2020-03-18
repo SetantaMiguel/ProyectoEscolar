@@ -10,7 +10,8 @@ using System.Web.Mvc;
 using WebApplication6.Models;
 
 namespace WebApplication6.Controllers
-{
+{   
+    [Authorize]
     public class EmpleadoCalendariosController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

@@ -16,6 +16,7 @@ namespace WebApplication6.Migrations
                         Bl_Estado = c.Boolean(nullable: false),
                         Id_Año = c.Int(nullable: false),
                         Id_Seccion = c.Int(nullable: false),
+                        NombredeCurso= c.String(nullable:true),
                     })
                 .PrimaryKey(t => t.Id_Curso)
                 .ForeignKey("dbo.AniosACursars", t => t.Id_Año, cascadeDelete: true)

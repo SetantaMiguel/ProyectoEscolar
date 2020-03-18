@@ -4,36 +4,110 @@
     ViewBag.Title = "Create";
 }
 
-    <div class="container">
-        <hr />
-        
-        <div class="alert alert-success"><h2 class="text-center">Crear año escolar</h2></div>
-        <hr />
-        @using (Html.BeginForm())
-        {
-            @Html.AntiForgeryToken()
+<div class="container">
+    <hr />
 
-            <div class="form-horizontal justify-content-md-center">
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Str_Curso, htmlAttributes: new { @class = "control-label" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.Str_Curso, new { htmlAttributes = new { @class = "form-control text-md-center" } })
-                        @Html.ValidationMessageFor(model => model.Str_Curso, "", new { @class = "text-danger" })
-                    </div>
-                </div>
+    <div class="shadow p-3 bg-success text-white rounded text-center">Crear año escolar</div>
+    <hr />
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
 
-                <div class="form-group text-md-center">
-                    <div class="col-md-offset-2 ">
-                        <input type="submit" value="Crear" class="btn btn-success" />
-                    </div>
+        <div class="form-horizontal justify-content-md-center">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.Str_Curso, htmlAttributes: new { @class = "control-label" })
+                <div class="">
+                    @Html.EditorFor(model => model.Str_Curso, new { htmlAttributes = new { @class = "form-control text-md-center", id = "Str_Curso" } })
+                    @Html.ValidationMessageFor(model => model.Str_Curso, "", new { @class = "text-danger" })
                 </div>
             </div>
-        }
+
+            <div class="form-group text-md-center">
+                <div class="col-md-offset-2 ">
+                    <input type="button" value="Crear" class="btn btn-success" id="Save" />
+                </div>
+            </div>
+        </div>
+        <hr />
+    }
+
+    <script src="~/Scripts/DessKey.js"></script>
+
+    <script language="JavaScript" type="text/javascript">
+    $(function () {
+        $("#Save").click(function () {
+            $('#Save').prop('disabled', true);
+            var url = "@Url.Action("Create", "AniosACursars")";
+            var _Str_Curso= $("#Str_Curso").val();
+            var data = { Str_Curso:_Str_Curso }
+            $.post(url, data).done(function (data) {
+
+                if (data.Ok) {
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 2500,
+                        timerProgressBar: true,
+                        onOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    })
+
+                    Toast.fire({
+                        icon: 'success',
+                        title: data.Mensaje
+                    })
+                    setTimeout(function(){ window.location = window.location;  }, 2000);
+
+                }
+                else {
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 2000,
+                        timerProgressBar: true,
+                        onOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    })
+
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'Digito campos vacios'
+                    })
+                         $('#Save').prop('disabled', false);
+                }
 
 
-        @section Scripts {
-            @Scripts.Render("~/bundles/jqueryval")
-        }
+            }).fail(function () {
+                  $('#Save').prop('disabled', false);
+               const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 2000,
+                        timerProgressBar: true,
+                        onOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    })
 
-    </div>
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'Ocurrio un error en el servidor'
+                    })
+            }).always(function () {
+            });
+        });
+    });
+    </script>
+
+
+
+</div>

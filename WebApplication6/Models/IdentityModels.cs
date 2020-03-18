@@ -81,6 +81,7 @@ namespace WebApplication6.Models
         public DbSet<EvaluacionesEstudiantes> EvaluacionesEstudiantes { get; set; }
         public DbSet<PeriodosEscolares> PeriodosEscolares { get; set; }
 
+        public DbSet<TipoEvaluacion> TipoEvaluacions { get; set; }
         public DbSet<CalendarioCurso> CalendarioCursos { get; set; }
         public static ApplicationDbContext Create()
         {

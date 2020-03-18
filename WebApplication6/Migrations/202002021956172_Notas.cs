@@ -8,6 +8,20 @@ namespace WebApplication6.Migrations
         public override void Up()
         {
             CreateTable(
+         "dbo.Curso_Asignaturas",
+         c => new
+         {
+             Id_Curso_Asignatura = c.Int(nullable: false, identity: true),
+             Id_Curso = c.Int(nullable: false),
+             Id_Materia = c.Int(nullable: false),
+             Id_Empleado = c.Int(nullable: false)
+         })
+         .PrimaryKey(t => t.Id_Curso_Asignatura)
+        .ForeignKey("dbo.CursoEscolars", t => t.Id_Curso, cascadeDelete: true)
+        .ForeignKey("dbo.Materias", t => t.Id_Materia, cascadeDelete: true)
+        .ForeignKey("dbo.Empleadoes", t => t.Id_Empleado, cascadeDelete: true);
+
+            CreateTable(
                 "dbo.Notas",
                 c => new
                     {
@@ -22,7 +36,7 @@ namespace WebApplication6.Migrations
                         Bl_Aprobado = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.Id_Nota)
-                .ForeignKey("dbo.Curso_Asignaturas", t => t.Id_Curso, cascadeDelete: false)
+                .ForeignKey("dbo.Curso_Asignaturas", t => t.Id_Curso, cascadeDelete: true)
                 .ForeignKey("dbo.Estudiantes", t => t.Id_Estudiante, cascadeDelete: false)
                 .Index(t => t.Id_Estudiante)
                 .Index(t => t.Id_Curso);

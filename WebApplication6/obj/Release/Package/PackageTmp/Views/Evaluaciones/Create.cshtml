@@ -11,6 +11,7 @@
             <h4>Evaluaciones</h4>
             <hr />
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-row">
             <div class="form-group">
                 @Html.LabelFor(model => model.Id_Materia, "Materias", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
@@ -18,6 +19,17 @@
                     @Html.ValidationMessageFor(model => model.Id_Materia, "", new { @class = "text-danger" })
                 </div>
             </div>
+            <div class="form-group">
+                <label>Parcial</label>
+                <select class="custom-select" name="Num_Evaluacion">
+                    <option value="1">Parcial 1</option>
+                    <option  value="2">Parcial 2</option>
+                    <option value="3">Parcial 3</option>
+                    <option value="4">Parcial 4</option>
+                </select>
+            </div>
+
+        </div>
 
             <div class="form-group">
                 @Html.LabelFor(model => model.Id_CursoA, "Curso", htmlAttributes: new { @class = "control-label col-md-2" })

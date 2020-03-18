@@ -10,6 +10,7 @@ using WebApplication6.Models;
 
 namespace WebApplication6.Controllers
 {
+    [Authorize]
     public class EnfermedadEstudiantesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

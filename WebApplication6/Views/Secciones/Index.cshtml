@@ -3,23 +3,24 @@
 
 <div class="container">
     <hr />
-    <div class="alert alert-secondary">Menu de Secciones</div>
+    <div class="alert alert-primary shadow">Menu de Secciones</div>
 
     <p>
-        @Html.ActionLink("Añadir nueva seccion", "Create",null,new {@class="btn btn-primary" })
+        @Html.ActionLink("Añadir nueva seccion", "Create", null, new { @class = "btn btn-primary", data_modal = "" })
     </p>
-    <table class="table table-hover">
-        <tr>
+    <div class="table-responsive shadow">
+        <table class="table table-hover">
+        <tr class="table-info">
             <th>
                 @Html.DisplayNameFor(model => model.Str_Seccion)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Bl_Estado)
+                @Html.DisplayNameFor(model => model.Max_Estudiantes)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.EstudiantesAula)
             </th>
-            <th></th>
+            <th>Opciones</th>
         </tr>
 
         @foreach (var item in Model)
@@ -29,19 +30,25 @@
                     @Html.DisplayFor(modelItem => item.Str_Seccion)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Bl_Estado)
+                    @Html.DisplayFor(modelItem => item.Max_Estudiantes)
                 </td>
                 <td>
-                    <p> @Html.DisplayFor(modelItem => item.EstudiantesAula) / @ViewBag.SeccionMax </p>
+                    <p> @Html.DisplayFor(modelItem => item.EstudiantesAula) </p>
                 </td>
                 <td>
-                    @Html.ActionLink("Editar", "Edit", new { id = item.Id_Seccion }) |
-                    @Html.ActionLink("Borrar", "Delete", new { id = item.Id_Seccion })
+                    @Html.ActionLink("Borrar", "Delete", new { id = item.Id_Seccion },new { @class="btn btn-outline-danger",data_modal=""})
                 </td>
             </tr>
         }
 
     </table>
-
+    </div>
 
 </div>
+@section scripts{
+    <script src="~/Scripts/jquery-ui-1.12.1.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+
+}

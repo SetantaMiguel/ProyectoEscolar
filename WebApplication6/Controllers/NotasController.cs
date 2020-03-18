@@ -18,7 +18,7 @@ namespace WebApplication6.Controllers
 
         // GET: Notas
         public async Task<ActionResult> Index(int idCurso)
-        {
+            {
             auxid = idCurso;
             ViewBag.Id = auxid;
             var notas = db.Notas.Include(n => n.Curso_Asignaturas.Materias).Include(n => n.Estudiantes)

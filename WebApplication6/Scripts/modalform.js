@@ -1,4 +1,13 @@
-﻿
+﻿$(document).ready(function () {
+
+});
+function DessKey() {
+    $("form").keypress(function (e) {
+        if (e.which == 13) {
+            return false;
+        }
+    });
+}
 $(document).ready(function () {
     $.ajaxSetup({ cache: false });
     // busca los elementos el atributo data-modal y le suscribe el evento click
@@ -17,6 +26,7 @@ function openmodal(url) {
         $('#modalGenerica').modal({
             keyboard: true
         }, 'show');
+        DessKey();
         // Suscribe el evento submit
         bindForm(this);
     });

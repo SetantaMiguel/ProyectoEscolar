@@ -18,7 +18,7 @@
                         <div class="card" style="">
                             <div class="card-body">
                                 <h5 class="card-title">@item.Curso_Asignaturas.Materias.Nombre_Materia</h5>
-                                <h6 class="card-subtitle mb-2 text-muted">@Html.ActionLink("Editar", "Edit", new { id = item.Id_Periodo }, new { @class = "", data_modal = "" })</h6>
+                                <h6 class="card-subtitle mb-2 text-muted">@Html.ActionLink("Editar", "Edit", new { id = item.Id_CalendarioCurso,idPeriodo=item.Id_Periodo,idCurso=item.Id_Curso }, new { @class = "", data_modal = "" })</h6>
                                 <p class="card-text"></p>
                                 <span class="border border-primary p-2">
                                     <a class="card-link">@item.PeriodosEscolares.InicioPeriodo -</a>

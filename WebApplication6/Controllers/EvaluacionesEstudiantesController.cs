@@ -18,12 +18,13 @@ namespace WebApplication6.Controllers
         private static int auxEst;
 
         // GET: EvaluacionesEstudiantes
-        public async Task<ActionResult> Index(int idEst=0,int idCursoA=0)
+        public async Task<ActionResult> Index(int idEst=0,int idCursoA=0,int num=0)
         {
             auxCurso = idCursoA;
             auxEst = idEst;
-            var evaluacionesEstudiantes = db.EvaluacionesEstudiantes.Include(e => e.Estudiantes).Include(e => e.Evaluaciones)
-                .WhereIf(idEst!=0,x=>x.Id_Estudiante==idEst).WhereIf(idCursoA!=0,x=>x.Evaluaciones.Id_CursoA==idCursoA);
+            var evaluacionesEstudiantes = db.EvaluacionesEstudiantes.Include(e => e.Estudiantes).Include(e => e.Evaluaciones).Include(x=>x.Evaluaciones.Materias)
+                .WhereIf(idEst!=0,x=>x.Id_Estudiante==idEst).WhereIf(idCursoA!=0,x=>x.Evaluaciones.Id_CursoA==idCursoA)
+                .WhereIf(num!=0,x=>x.Evaluaciones.Num_Evaluacion==num);
             return View(await evaluacionesEstudiantes.ToListAsync());
         }
 
@@ -76,7 +77,8 @@ namespace WebApplication6.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            EvaluacionesEstudiantes evaluacionesEstudiantes = await db.EvaluacionesEstudiantes.Include(x => x.Estudiantes).Include(x => x.Evaluaciones).Where(x => x.Id_EvaluacionesEstudiantes == id).FirstAsync();
+            EvaluacionesEstudiantes evaluacionesEstudiantes = await db.EvaluacionesEstudiantes.Include(x => x.Estudiantes).Include(x => x.Evaluaciones)
+                .Where(x => x.Id_EvaluacionesEstudiantes == id).FirstAsync();        
             if (evaluacionesEstudiantes == null)
             {
                 return HttpNotFound();
@@ -89,15 +91,31 @@ namespace WebApplication6.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id_EvaluacionesEstudiantes,Id_Evaluaciones,Id_Estudiante,Resultado")] EvaluacionesEstudiantes evaluacionesEstudiantes)
+        public async Task<ActionResult> Edit([Bind(Include = "Id_EvaluacionesEstudiantes,Id_Evaluaciones,Id_Estudiante,Resultado")] EvaluacionesEstudiantes evaluacionesEstudiantes,int NParcial)
         {
             if (ModelState.IsValid)
             {
-                EvaluacionesEstudiantes evaluacionesEstudiantes2 = db.EvaluacionesEstudiantes.Find(evaluacionesEstudiantes.Id_EvaluacionesEstudiantes);
-
-
+                EvaluacionesEstudiantes evaluacionesEstudiantes2 = db.EvaluacionesEstudiantes.Include(x => x.Evaluaciones).Where(x => x.Id_EvaluacionesEstudiantes == evaluacionesEstudiantes.Id_EvaluacionesEstudiantes).First() ;
                 evaluacionesEstudiantes2.Resultado = evaluacionesEstudiantes.Resultado;
                 db.Entry(evaluacionesEstudiantes2).State = EntityState.Modified;
+                await db.SaveChangesAsync();
+                var nota = db.Notas.Where(x => x.Id_Curso == evaluacionesEstudiantes2.Evaluaciones.Id_CursoA).First();
+                switch (NParcial)
+                {
+                    case 1:
+                        nota.Nota1 += evaluacionesEstudiantes2.Resultado;
+                    break;
+                    case 2:
+                        nota.Nota2 += evaluacionesEstudiantes2.Resultado;
+                        break;
+                    case 3:
+                        nota.Nota3 += evaluacionesEstudiantes2.Resultado;
+                        break;
+                    case 4:
+                        nota.Nota4 += evaluacionesEstudiantes2.Resultado;
+                        break;
+                }
+                db.Entry(nota).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index",new {idEst=auxEst,idCursoA=auxCurso });
             }

@@ -14,6 +14,9 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Resultado)
+            </th> 
+            <th>
+                @Html.DisplayNameFor(model => model.Evaluaciones.Materias.Nombre_Materia)
             </th>
             <th></th>
         </tr>
@@ -29,6 +32,9 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Resultado)
+                </td> 
+                <td>
+                    @Html.DisplayFor(modelItem => item.Evaluaciones.Materias.Nombre_Materia)
                 </td>
                 <td>
                     @Html.ActionLink("Dar Resultado", "Edit", new { id = item.Id_EvaluacionesEstudiantes,idEvaluacion=item.Id_Evaluaciones },new { @class="btn btn-outline-info",data_modal=""}) 

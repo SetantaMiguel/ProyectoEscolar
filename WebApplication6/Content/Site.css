@@ -17,11 +17,7 @@
 }
 
 /* Set width on the form input elements since they're 100% wide by default */
-input,
-select,
-textarea {
-    max-width: 280px;
-}
+
 .services-ho:hover {
     padding: 20px;
 }
@@ -80,3 +76,6 @@ textarea {
     background: #D4FCFE;
 }
 
+.inputModal{
+    width:100%;
+}

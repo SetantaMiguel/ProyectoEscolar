@@ -15,6 +15,8 @@ namespace WebApplication6.Models
         [Display(Name = "Año Escolar")]
         public string Str_Curso { get; set; }
 
+
+        public bool Estado { get; set; }
         public List<Estudiantes> Estudiantes { get; set; }
     }
 }

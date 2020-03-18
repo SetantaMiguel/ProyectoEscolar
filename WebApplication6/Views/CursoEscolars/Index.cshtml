@@ -8,102 +8,96 @@
     bool respues = Validador.PuedeEntrar(usuario.Id, "Crear Curso");
     bool respues3 = Validador.PuedeEntrar(usuario.Id, "Administrar Modalidad");
 }
-    <div class="container">
-        <hr />
-        <div class="alert alert-secondary display-4 text-center ">Menu de Cursos <h6 class="text-right"><small>
-        @if (respues3 == true)
-        {
-            @Html.ActionLink("Modalidades", "Index", "Modalidades", null, new { @class = " btn btn-secundary", data_modal = "" })
-        }
-    </small></h6> </div>
-
-        <hr />
-        @{
-            if (respues == true)
-            {
-                <p>
-                    @Html.ActionLink("Añadir nuevo curso", "Create", null, new { @class = "btn btn-primary", data_modal = "" })
-                </p>
-            }
-        }
-
-        <div class="table-responsive">
-            <table class="table table-hover  ">
-                <tr class="table-info">
-                    <th>
-                        @Html.DisplayNameFor(model => model.CursoEscolars.FirstOrDefault().NombredeCurso)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.CursoEscolars.FirstOrDefault().AniosACursar.Str_Curso)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.CursoEscolars.FirstOrDefault().Secciones.Str_Seccion)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.CursoEscolars.FirstOrDefault().Modalidades.Str_Modalidad)
-                    </th>
-                    <th>
-                        Opciones
-                    </th>
-                    <th></th>
-                </tr>
-
-                @foreach (var item in Model.CursoEscolars)
+<div class="container">
+    <hr />
+    <div class="alert alert-secondary display-4 text-center ">
+        Menu de Cursos <h6 class="text-right">
+            <small>
+                @if (respues3 == true)
                 {
-                    <tr>
-
-                        <td class="">
-                            @Html.DisplayFor(modelItem => item.NombredeCurso)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.AniosACursar.Str_Curso)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Secciones.Str_Seccion)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Modalidades.Str_Modalidad)
-                        </td>
-                        <td>
-                            @{
-
-                                @Html.ActionLink("Detalles", "Details", new { id = item.Id_Curso }, new { @class = "btn btn-outline-info" })
-
-                                bool respues2 = Validador.PuedeEntrar(usuario.Id, "Desactivar Curso");
-                                if (respues2 == true)
-                                {
-                                    @Html.ActionLink("Desactivar", "Delete", new { id = item.Id_Curso }, new { @class = "btn btn-outline-danger", data_modal = "" })
-
-                                }
-
-                            }
-                        </td>
-                    </tr>
+                    @Html.ActionLink("Modalidades", "Index", "Modalidades", null, new { @class = " btn btn-secundary", data_modal = "" })
                 }
-
-            </table>
-            @{Html.RenderPartial("_paginador", Model);}
-        </div>
-
-
-
-
-
+            </small>
+        </h6>
     </div>
 
-@if (ViewBag.ErrorCreation == true)
-{
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
-    <script>
-        Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: 'Ya esta ocupada esa seccion en esa modalidad!',
-            footer: 'Cambie la modalidad'
-        })
-    </script>
-}
+    <hr />
+    @{
+        if (respues == true)
+        {
+            <p>
+                @Html.ActionLink("Añadir nuevo curso", "Create", null, new { @class = "btn btn-primary", data_modal = "" })
+            </p>
+        }
+    }
+
+    <div class="table-responsive">
+        <table class="table table-hover  ">
+            <tr class="table-info">
+                <th>
+                    @Html.DisplayNameFor(model => model.CursoEscolars.FirstOrDefault().NombredeCurso)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CursoEscolars.FirstOrDefault().AniosACursar.Str_Curso)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CursoEscolars.FirstOrDefault().Secciones.Str_Seccion)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CursoEscolars.FirstOrDefault().Modalidades.Str_Modalidad)
+                </th>
+                <th>
+                    Opciones
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model.CursoEscolars)
+            {
+                <tr>
+
+                    <td class="">
+                        @Html.DisplayFor(modelItem => item.NombredeCurso)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AniosACursar.Str_Curso)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Secciones.Str_Seccion)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Modalidades.Str_Modalidad)
+                    </td>
+                    <td>
+                        @{
+
+                            @Html.ActionLink("Detalles", "Details", new { id = item.Id_Curso }, new { @class = "btn btn-outline-info" })
+
+                            bool respues2 = Validador.PuedeEntrar(usuario.Id, "Desactivar Curso");
+                            if (respues2 == true)
+                            {
+                                @Html.ActionLink("Desactivar", "Delete", new { id = item.Id_Curso }, new { @class = "btn btn-outline-danger", data_modal = "" })
+
+                            }
+
+                        }
+                    </td>
+                </tr>
+            }
+
+        </table>
+        @{Html.RenderPartial("_paginador", Model);}
+    </div>
+
+
+
+
+
+</div>
 @section scripts{
     <script src="~/Scripts/jquery-ui-1.12.1.js"></script>
     <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+
 }

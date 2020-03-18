@@ -21,7 +21,8 @@ namespace WebApplication6.Controllers
         public async Task<ActionResult> Index(int idCurso)
         {
             auxidCurso = idCurso;
-            var evaluaciones = db.Evaluaciones.Include(e => e.Curso_Asignaturas).Include(e => e.Materias).Where(x=>x.Curso_Asignaturas.Id_Curso==idCurso).Where(x=>x.BL_Aprobado==false);
+            ViewBag.IdCurso = idCurso;
+            var evaluaciones = db.Evaluaciones.Include(e => e.Curso_Asignaturas).Include(x=>x.TipoEvaluacion).Include(e => e.Materias).Where(x=>x.Curso_Asignaturas.Id_Curso==idCurso).Where(x=>x.BL_Aprobado==false);
             return View(await evaluaciones.ToListAsync());
         }
 
@@ -43,8 +44,12 @@ namespace WebApplication6.Controllers
         // GET: Evaluaciones/Create
         public ActionResult Create()
         {
-            ViewBag.Id_CursoA = new SelectList(db.tbCursoAsignaturas.Include(c=>c.CursoEscolar).Where(x=>x.Id_Curso==auxidCurso), "Id_Curso_Asignatura", "CursoEscolar.NombredeCurso");
-            ViewBag.Id_Materia = new SelectList(db.tbmaterias, "Id", "Nombre_Materia");
+
+
+            List<Curso_Asignaturas> curso_Asignaturas = db.tbCursoAsignaturas.Include(c => c.CursoEscolar).Where(x => x.Id_Curso == auxidCurso).ToList();
+            ViewBag.Id_CursoA = new SelectList(curso_Asignaturas, "Id_Curso_Asignatura", "CursoEscolar.NombredeCurso");
+            ViewBag.Id_TipoEvaluacion = new SelectList(db.TipoEvaluacions, "Id_TipoEvaluacion", "strTipoEvaluacion");
+            ViewBag.Id_Materia = new SelectList(db.tbCursoAsignaturas.Include(c => c.CursoEscolar).Include(x=>x.Materias).Where(x => x.Id_Curso == auxidCurso).ToList(), "Materias.Id", "Materias.Nombre_Materia");
             return View();
         }
 
@@ -53,17 +58,18 @@ namespace WebApplication6.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id_Evaluacion,Id_Materia,Id_CursoA,Fecha_Comienzo,Fecha_Final,Descripcion,ValorTotal")] Evaluaciones evaluaciones)
+        public async Task<ActionResult> Create([Bind(Include = "Id_Evaluacion,Id_Materia,Id_CursoA,Fecha_Comienzo,Fecha_Final,Descripcion,ValorTotal,Id_TipoEvaluacion")] Evaluaciones evaluaciones,int Num_Evaluacion)
         {
             
             if (ModelState.IsValid)
             {
+                evaluaciones.Num_Evaluacion = Num_Evaluacion;
                 db.Evaluaciones.Add(evaluaciones);
                 await db.SaveChangesAsync();
                 var estudiantes = db.CursoEstudiantes.Where(x => x.Id_Curso == auxidCurso);
                 return RedirectToAction("Index",new { idCurso=auxidCurso });
             }
-
+            ViewBag.Id_TipoEvaluacion = new SelectList(db.TipoEvaluacions, "Id_TipoEvaluacion", "strTipoEvaluacion");
             ViewBag.Id_CursoA = new SelectList(db.tbCursoAsignaturas, "Id_Curso_Asignatura", "Id_Curso_Asignatura", evaluaciones.Id_CursoA);
             ViewBag.Id_Materia = new SelectList(db.tbmaterias, "Id", "Codigo_Materia", evaluaciones.Id_Materia);
             return View(evaluaciones);
@@ -138,17 +144,19 @@ namespace WebApplication6.Controllers
             }
             base.Dispose(disposing);
         }
-        [HttpGet]
-        public ActionResult AprobarCurso(int id)
+
+        public ActionResult AprobarCurso(int? id, bool? estado)
         {
-            auxidCurso2 = id;
-            return PartialView();
-        }
-        public ActionResult AprobarCurso(bool estado) {
-            
-            if (Validador.PuedeEntrar(User.Identity.GetUserId(), "Aprobar Cursos"))
+            if (id!=null)
             {
-                if (estado==true)
+             auxidCurso2 = Convert.ToInt32(id);  
+    
+            }
+            if (Validador.PuedeEntrar(User.Identity.GetUserId(), "Aprobar Cursos")&&estado!=null)
+            {
+                
+              
+                if (estado == true)
                 {
                     Evaluaciones evaluaciones = db.Evaluaciones.Find(auxidCurso2);
                     evaluaciones.BL_Aprobado = true;
@@ -166,8 +174,9 @@ namespace WebApplication6.Controllers
                             db.EvaluacionesEstudiantes.Add(evaluacionesEstudiantes);
                         }
                         db.SaveChanges();
-                        return View("Index", new { idCurso = auxidCurso });
+
                     }
+                    return RedirectToAction("Index", new { idCurso = auxidCurso });
                 }
                 else
                 {
@@ -178,7 +187,9 @@ namespace WebApplication6.Controllers
                 }
 
             }
-            return View();
+            return PartialView();
         }
+
+
     }
 }

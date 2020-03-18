@@ -10,7 +10,7 @@ using System.Web.Mvc;
 using WebApplication6.Models;
 
 namespace WebApplication6.Controllers
-{
+{   [Authorize]
     public class CalendarioCursoController : Controller
     {
         static private int auxid = 0;
@@ -106,10 +106,10 @@ namespace WebApplication6.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.Id_CursoAsignatura = new SelectList(db.tbCursoAsignaturas, "Id_Curso_Asignatura", "Id_Curso_Asignatura", calendarioCurso.Id_CursoAsignatura);
+            ViewBag.Id_CursoAsignatura = new SelectList(db.tbCursoAsignaturas.Include(x=>x.Materias), "Id_Curso_Asignatura", "Materias.Nombre_Materia", calendarioCurso.Id_CursoAsignatura);
             ViewBag.Id_Curso = new SelectList(db.tbCursoEscolar, "Id_Curso", "NombredeCurso", calendarioCurso.Id_Curso);
-            ViewBag.Id_Periodo = new SelectList(db.PeriodosEscolares, "Id_Periodo", "DiaSemana", calendarioCurso.Id_Periodo);
-            return View(calendarioCurso);
+            ViewBag.Id_Periodo = new SelectList(db.PeriodosEscolares, "Id_Periodo", "Nombre_Periodo", calendarioCurso.Id_Periodo);
+            return PartialView(calendarioCurso);
         }
 
         // POST: CalendarioCurso/Edit/5

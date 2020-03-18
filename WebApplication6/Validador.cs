@@ -14,6 +14,12 @@ namespace WebApplication6
 {
     public class Validador
     {
+        public class BaseRespuesta
+        {
+            public bool Ok { get; set; }
+
+            public string Mensaje { get; set; }
+        }
 
         public static bool PuedeEntrar(string id,string NombrePermiso)
         {

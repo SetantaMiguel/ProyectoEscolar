@@ -87,16 +87,16 @@
                             @Html.DisplayFor(modelItem => item.Estudiantes.NombreCompleto)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Nota1)
+                            @Html.ActionLink(item.Nota1.ToString(), "Index", "EvaluacionesEstudiantes", new { idEst = item.Id_Estudiante, idCursoA = item.Curso_Asignaturas.Id_Curso_Asignatura,num=1 }, new { @class = "btn btn-outline-info" })
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Nota2)
+                            @Html.ActionLink(item.Nota2.ToString(), "Index", "EvaluacionesEstudiantes", new { idEst = item.Id_Estudiante, idCursoA = item.Curso_Asignaturas.Id_Curso_Asignatura, num = 2 }, new { @class = "btn btn-outline-info" })
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Nota3)
+                            @Html.ActionLink(item.Nota3.ToString(), "Index", "EvaluacionesEstudiantes", new { idEst = item.Id_Estudiante, idCursoA = item.Curso_Asignaturas.Id_Curso_Asignatura, num = 3 }, new { @class = "btn btn-outline-info" })
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Nota4)
+                            @Html.ActionLink(item.Nota4.ToString(), "Index", "EvaluacionesEstudiantes", new { idEst = item.Id_Estudiante, idCursoA = item.Curso_Asignaturas.Id_Curso_Asignatura, num = 4 }, new { @class = "btn btn-outline-info" })
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.promedio)

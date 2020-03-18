@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using WebApplication6.Models;
@@ -11,6 +12,7 @@ using WebApplication6.viewModels;
 
 namespace WebApplication6.Controllers
 {
+
     public class EmpleadoController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -78,6 +80,19 @@ namespace WebApplication6.Controllers
                 return HttpNotFound();
             }
             return View(empleado);
+        }
+        public async Task<ActionResult> DetailsModal(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Empleado empleado = await db.TbEmpleado.FindAsync(id);
+            if (empleado== null)
+            {
+                return HttpNotFound();
+            }
+            return PartialView(empleado);
         }
 
         // GET: Empleado/Create

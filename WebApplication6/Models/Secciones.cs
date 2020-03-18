@@ -18,10 +18,15 @@ namespace WebApplication6.Models
         [Display(Name ="Estado de Seccion")]
         public bool Bl_Estado{ get; set; }
 
+
         [Display(Name ="Estudiantes en Aula")]
         public int EstudiantesAula { get; set; }
 
         [Display(Name ="Aula Ocupada")]
         public bool AulaLLena { get; set; }
+
+        [Required]
+        [Display(Name ="Maximo estudiantes por aula")]
+        public int Max_Estudiantes { get; set; }
     }
 }

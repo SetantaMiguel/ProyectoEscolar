@@ -9,6 +9,7 @@ namespace WebApplication6.Models
 {
     public class Empleado
     {
+        [Key]
         public int Id { get; set; }
 
         [Required(ErrorMessage = "Este campo es obligatorio")]
@@ -56,9 +57,6 @@ namespace WebApplication6.Models
         public List<Estudios_Maestro> estudios_Maestros { get; set; }
         public List<ApplicationUser> User { get; set; }
 
-        [NotMapped]
-        [ScaffoldColumn(false)]
-        public string NombreCompleto { get; set; }
         [NotMapped]
         [ScaffoldColumn(false)]
         public string Edad { get; set; }

@@ -11,7 +11,7 @@ using WebApplication6.Models;
 using WebApplication6.viewModels;
 
 namespace WebApplication6.Controllers
-{
+{   [Authorize]
     public class CursoEstudiantesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -91,7 +91,7 @@ namespace WebApplication6.Controllers
                 //aumento los estudiantes en la seccion
                 seccion.EstudiantesAula += 1;
                 //verifico si todavia se puede inscribir al estudiante sin violar el maximo de la seccion
-                if (seccion.EstudiantesAula<=db.OpcionesDeColegios.FirstOrDefault().MaximoEstudiantes)
+                if (seccion.EstudiantesAula<=seccion.Max_Estudiantes)
                 {
                     //Cambio a las seccion
                     db.Entry(seccion).State = EntityState.Modified;
@@ -181,7 +181,7 @@ namespace WebApplication6.Controllers
             }
             return RedirectToAction("Details", "Estudiantes", new { id = idaux });
         }
-
+        
         protected override void Dispose(bool disposing)
         {
             if (disposing)

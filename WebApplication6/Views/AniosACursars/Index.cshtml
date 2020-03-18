@@ -6,82 +6,95 @@
 
 @{ViewBag.Title = "Index de Años a Cursar"; }
 
-<div class="container">
-    <hr />
-    <h2 class="text-center alert alert-dark">Años Actuales</h2>
-    <hr />
-    <div class="row">
-        @{
-            ApplicationDbContext db = new ApplicationDbContext();
-            var usuario = db.Users.Find(User.Identity.GetUserId());
-            bool respues = Validador.PuedeEntrar(usuario.Id, "Crear Años");
-            if (respues == true)
-            {
-                @Html.ActionLink("Añadir año", "Create", null, new { @class = "btn btn-primary", data_modal = "" })
-            }
-        }
-        <form class="">
-            <input type="text" name="TxtAnio" value="" placeholder="Buscar por nombre" class="m-1" id="TxtNombreAnio" />
-            <input type="submit" name="btBuscar" value="Buscar" class="btn btn-dark text-white" />
-        </form>
-    </div>
-    <br />
-    <div class="row">
-        <div class="col-sm-6">
-            <table class="table table-hover " id="table2">
-                <tr class="bg-info ">
-                    <th>
-                        @Html.DisplayNameFor(model => model.AniosACursars.FirstOrDefault().Str_Curso)
-                    </th>
-                    <th></th>
-                </tr>
-
-                @foreach (var item in Model.AniosACursars)
+    <div class="container">
+        <hr />
+        <h2 class="text-center alert alert-primary">Años Actuales</h2>
+        <hr />
+        <form method="post" >
+            <div class="row">
+            @{
+                ApplicationDbContext db = new ApplicationDbContext();
+                var usuario = db.Users.Find(User.Identity.GetUserId());
+                bool respues = Validador.PuedeEntrar(usuario.Id, "Crear Años");
+                if (respues == true)
                 {
-                    <tr>
-                        <td>
-                            @Ajax.ActionLink(item.Str_Curso, "IndexCursoAño", "CursoEscolars", new { IdAño = item.Id }, new AjaxOptions()
-                    {
-                       HttpMethod = "GET",
-                       InsertionMode = InsertionMode.Replace
-                                ,
-                       UpdateTargetId = "Curso"
-                    }, new { @class = "btn btn-outline-dark " }
-                       )
-                        </td>
-                        <td>
-                            @{
-                                bool respues2 = Validador.PuedeEntrar(usuario.Id, "Editar Años");
-                                if (respues2 == true)
-                                {
-                                    @Html.ActionLink("Editar", "Edit", new { id = item.Id }, new { data_modal = "", @class = "btn btn-success m-1" })
-                                }
-                                bool respues3 = Validador.PuedeEntrar(usuario.Id, "Borrar Años");
-                                if (respues3 == true)
-                                {
-                                    @Html.ActionLink("Borrar", "Delete", new { id = item.Id }, new { data_modal = "", @class = "btn btn-danger" })
-                                }
-                            }
-
-                        </td>
-                    </tr>
+                    @Html.ActionLink("Añadir año", "Create", null, new { @class = "btn btn-primary", data_modal = "" })
                 }
+            }
+            <div class="input-group col-md-4">
 
-            </table>
-            @{Html.RenderPartial("_paginador", Model);}
+                <input class="form-control py-2 border-right-0 border " name="TxtAnio" type="search" placeholder="Buscar" id="TxtNombreAnio">
+                <span class="input-group-append">
+                    <button class="btn btn-outline-secondary border-left-0 border" type="submit">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </span>
+            </div>
+
+
         </div>
 
-        <div id="Curso" class="col-sm-6">
+        </form>
 
+        <br />
+        <div class="row">
+            <div class="col-sm-6 shadow">
+                <table class="table table-hover table-striped" id="table2">
+                    <tr class="table-info shadow-sm">
+                        <th>
+                            @Html.DisplayNameFor(model => model.AniosACursars.FirstOrDefault().Str_Curso)
+                        </th>
+                        <th class="text-center">Opciones</th>
+                    </tr>
+
+                    @foreach (var item in Model.AniosACursars)
+                    {
+                        <tr>
+                            <td>
+                                @Ajax.ActionLink(item.Str_Curso, "IndexCursoAño", "CursoEscolars", new { IdAño = item.Id }, new AjaxOptions()
+                        {
+                           HttpMethod = "GET",
+                           InsertionMode = InsertionMode.Replace
+                                    ,
+                           UpdateTargetId = "Curso"
+                        }, new { @class = "btn btn-outline-dark " }
+                           )
+                            </td>
+                            <td>
+                                @{
+                                    bool respues2 = Validador.PuedeEntrar(usuario.Id, "Editar Años");
+                                    if (respues2 == true)
+                                    {
+                                        @Html.ActionLink("Editar", "Edit", new { id = item.Id }, new { data_modal = "", @class = "btn btn-success m-1" })
+                                    }
+                                    bool respues3 = Validador.PuedeEntrar(usuario.Id, "Borrar Años");
+                                    if (respues3 == true)
+                                    {
+                                        @Html.ActionLink("Desactivar", "Delete", new { id = item.Id }, new { data_modal = "", @class = "btn btn-danger" })
+                                    }
+                                }
+
+                            </td>
+                        </tr>
+                    }
+
+                </table>
+                @{Html.RenderPartial("_paginador", Model);}
+            </div>
+
+            <div id="Curso" class="col-sm-6">
+
+            </div>
         </div>
+
     </div>
-
-</div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
 @section scripts{
     <script src="~/Scripts/jquery-ui-1.12.1.js"></script>
     <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
     <script>
 
         $(function () {
@@ -91,75 +104,4 @@
 
 }
 
-@{
-    if (ViewBag.SuccessDelete == true)
-    { ViewBag.SuccessDelete = false;
-
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
-        <script>
-            const Toast = Swal.mixin({
-        toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 3000,
-                timerProgressBar: true,
-                onOpen: (toast) => {
-                    toast.addEventListener('mouseenter', Swal.stopTimer)
-                    toast.addEventListener('mouseleave', Swal.resumeTimer)
-                }
-            })
-
-            Toast.fire({
-        icon: 'success',
-                title: 'Se elimino correctamente'
-            })
-        </script>
-    }
-    else if (ViewBag.SuccessCreate == true)
-    {
-        ViewBag.SuccessCreate = false;
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
-        <script>
-            const Toast = Swal.mixin({
-        toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 3000,
-                timerProgressBar: true,
-                onOpen: (toast) => {
-                    toast.addEventListener('mouseenter', Swal.stopTimer)
-                    toast.addEventListener('mouseleave', Swal.resumeTimer)
-                }
-            })
-
-            Toast.fire({
-        icon: 'success',
-                title: 'Se Creo Correctamente'
-            })
-        </script>
-    }
-    else if (ViewBag.SuccessEdit == true)
-    {
-        ViewBag.SuccessEdit = false;
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
-        <script>
-            const Toast = Swal.mixin({
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 3000,
-                timerProgressBar: true,
-                onOpen: (toast) => {
-                    toast.addEventListener('mouseenter', Swal.stopTimer)
-                    toast.addEventListener('mouseleave', Swal.resumeTimer)
-                }
-            })
-
-            Toast.fire({
-                icon: 'success',
-                title: 'Se edito Correctamente'
-            })
-        </script>
-    }
-}
 

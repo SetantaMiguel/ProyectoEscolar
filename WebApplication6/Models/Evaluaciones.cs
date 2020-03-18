@@ -37,6 +37,13 @@ namespace WebApplication6.Models
         [Display(Name ="Evaluacion Aprobada")]
         public bool BL_Aprobado{ get; set; }
 
+        [Display(Name ="Parcial")]
+        public int Num_Evaluacion { get; set; }
+
+        [ForeignKey("Id_TipoEvaluacion")]
+        public TipoEvaluacion TipoEvaluacion { get; set; }
+
+        public int Id_TipoEvaluacion { get; set; }
 
 
     }

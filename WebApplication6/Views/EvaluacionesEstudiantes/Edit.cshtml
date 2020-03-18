@@ -44,7 +44,12 @@
                 @Html.ValidationMessageFor(model => model.Resultado, "", new { @class = "text-danger" })
             </div>
         </div>
-
+        <select name="NParcial" class="custom-select col-md-10">
+            <option value="1">Parcial 1</option>
+            <option value="2">Parcial 2</option>
+            <option value="3">Parcial 3</option>
+            <option value="4">Parcial 4</option>
+        </select>
         <div class="form-group">
             <div class="col-md-offset-2 text-md-center">
                 <input type="submit" value="Guardar" class="btn btn-success" />

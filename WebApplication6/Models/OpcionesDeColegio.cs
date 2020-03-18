@@ -11,9 +11,6 @@ namespace WebApplication6.Models
         [Key]
         public int Id { get; set; } 
 
-        [Display(Name ="Maximo de Estudiante por aula")]
-        public int MaximoEstudiantes { get; set; }
-
         [Display(Name ="Nombre del Colegio")]
         public string NombreColegio { get; set; }
 

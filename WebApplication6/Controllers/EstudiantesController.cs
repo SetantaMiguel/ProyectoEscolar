@@ -17,13 +17,13 @@ using WebApplication6.viewModels;
 
 namespace WebApplication6.Controllers
 {
-    [Authorize(Roles = "Director,Supervisor")]
+    [Authorize]
     public class EstudiantesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Estudiantes
-        [Authorize]
+
         public ActionResult Index(string nameUser, string Nombre_Estudiante, int pagina = 1)
         {
             var cantidadRegistrosPorPagina = 4;
@@ -167,7 +167,6 @@ namespace WebApplication6.Controllers
 
         }
 
-        [Authorize]
         // GET: Estudiantes/Details/5
         public ActionResult Details(int? id)
         {
@@ -182,7 +181,6 @@ namespace WebApplication6.Controllers
             }
             return View(estudiantes);
         }
-        [Authorize(Roles = "Registrador,Director")]
         // GET: Estudiantes/Create
         public ActionResult Create()
         {

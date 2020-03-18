@@ -7,6 +7,7 @@
     <br />
     <h2 class="alert alert-danger text-center" >¿ Esta seguro de borrar el control ?</h2>
     <div>
+        @Html.HiddenFor(model => model.Id_Control);
         <hr />
         <dl class="dl-horizontal">
             <dt>
@@ -40,9 +41,82 @@
             @Html.AntiForgeryToken()
 
             <div class="form-group text-md-center">
-                <input type="submit" value="Borrar" class="btn btn-danger" /> 
+                <input type="submit" value="Borrar" class="btn btn-danger" id="Save" /> 
             </div>
         }
     </div>
 
 </div>
+<script language="JavaScript" type="text/javascript">
+    $(function () {
+        $("#Save").click(function () {
+            $('#Save').prop('disabled', true);
+            var url = "@Url.Action("Delete", "ControlDisciplinarios")";
+            var _id = $("#Id_Control").val();
+            var data = { id:_id }
+            $.post(url, data).done(function (data) {
+                if (data.Ok) {
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 2000,
+                        timerProgressBar: true,
+                        onOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    })
+
+                    Toast.fire({
+                        icon: 'success',
+                        title: data.Mensaje
+                    })
+                    setTimeout(function(){ window.location = window.location;  }, 2000);
+
+                }
+                else {
+                    $('#Save').prop('disabled', false);
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        onOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    })
+
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'Digito campos vacios'
+                    })
+                }
+
+
+            }).fail(function () {
+                $('#Save').prop('disabled', false);
+               const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        onOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    })
+
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'Ocurrio un error en el servidor'
+                    })
+            }).always(function () {
+
+            });
+        });
+    });
+</script>

@@ -47,7 +47,7 @@ namespace WebApplication6.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    db.Roles.Add(Roles);
+                    db.Roles.Add(Roles).ToString();
                     db.SaveChanges();
                     return RedirectToAction("Index");
                 }

@@ -1,11 +1,14 @@
 ﻿@model WebApplication6.Models.Secciones
-
+@{ 
+    Layout = null;
+}
 <div class="container">
     <hr />
-    <h3 class="text-center ">¿Estas seguro de borrar esta Aula?</h3>
+    <h3 class="text-center alert-danger alert shadow" >¿Estas seguro de borrar esta Aula?</h3>
     <div>
         <hr />
         <dl class="dl-horizontal">
+            @Html.HiddenFor(model=>model.Id_Seccion)
             <dt>
                 @Html.DisplayNameFor(model => model.Str_Seccion)
             </dt>
@@ -23,16 +26,88 @@
             </dd>
 
         </dl>
-
+        <hr />
         @using (Html.BeginForm())
         {
             @Html.AntiForgeryToken()
 
-            <div class="form-actions no-color">
-                <input type="submit" value="Borrar" class="btn btn-danger" /> |
-                @Html.ActionLink("Regresar al inicio del menu", "Index" , null , new {@class="btn btn-dark" })
+            <div class="form-actions text-md-center">
+                <input type="button" value="Borrar" id="Save" class="btn btn-danger" /> 
             </div>
         }
     </div>
-
+    <hr />
 </div>
+<script language="JavaScript" type="text/javascript">
+    $(function () {
+        $("#Save").click(function () {
+            $('#Save').prop('disabled', true);
+            var url = "@Url.Action("Delete", "Secciones")";
+            var _id = $("#Id").val();
+            var data = { id:_id }
+            $.post(url, data).done(function (data) {
+                if (data.Ok) {
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 2000,
+                        timerProgressBar: true,
+                        onOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    })
+
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Se borro correctamente'
+                    })
+                    setTimeout(function(){ window.location = window.location;  }, 2000);SS
+
+                }
+                else {
+                    $('#Save').prop('disabled', false);
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        onOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    })
+
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'Error en proceso'
+                    })
+                }
+
+
+            }).fail(function () {
+                $('#Save').prop('disabled', false);
+               const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        onOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    })
+
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'Ocurrio un error en el servidor'
+                    })
+            }).always(function () {
+
+            });
+        });
+    });
+</script>

@@ -11,8 +11,10 @@ using WebApplication6.Models;
 
 namespace WebApplication6.Controllers
 {
+    [Authorize]
     public class Curso_AsignaturasController : Controller
     {
+        
         private ApplicationDbContext db = new ApplicationDbContext();
         private static int idCurso = 0;
 

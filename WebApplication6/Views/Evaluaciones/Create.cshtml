@@ -11,22 +11,41 @@
             <h4>Evaluaciones</h4>
             <hr />
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            <div class="form-group">
-                @Html.LabelFor(model => model.Id_Materia, "Materias", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.DropDownList("Id_Materia", null, htmlAttributes: new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.Id_Materia, "", new { @class = "text-danger" })
+            <div class="form-row">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Id_Materia, "Materias", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("Id_Materia", null, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Id_Materia, "", new { @class = "text-danger" })
+                    </div>
                 </div>
+                <div class="form-group">
+                    <label>Parcial</label>
+                    <select class="custom-select" name="Num_Evaluacion">
+                        <option value="1">Parcial 1</option>
+                        <option value="2">Parcial 2</option>
+                        <option value="3">Parcial 3</option>
+                        <option value="4">Parcial 4</option>
+                    </select>
+                </div>
+
             </div>
 
             <div class="form-group">
                 @Html.LabelFor(model => model.Id_CursoA, "Curso", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.DropDownList("Id_CursoA", null, htmlAttributes: new { @class = "form-control",@readonly="" })
+                    @Html.DropDownList("Id_CursoA", null, htmlAttributes: new { @class = "form-control", @readonly = "" })
                     @Html.ValidationMessageFor(model => model.Id_CursoA, "", new { @class = "text-danger" })
                 </div>
             </div>
 
+            <div class="form-group">
+                @Html.LabelFor(model => model.Id_TipoEvaluacion, "Tipo de Evaluacion", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("Id_TipoEvaluacion", null, htmlAttributes: new { @class = "form-control", @readonly = "" })
+                    @Html.ValidationMessageFor(model => model.Id_TipoEvaluacion, "", new { @class = "text-danger" })
+                </div>
+            </div>
             <div class="form-group">
                 @Html.LabelFor(model => model.Fecha_Comienzo, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
@@ -61,10 +80,18 @@
 
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Guardar" class="btn btn-success" />
+                    <input type="submit" value="Guardar" class="btn btn-success" id="Save" />
                 </div>
             </div>
         </div>
     }
 
 </div>
+<script src="~/Scripts/jquery-ui-1.12.1.js"></script>
+<script>
+    $('form').submit(function () {
+
+        $('#Save').prop('disabled', true);
+    });
+
+</script>

@@ -10,7 +10,8 @@ using System.Web.Mvc;
 using WebApplication6.Models;
 
 namespace WebApplication6.Controllers
-{
+{   
+    [Authorize]
     public class EmpleadoMateriasController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -25,6 +26,19 @@ namespace WebApplication6.Controllers
 
         // GET: EmpleadoMaterias/Details/5
         public async Task<ActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            EmpleadoMaterias empleadoMaterias = await db.tbEmpleadoMaterias.FindAsync(id);
+            if (empleadoMaterias == null)
+            {
+                return HttpNotFound();
+            }
+            return View(empleadoMaterias);
+        }
+        public async Task<ActionResult> DetailsModal(int? id)
         {
             if (id == null)
             {
