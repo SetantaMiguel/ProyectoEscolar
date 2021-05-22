@@ -1,0 +1,42 @@
+﻿@model WebApplication6.Models.HistorialAñosCursado
+
+@{
+    ViewBag.Title = "Details";
+}
+<div class="container">
+    <div>
+        <h4>HistorialAñosCursado</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.AniosACursar.Str_Curso)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.AniosACursar.Str_Curso)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.HistorialAcademico.Cod_Escuela)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.HistorialAcademico.Cod_Escuela)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.FechFinaly)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.FechFinaly)
+            </dd>
+
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+
+</div>

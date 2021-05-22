@@ -1,0 +1,123 @@
+﻿@model WebApplication6.Models.PeriodosEscolares
+
+@{
+    Layout = null;
+}
+<div class="container">
+    <br />  
+    <div class="alert alert-danger h2">¿Esta seguro de desactivar esta hora?</div>
+    <div>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.DiaSemana)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.DiaSemana)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.InicioPeriodo)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.InicioPeriodo)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.FinPeriodo)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.FinPeriodo)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Bl_EstadoPeriodo)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Bl_EstadoPeriodo)
+            </dd>
+
+        </dl>
+        <hr />
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-actions text-md-center">
+                <input type="button" value="Desactivar" class="btn btn-danger" id="Save" />
+            </div>
+        }
+        <br />
+    </div>
+</div>
+
+<script language="JavaScript" type="text/javascript">
+    $(function () {
+        $("#Save").click(function () {
+            $('#Save').prop('disabled', true);
+
+            var url = "@Url.Action("Delete", "PeriodosEscolares")";
+            var _Id_Periodo = $("#Id_Periodo").val();
+
+
+            var data = { id: _Id_Periodo }
+            $.post(url, data).done(function (data) {
+
+                if (data.Ok) {
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 2000,
+                        timerProgressBar: true,
+                        onOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    })
+
+                    Toast.fire({
+                        icon: 'success',
+                        title: data.Mensaje
+                    })
+                    setTimeout(function(){ window.location = window.location;  }, 2000);
+
+                }
+                else {
+                    Swal.fire({
+                      position: 'top-end',
+                        icon: 'error',
+                        title: data.Mensaje,
+                      showConfirmButton: false,
+                      timer: 1500
+                    })
+                    $('#Save').prop('disabled', false);
+                }
+
+            }).fail(function () {
+                  $('#Save').prop('disabled', false);
+               const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 2000,
+                        timerProgressBar: true,
+                        onOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    })
+
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'Ocurrio un error en el servidor'
+                    })
+            }).always(function () {
+            });
+        });
+    });
+</script>

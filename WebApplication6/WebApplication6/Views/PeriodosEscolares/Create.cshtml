@@ -1,0 +1,141 @@
+﻿@model WebApplication6.Models.PeriodosEscolares
+@{
+    Layout = null;
+}
+
+<div class="modal-body">
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <h4>Crear periodo escolar</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.DiaSemana, htmlAttributes: new { @class = "control-label" })
+                <div class="col-md-10">
+                    <select class="custom-select" id="DiaSemana" name="DiaSemana">
+                        <option value="0">--Selecione un dia--</option>
+                        <option value="Lunes">Lunes</option>
+                        <option value="Martes">Martes</option>
+                        <option value="Miercoles">Miercoles</option>
+                        <option value="Jueves">Jueves</option>
+                        <option value="Viernes">Viernes</option>
+                        <option value="Sabado">Sabado</option>
+                        <option value="Domingo">Domingo</option>
+                    </select>
+                    @Html.ValidationMessageFor(model => model.DiaSemana, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.InicioPeriodo, htmlAttributes: new { @class = "control-label" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.InicioPeriodo, new { htmlAttributes = new { @class = "form-control", type = "time", min = "07:00", required = "" } })
+                    @Html.ValidationMessageFor(model => model.InicioPeriodo, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.FinPeriodo, htmlAttributes: new { @class = "control-label" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.FinPeriodo, new { htmlAttributes = new { @class = "form-control", type = "time", required = "" } })
+                    @Html.ValidationMessageFor(model => model.FinPeriodo, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <div class="col-md-offset-2 text-md-center">
+                    <input type="button" value="Guardar" class="btn btn-success" id="Save" />
+                </div>
+            </div>
+        </div>
+    }
+
+</div>
+<script src="~/Scripts/DessKey.js"></script>
+
+<script language="JavaScript" type="text/javascript">
+    $(function () {
+        $("#Save").click(function () {
+            $('#Save').prop('disabled', true);
+            var url = "@Url.Action("Create", "PeriodosEscolares")";
+            var _DiaSemana = $("#DiaSemana").val();
+            var _InicioPeriodo = $("#InicioPeriodo").val();
+            var _FinPeriodo = $("#FinPeriodo").val();
+            var _Nombre_Periodo = $("#Nombre_Periodo").val();
+            if (_DiaSemana == 0) {
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'error',
+                    title: "Digite un dia",
+                    showConfirmButton: false,
+                    timer: 1500
+
+                });
+                  $('#Save').prop('disabled', false);
+            } else {
+                            var data = { DiaSemana: _DiaSemana, InicioPeriodo: _InicioPeriodo, FinPeriodo: _FinPeriodo, Nombre_Periodo: _Nombre_Periodo }
+            $.post(url, data).done(function (data) {
+
+                if (data.Ok) {
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 2000,
+                        timerProgressBar: true,
+                        onOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    })
+
+                    Toast.fire({
+                        icon: 'success',
+                        title: data.Mensaje
+                    })
+                    setTimeout(function(){ window.location = window.location;  }, 2000);
+
+                }
+                else {
+                    Swal.fire({
+                      position: 'top-end',
+                        icon: 'error',
+                        title: data.Mensaje,
+                      showConfirmButton: false,
+                      timer: 1500
+                    })
+                    $('#Save').prop('disabled', false);
+                }
+
+            }).fail(function () {
+                  $('#Save').prop('disabled', false);
+               const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 2000,
+                        timerProgressBar: true,
+                        onOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    })
+
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'Ocurrio un error en el servidor'
+                    })
+            }).always(function () {
+            });
+            }
+
+        });
+    });
+
+</script>

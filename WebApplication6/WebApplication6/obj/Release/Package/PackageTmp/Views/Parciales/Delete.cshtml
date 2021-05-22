@@ -1,0 +1,128 @@
+﻿@model WebApplication6.Models.Parciales
+
+@{
+    Layout = null;
+}
+
+<div class="container mb-2">
+    <div class="alert alert-danger shadow p-2 mt-2 text-center">¿Esta seguro de desactivar el parcial?</div>
+    <div>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Nombre_Parcial)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Nombre_Parcial)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Estado_Parcial)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Estado_Parcial)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Dt_Inicio)
+            </dt>
+
+            <dd>
+                @Model.Dt_Inicio.ToString("dddd, dd MMMM yyyy")
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Dt_Final)
+            </dt>
+
+            <dd>
+                @Model.Dt_Final.ToString("dddd, dd MMMM yyyy")
+            </dd>
+
+        </dl>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-actions no-color">
+                <input type="button" id="Save" value="Desactivar" class="btn btn-danger" />
+            </div>
+        }
+    </div>
+    @Html.HiddenFor(model => model.Id_Parcial)
+</div>
+
+<script language="JavaScript" type="text/javascript">
+    $(function () {
+        $("#Save").click(function () {
+
+            $('#Save').prop('disabled', true);
+            var url = "@Url.Action("Delete", "Parciales")";
+            var _Id_Parcial= $("#Id_Parcial").val();
+
+            var data = {
+                id:_Id_Parcial
+            }
+            $.post(url, data).done(function (data) {
+
+                if (data.Ok) {
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 2000,
+                        timerProgressBar: true,
+                        onOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    })
+
+                    Toast.fire({
+                        icon: 'success',
+                        title: data.Mensaje
+                    })
+                    setTimeout(function(){ window.location = window.location;  }, 2000);
+
+                }
+                else {
+                    Swal.fire({
+                      position: 'top-end',
+                        icon: 'error',
+                        title: data.Mensaje,
+                      showConfirmButton: false,
+                      timer: 1500
+                    })
+                    $('#Save').prop('disabled', false);
+                }
+
+            }).fail(function () {
+                  $('#Save').prop('disabled', false);
+               const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 2000,
+                        timerProgressBar: true,
+                        onOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    })
+
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'Ocurrio un error en el servidor'
+                    })
+            }).always(function () {
+            });
+
+
+
+
+        });
+    });
+</script>

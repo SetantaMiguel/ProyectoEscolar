@@ -1,0 +1,111 @@
+﻿@model WebApplication6.Models.OpcionesDeColegio
+
+@{
+    Layout = null;
+}
+
+<div class="container">
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <hr />
+        <div class="form-horizontal">
+            <h4>Editar Opciones</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.Id)
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.NombreColegio, htmlAttributes: new { @class = "control-label " })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.NombreColegio, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.NombreColegio, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 text-md-center">
+                    <input type="button" id="Save" value="Guardar" class="btn btn-success" />
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+
+
+<script language="JavaScript" type="text/javascript">
+    $(function () {
+        $("#Save").click(function () {
+            $('#Save').prop('disabled', true);
+            var url = "@Url.Action("Edit", "OpcionesDeColegios")";
+            var _NombreColegio = $("#NombreColegio").val();
+            var _Id = $("#Id").val();
+            var data = { NombreColegio: _NombreColegio, Id: _Id }
+
+            $.post(url, data).done(function (data) {
+
+                if (data.Ok) {
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 2500,
+                        timerProgressBar: true,
+                        onOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    })
+
+                    Toast.fire({
+                        icon: 'success',
+                        title: data.Mensaje
+                    })
+                    setTimeout(function(){ window.location = window.location;  }, 2000);
+
+                }
+                else {
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 2000,
+                        timerProgressBar: true,
+                        onOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    })
+
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'Digito campos vacios'
+                    })
+                         $('#Save').prop('disabled', false);
+                }
+
+
+            }).fail(function () {
+                  $('#Save').prop('disabled', false);
+               const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 2000,
+                        timerProgressBar: true,
+                        onOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    })
+
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'Ocurrio un error en el servidor'
+                    })
+            }).always(function () {
+            });
+        });
+    });
+</script>

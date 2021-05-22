@@ -1,0 +1,48 @@
+﻿@model WebApplication6.Models.Cajero
+
+@{
+    ViewBag.Title = "Delete_Cajero";
+}
+
+<div class="container">
+    <hr />
+    <h3 class="alert alert-danger shadow p-4 m-1">Esta seguro de eliminar al cajero?</h3>
+    <hr />
+    <h4 class="blockquote">Cajero</h4>
+    <dl class="dl-horizontal">
+       
+        <dt>
+            @Html.DisplayNameFor(model => model.NumCajero)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NumCajero)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Empleado.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Empleado.Nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Empleado.Apellido)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Empleado.Apellido)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Borrar" class="btn btn-danger" /> |
+            @Html.ActionLink("Regresar", "Index",null,new { @class="btn btn-secondary"})
+        </div>
+    }
+</div>

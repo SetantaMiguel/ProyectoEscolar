@@ -1,0 +1,49 @@
+﻿@model WebApplication6.Models.HistorialAñosCursado
+
+@{
+    ViewBag.Title = "Delete";
+}
+<div class="container">
+    <h3>¿Esta seguro de borrar esta informacion?</h3>
+    <div>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.AniosACursar.Str_Curso)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.AniosACursar.Str_Curso)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.HistorialAcademico.Cod_Escuela)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.HistorialAcademico.Cod_Escuela)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.FechFinaly)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.FechFinaly)
+            </dd>
+
+        </dl>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-actions no-color">
+                <input type="submit" value="Borrar" class="btn btn-danger" /> |
+                @Html.ActionLink("Regresar", "Index", new { id = Model.Id_Escuela }, new { @class = "btn btn-dark" })
+            </div>
+        }
+    </div>
+
+</div>
+

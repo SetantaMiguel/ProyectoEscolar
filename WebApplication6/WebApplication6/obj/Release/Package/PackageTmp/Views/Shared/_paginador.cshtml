@@ -1,0 +1,64 @@
+﻿@model WebApplication6.Models.BaseModelo
+
+@{
+    var cantidadPaginas = (int)Math.Ceiling((double)Model.TotalRegistros / Model.RegistrosPorPagina);
+}
+
+<!--Funcionalidad: Anterior y siguiente-->
+
+<!--Funcionalidad: Páginas-->
+
+@{
+    int Inicial = 1;
+    var radio = 3;
+    var cantidadMaximaDePaginas = radio * 2 + 1;
+    int Final = (cantidadPaginas > cantidadMaximaDePaginas) ? cantidadMaximaDePaginas : cantidadPaginas;
+    if (Model.PaginaActual > radio + 1)
+    {
+        Inicial = Model.PaginaActual - radio;
+        if (cantidadPaginas > Model.PaginaActual + radio)
+        {
+            Final = Model.PaginaActual + radio;
+        }
+        else
+        {
+            Final = cantidadPaginas;
+        }
+    }
+}
+    <ul class="pagination justify-content-md-center">
+        @if (Model.PaginaActual == 1)
+        {
+
+            <li class="page-item disabled">@Html.ActionLink("Anterior", null, new { pagina = 1 }, new { @class = "page-link" })</li>
+        }
+        else
+        {
+            <li>@Html.ActionLink("Anterior", null, new { pagina = Model.PaginaActual - 1 }, new { @class = "page-link" })</li>
+        }
+        @for (int i = Inicial; i <= Final; i++)
+        {
+
+
+            if (i == Model.PaginaActual)
+            {
+                <li class="page-item active">@Html.ActionLink(i.ToString(), null, new { pagina = i }, new { @class = "page-link" })</li>
+            }
+            else
+            {
+                <li class="page-item">@Html.ActionLink(i.ToString(), null, new { pagina = i }, new { @class = "page-link" })</li>
+            }
+
+        }
+
+        @if (Model.PaginaActual == cantidadPaginas)
+        {
+            <li class=" page-item disabled">@Html.ActionLink("Siguiente", null, new { pagina = cantidadPaginas }, new { @class = "page-link" })</li>
+        }
+        else
+        {
+            <li class="page-item">@Html.ActionLink("Siguiente", null, new { pagina = Model.PaginaActual + 1 }, new { @class = "page-link" })</li>
+        }
+    </ul>
+
+

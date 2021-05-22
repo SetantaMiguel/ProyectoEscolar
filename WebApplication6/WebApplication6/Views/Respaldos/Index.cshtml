@@ -1,0 +1,52 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+&nbsp;
+<div class="container">
+
+    <h1 class=" text-center fa-header alert-heading">Creacion de Respaldos</h1>
+    </hr>
+    &nbsp;
+    <div class="card-group">
+        <div class="card">
+            <img class="card-img-top w-100 d-block" />
+            <div class="card-body">
+                <h4 class="card-title">Backup Completo</h4>
+                <p class="card-text">Incluye todos los objetos de la base de datos, tablas del sistema, datos y transacciones que ocurran durante la copia de seguridad. Las copias de seguridad completas de la base de datos permiten realizar una restauración completa a un estado antes de realizar la copia de seguridad.</p>
+                @using (Html.BeginForm("Backup_Click", "Respaldos", FormMethod.Post))
+                {
+                    <input type="hidden" name="Backup_Click" />
+                    <input type="submit" button class="btn btn-primary" id="btnSubmit2" value="Generar Respaldo" />
+                }
+            </div>
+        </div>
+        <div class="card">
+            <img class="card-img-top w-100 d-block" />
+            <div class="card-body">
+                <h4 class="card-title">Backup Diferencial</h4>
+                <p class="card-text">Incluye todos los objetos de la base de datos, tablas del sistema, datos y contiene datos que han cambiado desde que se realizó la última copia de seguridad completa y las transacciones que ocurren durante el proceso de copia de seguridad. Se usa una copia de seguridad diferencial junto con la última copia de seguridad completa.</p>
+                @using (Html.BeginForm("Backup_Diferencial", "Respaldos", FormMethod.Post))
+                {
+                    <input type="hidden" name="Backup_Click" />
+                    <input type="submit" button class="btn btn-primary" id="btnSubmit2" value="Generar Respaldo" />
+                }
+            </div>
+        </div>
+        <div class="card">
+            <img class="card-img-top w-100 d-block" />
+            <div class="card-body">
+                <h4 class="card-title">Registro de Transacciones de Respaldo</h4>
+                <p class="card-text">Registra todas las transacciones que se han producido en una base de datos desde la copia de seguridad del registro de transacciones anterior. Una copia de seguridad del registro de transacciones garantiza la recuperación de la base de datos en un momento específico.</p>
+                @using (Html.BeginForm("Backup_Log", "Respaldos", FormMethod.Post))
+                {
+                    <input type="hidden" name="Backup_Click" />
+                    <input type="submit" button class="btn btn-primary" id="btnSubmit2" value="Generar Respaldo" />
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+

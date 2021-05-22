@@ -1,0 +1,149 @@
+﻿@model WebApplication6.Models.Estudiantes
+
+@{
+    ViewBag.Title = "Details";
+}
+<div class="container">
+    <br />
+    <h2 class="text-center alert alert-success">Detalles del estudiante <b>@Model.NombreCompleto</b></h2>
+    <div class=" row align-content-center justify-content-xl-center">
+        @Html.ActionLink("Responsable", "Index", "FamiliarEstudiantes", new { id = Model.Id_Estudiante }, new { @class = "btn btn-primary m-1" })
+        @Html.ActionLink("Historial medico", "Index", "EnfermedadEstudiantes", new { id = Model.Id_Estudiante }, new { @class = "btn btn-primary m-1" })
+        @Html.ActionLink("Control Disciplinario", "Index", "ControlDisciplinarios", new { id = Model.Id_Estudiante }, new { @class = "btn btn-primary m-1" })
+        @Html.ActionLink("Historial academico", "Index", "HistorialAcademicoes", new { id = Model.Id_Estudiante }, new { @class = "btn btn-primary m-1" })
+        @Html.ActionLink("Curso", "Index", "CursoEstudiantes", new { id = Model.Id_Estudiante }, new { @class = "btn btn-primary m-1",data_modal="" })
+    </div>
+    <div>
+        <hr />
+        <div class="row">
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.AniosACursar.Str_Curso)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.AniosACursar.Str_Curso)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Nombre)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Nombre)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Apellido)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Apellido)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Direccion)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Direccion)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Correo)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Correo)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.FechaNacimiento)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.FechaNacimiento)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Domicilio)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Domicilio)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Telefono)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Telefono)
+                </dd>
+            </dl>
+            <div class="col-2">
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Genero)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Genero)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Estado_Estudiante)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Estado_Estudiante)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Codigo_Estudiante)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Codigo_Estudiante)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Codigo_MINED)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Codigo_MINED)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Str_Nombre_Padre)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Str_Nombre_Padre)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Str_Nombre_Madre)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Str_Nombre_Madre)
+                    </dd>
+
+                </dl>
+            </div>
+            <div class="col-sm-2" >
+                <p class="font-weight-bold">Imagen</p>
+                <img style="max-width:30rem; max-height:30rem;" src="@Url.Action("getImage","Estudiantes",new { id=Model.Id_Estudiante})" />
+            </div>
+        </div>
+
+    </div>
+    <p>
+        @Html.ActionLink("Editar", "Edit", new { id = Model.Id_Estudiante }, new { @class = "btn btn-success" }) |
+        @Html.ActionLink("Regresar", "Index", null, new { @class = "btn btn-dark" })
+    </p>
+
+</div>
+

@@ -1,0 +1,73 @@
+﻿@model IEnumerable<Microsoft.AspNet.Identity.EntityFramework.IdentityRole>
+
+    <div class="container">
+        <hr />
+        <div class="alert alert-primary shadow text-center h1">
+            Roles del sistema
+        </div>
+            
+            <br />
+            <br />
+            <div class="row">
+                <div class="col-sm-4 border">
+                    <br />
+                    @Html.ActionLink("Crear nuevo Rol", "Create", null, new { @class = "btn btn-primary m-1" })
+                    <br />
+                    <table class="table table-bordered">
+                        <tr>
+                            <th>
+                                Nombre de rol
+                            </th>
+                            <th>Mensaje</th>
+                        </tr>
+
+                        @foreach (var item in Model)
+                        {
+                            <tr class="table-primary">
+                                <td id="">
+                                    @Ajax.ActionLink(item.Name, "Index", "PermisosYRoles", new { Id = item.Id }, new AjaxOptions()
+                               {
+                                   HttpMethod = "GET",
+                                   InsertionMode = InsertionMode.Replace
+                                            ,
+                                   UpdateTargetId = "Creden"
+                               }, new { @class = "btn btn-success RolBtn" }
+                                   )
+                                </td>
+                                <td>
+                                    <i class="icon-long-arrow-left" />
+                                    Presioname
+                                </td>
+                            </tr>
+                            
+                        }
+
+                    </table>
+                </div>
+
+                <div class="col-sm-8">
+                    <div id="Creden" class="bg-light"></div>
+                </div>
+            </div>
+    </div>
+
+
+@section scripts{
+    <script src="~/Scripts/jquery-ui-1.12.1.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script>
+        $(".RolBtn").click(function () {
+            if (anterion!=$(this)) {
+                anterion.removeClass("btn-info").addClass("btn-success");
+
+            };
+            $(this).removeClass("btn-success").addClass("btn-info");
+            var anterion = $(this);
+
+        })
+
+    </script>
+
+}

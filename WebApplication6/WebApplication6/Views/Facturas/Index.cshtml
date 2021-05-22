@@ -1,0 +1,126 @@
+﻿@using WebApplication6.Models;
+@{
+    ApplicationDbContext db = new ApplicationDbContext();
+}
+
+@model IEnumerable<WebApplication6.Models.Factura>
+
+@{
+    Layout = "~/Views/Shared/_LayoutHistorialCaja.cshtml";
+}
+
+<script src="~/Content/FileSaver.js"></script>
+<script>
+    function fnExcelReport(id, name) {
+        var tab_text = tab_text + '<html xmins: "urn:schemas-microsoft-com:office:excel">';
+        tab_text = tab_text + '<head><xml><x: ExcelWorkbook><x: ExcelWorksheets><x: ExcelWorkSheet>';
+        tab_text = tab_text + '<x: Name>Test Sheet</x: Name>';
+        tab_text = tab_text + '<x: WorkSheetOptions><x: Panes></x: Panes></x: WorkSheetOptions></x:ExcelWorkSheet>';
+        tab_text = tab_text + '</x:ExcelWorkSheet></x:ExcelWorkbook></xml></head><body>';
+        tab_text = tab_text + "<table border='1px' style='color:black'>";
+
+        var exportTable = $('#' + id).clone();
+        //some code here
+        exportTable.find('input').each(function (index, elem) { $(elem).remove(); });
+        exportTable.find('a').each(function (index, elem) { $(elem).remove(); });
+
+        tab_text = tab_text + exportTable.html();
+        tab_text = tab_text + '</table></body><html>';
+        var fileName = "Reporte Pagos" + '.xls';
+
+        //Save shit
+        var blob = new Blob([tab_text], { type: "application/vnd.ms-excel;charset=utf-8" })
+        window.saveAs(blob, fileName);
+
+    }
+</script>
+
+<div class="container body-content">
+    <hr />
+    <h1 class=" text-center fa-header alert-heading">Listado de Detalles de Pagos</h1>
+    &nbsp;&nbsp;
+
+
+    <div class="table-responsive">
+        <table class="table" id="dataTable">
+            <thead class="table-info">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Caja.NumCaja)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Cajero.Nombre)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FechaFactura)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.IdEstudiante)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.IdConcepto)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Id_Tipo)
+                    </th>
+
+                    <th>
+                        @Html.DisplayNameFor(model => model.IdMoneda)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.PagoAbonado)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.IdEquivalencia)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Mora)
+                    </th>
+                    <th></th>
+                </tr>
+                </thead>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Caja.NumCaja)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Cajero.NombreCompleto)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FechaFactura)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IdEstudiante)
+                        </td>
+                        <td>
+                            @db.ConceptosPago.Find(item.IdConcepto).NombreConcepto
+                        </td>
+                        <td>
+                            @db.TipoPago.Find(item.Id_Tipo).Nombre
+                        </td>
+
+                        <td>
+                            @db.Moneda.Find(item.IdMoneda).Nombre
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PagoAbonado)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IdEquivalencia)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Mora)
+                        </td>
+
+                    </tr>
+
+
+                }
+                </tbody>
+        </table>
+        </body>
+    </div>
+
+</div>

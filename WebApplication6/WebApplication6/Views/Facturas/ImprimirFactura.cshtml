@@ -1,0 +1,103 @@
+﻿@using WebApplication6.Models;
+@{
+    ApplicationDbContext db = new ApplicationDbContext();
+}
+
+@model IEnumerable<WebApplication6.Models.Factura>
+
+@{
+    Layout = "~/Views/Shared/_LayoutFactura.cshtml";
+}
+
+<!DOCTYPE html>
+
+
+    
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Caja.NumCaja)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Cajero.Nombre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FechaFactura)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IdEstudiante)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IdConcepto)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Id_Tipo)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.IdMoneda)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PagoAbonado)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IdEquivalencia)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Mora)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Total)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Cambio)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Caja.NumCaja)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cajero.NombreCompleto)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaFactura)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdEstudiante)
+            </td>
+            <td>
+                @db.ConceptosPago.Find(item.IdConcepto).NombreConcepto
+            </td>
+            <td>
+                @db.TipoPago.Find(item.Id_Tipo).Nombre
+            </td>
+
+            <td>
+                @db.Moneda.Find(item.IdMoneda).Nombre
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PagoAbonado)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdEquivalencia)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Mora)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Total)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cambio)
+            </td>
+
+</tr>
+        }
+
+    </table>
+

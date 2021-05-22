@@ -1,0 +1,42 @@
+﻿@model WebApplication6.Models.ControlDisciplinario
+
+@{
+    ViewBag.Title = "Details";
+}
+<div class="container">
+    <div>
+        <h4>Control Disciplinario de <b>@Html.DisplayFor(model => model.Estudiantes.Nombre)</b></h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Estudiantes.Nombre)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Estudiantes.Nombre)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Fecha_Emision)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Fecha_Emision)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Descripcion)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Descripcion)
+            </dd>
+
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Editar", "Edit", new { id = Model.Id_Control }, new { @class = "btn btn-success" }) |
+        @Html.ActionLink("Regresar", "Index", new { id = Model.Id_Estudiantes }, new { @class = "btn btn-dark" })
+    </p>
+</div>
+

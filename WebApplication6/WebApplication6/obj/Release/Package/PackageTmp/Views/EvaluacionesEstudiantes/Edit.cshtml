@@ -1,0 +1,79 @@
+﻿@model WebApplication6.Models.EvaluacionesEstudiantes
+@{
+
+}
+<div class="container">
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="mt-2">
+            <h2 class="alert alert-dark shadow p-2">Evaluar la prueba </h2>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.Id_EvaluacionesEstudiantes)
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Id_Evaluaciones, "Evaluacion", htmlAttributes: new { @class = "control-label" })
+                <div class="col-md-10 font-weight-bold">
+                    @Html.LabelForModel(Model.Evaluaciones.Descripcion)
+                    @Html.ValidationMessageFor(model => model.Id_Evaluaciones, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Id_Estudiante, "Estudiante", htmlAttributes: new { @class = "control-label" })
+                <div class="col-md-10 font-weight-bold">
+                    @Html.LabelForModel(Model.Estudiantes.NombreCompleto)
+                    @Html.ValidationMessageFor(model => model.Id_Estudiante, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            @if (Model.EstadoEvaluado == false)
+            {
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Resultado, htmlAttributes: new { @class = "control-label" })
+                    <div class="col-md-10">
+                        <div class="row">
+                            <div class="col-10">
+                                @Html.EditorFor(model => model.Resultado, new { htmlAttributes = new { @class = "form-control", max = Model.Evaluaciones.TipoEvaluacion.Valor, min = 0 } })
+                            </div>
+                            <div class="col-2">
+                                Valor Total: @Model.Evaluaciones.TipoEvaluacion.Valor
+                            </div>
+                        </div>
+
+                        @Html.ValidationMessageFor(model => model.Resultado, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Resultado, htmlAttributes: new { @class = "control-label" })
+                    <div class="col-md-10">
+                        <div class="row">
+                            <div class="col">
+                                <label class="font-weight-bold">@Model.Resultado</label>
+                            </div>
+                            <div class="col">
+                                Valor Total: @Model.Evaluaciones.TipoEvaluacion.Valor
+                            </div>
+                        </div>
+
+                        @Html.ValidationMessageFor(model => model.Resultado, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+            }
+
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10 ">
+                    <input type="submit" value="Dar resultado" class="btn btn-success" /> | @Html.ActionLink("Regresar", "Index", new { idEst = Model.Id_Estudiante,idMat=Model.Evaluaciones.Id_Materia,idCurso=Model.Evaluaciones.Id_Curso }, new { @class = "btn btn-secondary" })
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+

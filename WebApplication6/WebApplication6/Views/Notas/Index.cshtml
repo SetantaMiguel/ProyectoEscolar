@@ -1,0 +1,229 @@
+﻿@model WebApplication6.viewModels.IndexViewModel2
+@using WebApplication6.Models;
+@{
+    ApplicationDbContext db = new ApplicationDbContext();
+}
+
+<div class="container">
+    <hr />
+    <div class="text-center alert-light shadow  alert p-4 border border-secondary">
+        <p class="h2 font-weight-bold text-dark" id="NCurso">
+            Notas del Curso @ViewBag.NCurso
+        </p>
+        <h4>Opciones</h4>
+        <div class="m-2">
+            @Html.ActionLink("Administrar Evaluaciones", "Index", "Evaluaciones", new { idCurso = Convert.ToInt32(ViewBag.Id) }, new { @class = "btn btn-info" })
+
+            <a class="btn btn-primary mx-2" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">Buscar Estudiante</a>
+
+            @Html.ActionLink("Regresar al curso", "Details", "CursoEscolars", new { id = Convert.ToInt32(ViewBag.Id) }, new { @class = "btn btn-secondary" })
+            <button class="btn btn-outline-success btn-sm" onclick="javascript: fnExcelReport('tableNotas', 'Notas')" ><img src="~/Images/Icon/icons8-ms-excel-50.png" alt="Excel" style="height:2rem;" /></button>
+            <button class="btn btn-outline-success btn-sm" onclick="ExportarPDF()"><img src="~/Images/Icon/icons8-pdf-50.png" alt="Pdf" style="height:2rem;" /> </button>
+
+
+        </div>
+
+        <div class="collapse multi-collapse" id="multiCollapseExample1">
+            <div class="card card-body">
+                <div class="container-fluid">
+                    @using (Html.BeginForm())
+                    {
+                        <div class="form-horizontal">
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            <div class="form-group">
+
+                                <div class="col-md-10 row">
+                                    <dl class="mr-3">
+                                        <dt>
+                                            <label>
+                                                Materia
+                                            </label>
+                                        </dt>
+                                        <dd>
+                                            <select class="form-control" name="NumMateria" id="NumMateria">
+                                                <option selected value="">--Seleccione una materia--</option>
+                                            </select>
+                                        </dd>
+                                    </dl>
+                                    <dl class="mr-3">
+                                        <dt>
+                                            <label>
+                                                Estudiante
+                                            </label>
+                                        </dt>
+                                        <dd>
+                                            <select class="form-control" name="NumEstudiantes" id="NumEstudiantes">
+                                                <option selected value="">--Seleccione una materia--</option>
+                                            </select>
+                                        </dd>
+                                    </dl>
+                                </div>
+                                <input type="submit" name="name" class="btn btn-block btn-warning" value="Buscar" />
+                            </div>
+                        </div>
+                    }
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <br />
+
+    <div class="table-responsive">
+        <table class="table table-bordered" id="tableNotas">
+            <thead>
+                <tr class="table-info">
+                    <th>
+                        @Html.DisplayNameFor(model => model.Notas.FirstOrDefault().Estudiantes.NombreCompleto)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Notas.FirstOrDefault().Materias.Nombre_Materia)
+                    </th>
+                    @foreach (var item in ViewBag.Parciales)
+                    {
+                        <td class="font-weight-bold">
+                            @Html.DisplayFor(modelItem => item)
+
+                        </td>
+                    }
+                    <th>
+                        @Html.DisplayNameFor(model => model.Notas.FirstOrDefault().Bl_Aprobado)
+                    </th>
+
+                    <th>
+                       Todas la evaluaciones
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Notas)
+                {
+                    int idcurso = Convert.ToInt32(ViewBag.Id);
+                    var parciales_estudiante = db.Notas.Where(x => x.Id_Estudiante == item.Id_Estudiante).Where(x => x.Id_Materia == item.Id_Materia).
+                    Where(x => x.Id_CursoEscolar == idcurso).ToList();
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Estudiantes.NombreCompleto)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Materias.Nombre_Materia)
+                    </td>
+                    @foreach (var item2 in parciales_estudiante)
+                    {
+
+                        if (Convert.ToInt32(ViewBag.ParcialActivo) == item2.Id_Parcial)
+                        {
+                            <td class="shadow">
+                                @Html.ActionLink(item2.Nota.ToString(), "Index", "EvaluacionesEstudiantes", new
+                                {
+                                    idEst = item.Id_Estudiante,
+                                    idMat = item.Id_Materia,
+                               idCurso = item.Id_CursoEscolar,
+                                    idParcial = item2.Id_Parcial
+                                }, new { @class = "btn btn-outline-primary" })
+                            </td>
+                        }
+                        else
+                        {
+                            <td class="shadow-sm">
+                                @Html.ActionLink(item2.Nota.ToString(), "Index", "EvaluacionesEstudiantes", new
+                                {
+                                    idEst = item.Id_Estudiante,
+                                    idMat = item.Id_Materia,
+                               idCurso = item.Id_CursoEscolar,
+                                    idParcial = item2.Id_Parcial
+                                }, new { @class = "btn btn-outline-secondary" })
+                            </td>
+                        }
+
+
+                    }
+
+                    <td>
+                        @if (item.Bl_Aprobado == true)
+                        {
+                            <span class="text-success">Aprobado</span>
+                        }
+                        else
+                        {
+                            <span class="text-danger">Reprobado</span>
+                        }
+                    </td>
+                    <td>
+                        @Html.ActionLink("Evaluaciones", "Index", "EvaluacionesEstudiantes", new { idEst = item.Id_Estudiante, idMat = item.Id_Materia, idCurso = item.Id_CursoEscolar }, new { @class = "btn btn-outline-info" })
+                    </td>
+                </tr>
+                }
+            </tbody>
+
+        </table>
+        <hr class="d-sm-none" />
+        @{Html.RenderPartial("_paginador", Model);}
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="~/Scripts/jquery-ui-1.12.1.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+<script language="JavaScript" type="text/javascript">
+            var url = "@Url.Action("Materias","Notas")";
+            //pasar los datos al post
+            $.post(url).done(function (data) {
+                //se ejecutara si fue un exito
+                $("#NumMateria").html(data);
+                  $("#NumMateria").append('<option value='  + '>' + '--Seleccione una materia--' + '</option>');
+                $.each(data, function (key, data) {
+                    $("#NumMateria").append('<option value=' + data.Id_Materia + '>' + data.Nombre_Materia + '</option>');
+                });
+            });
+</script>
+
+<script language="JavaScript" type="text/javascript">
+            var url = "@Url.Action("Estudiantes","Notas")";
+            //pasar los datos al post
+            $.post(url).done(function (data) {
+                //se ejecutara si fue un exito
+                $("#NumEstudiantes").html(data);
+                $("#NumEstudiantes").append('<option value='  + '>' + '---Seleccione un Estudiante---' + '</option>');
+                $.each(data, function (key, data) {
+                    $("#NumEstudiantes").append('<option value=' + data.Id_Estudiante + '>' + data.Estudiantes.NombreCompleto + '</option>');
+                });
+            });
+</script>
+
+<link href="~/Content/tableexport.css" />
+<script src="~/Scripts/FileSaver.min.js"></script>
+<script src="~/Scripts/Blob.min.js"></script>
+<script src="~/Scripts/xls.core.min.js"></script>
+<script src="~/Scripts/tableexport.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js" integrity="sha512-VKjwFVu/mmKGk0Z0BxgDzmn10e590qk3ou/jkmRugAkSTMSIRkd4nEnk+n7r5WBbJquusQEQjBidrBD3IQQISQ==" crossorigin="anonymous"></script>
+<script>
+    //------------------------------------------------------------
+    //------------------------------------------------------------
+    //------------------------------------------------------------
+
+    $(document).ready(function () {
+
+            
+    });
+    function ExportarPDF() {
+        var titulo = $("#NCurso").text();
+        var doc = new jsPDF();
+
+        doc.setFontSize(40);
+        doc.text("Colegio Bautista", 150, 50);
+        doc.setFontSize(20);
+        doc.text(titulo, 40, 60);
+
+        var tbl = $("#tableNotas").clone();
+        tbl.find("tr th:nth-child(10), tr td:nth-child(10)").remove();
+        tbl.find("tr th:nth-child(10), tr td:nth-child(10)").remove();
+
+        var res = doc.autoTableHtmlToJson(tbl.get(0));
+
+        //var res = doc.autoTableHtmlToJson(document.getElementById("tableNotas"));
+        doc.autoTable(res.columns, res.data, {startY: 100});
+
+      doc.save('table.pdf')
+    }
+</script>

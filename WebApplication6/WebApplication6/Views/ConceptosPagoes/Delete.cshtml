@@ -1,0 +1,53 @@
+﻿@model WebApplication6.Models.ConceptosPago
+
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+    <div class="container">
+
+        &nbsp;
+        <h2 class="text-center">Seguro que deseas eliminar el Concepto <b>@Model.NombreConcepto</b></h2>
+        <hr />
+
+        &nbsp;
+
+        <div class="row col-4">
+            <hr />
+            <div class="d-inline m-1">
+                <dl class="dl-horizontal">
+                    @Html.HiddenFor(mmodelitem => Model.Id_Concepto)
+                    <dt>
+                        @Html.DisplayNameFor(model => model.NombreConcepto)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.NombreConcepto)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Monto)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Monto)
+                    </dd>
+
+                </dl>
+            </div>
+            &nbsp;
+
+        </div>
+        <div class="container text-md-center mx-auto">
+            <p>
+                <input type="submit" value="Eliminar" class="btn btn-danger" /> |
+                @Html.ActionLink("Regresar", "Index", null, new { @class = "btn btn-dark " })
+            </p>
+        </div>
+
+    </div>
+
+
+
+

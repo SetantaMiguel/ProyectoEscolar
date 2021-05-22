@@ -1,0 +1,49 @@
+﻿@model IEnumerable<WebApplication6.Models.Enfermedad>
+
+@{
+    ViewBag.Title = "Index";
+}
+<div class="container">
+    <hr />
+
+    <h2 class="alert alert-secondary">Enfermedades del Colegio</h2>
+    <div class="row justify-content-between">
+        <div class="col-4">
+            @Html.ActionLink("Añadir nueva enfermedad", "Create", null, new { @class = "btn btn-primary" })
+        </div>
+        <div class="col-4">
+            @Html.ActionLink("Tipo de medicacion", "Index", "TPMedicacions", null, new { @class = "btn btn-primary " })
+        </div>
+    </div>
+    <br />
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Str_NombreEnfermedad)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Str_Descripcion)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Str_NombreEnfermedad)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Str_Descripcion)
+                </td>
+                <td>
+                    @Html.ActionLink("Editar", "Edit", new { id = item.Id_Enfermedad }) |
+                    @Html.ActionLink("Detalles", "Details", new { id = item.Id_Enfermedad }) |
+                    @Html.ActionLink("Borar", "Delete", new { id = item.Id_Enfermedad })
+                </td>
+            </tr>
+        }
+
+    </table>
+
+</div>

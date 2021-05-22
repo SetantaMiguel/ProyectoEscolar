@@ -1,0 +1,36 @@
+﻿@using Microsoft.AspNet.Identity
+@using WebApplication6.Models;
+@{
+    ApplicationDbContext db = new ApplicationDbContext();
+    var empleado=new Empleado();
+    if (User.Identity.IsAuthenticated)
+    {
+        var usuario = db.Users.Find(User.Identity.GetUserId());
+        empleado = db.TbEmpleado.Find(usuario.Id_Empleado);
+
+    }
+
+}
+
+@if (Request.IsAuthenticated)
+{
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+    {
+    @Html.AntiForgeryToken()
+
+    <ul class="nav navbar-nav navbar-right">
+        <li class="btn">
+            @Html.ActionLink("Hola " + (empleado.Nombre+" "+empleado.Apellido) + "", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" , @class="text-light" })
+        </li>
+        <li class="btn bg-warning"><a href="javascript:document.getElementById('logoutForm').submit()" class="text-dark">Cerrar sesión</a></li>
+    </ul>
+    }
+}
+else
+{
+<ul class="nav navbar-nav navbar-right">
+    @*
+    <li>@Html.ActionLink("Registrarse", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink", @class = "btn btn-outline-success" })</li> |*@
+    <li>@Html.ActionLink("Iniciar sesión", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink", @class = "btn btn-outline-success" })</li>
+</ul>
+}

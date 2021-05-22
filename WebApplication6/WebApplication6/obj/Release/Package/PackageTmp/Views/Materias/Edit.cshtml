@@ -1,0 +1,126 @@
+﻿@model WebApplication6.Models.Materias
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = null;
+}
+
+<div class="container">
+    <hr />
+    <div class="shadow p-3 bg-secondary text-white rounded text-center">Editar Materia</div>
+    <hr />
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal ">
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.Id_Materia)
+            <div class="d-none">
+                Grado: <input type="text" id="Id_AnioEscolar" class="form-control" disabled value="@ViewBag.Id_AnioEscolar"> 
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Codigo_Materia, htmlAttributes: new { @class = "control-label" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Codigo_Materia, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Codigo_Materia, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Nombre_Materia, htmlAttributes: new { @class = "control-label" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Nombre_Materia, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Nombre_Materia, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <hr />
+            <div class="form-group text-md-center">
+                <div class="">
+                    <input type="button" id="Save" value="Guardar" class="btn btn-success" />
+                </div>
+            </div>
+        </div>
+    }
+
+</div>
+<script language="JavaScript" type="text/javascript">
+    $(function () {
+        $("#Save").click(function () {
+
+            $('#Save').prop('disabled', true);
+            var url = "@Url.Action("Edit", "Materias")";
+            var _Id_Materia = $("#Id_Materia").val();
+            var _Codigo_Materia = $("#Codigo_Materia").val();
+            var _Nombre_Materia = $("#Nombre_Materia").val();
+            var _Id_AnioEscolar =$("#Id_AnioEscolar").val();
+            var data = {Id_AnioEscolar:_Id_AnioEscolar, Id_Materia: _Id_Materia, Nombre_Materia: _Nombre_Materia, Codigo_Materia: _Codigo_Materia }
+            $.post(url, data).done(function (data) {
+
+                if (data.Ok) {
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 2000,
+                        timerProgressBar: true,
+                        onOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    })
+
+                    Toast.fire({
+                        icon: 'success',
+                        title: data.Mensaje
+                    })
+                    setTimeout(function(){ window.location = window.location;  }, 2000);
+
+                }
+                else {
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 2000,
+                        timerProgressBar: true,
+                        onOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    })
+
+                    Toast.fire({
+                        icon: 'error',
+                        title: data.Mensaje
+                    })
+
+                    $('#Save').prop('disabled', false);
+                }
+
+            }).fail(function () {
+                  $('#Save').prop('disabled', false);
+               const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 2000,
+                        timerProgressBar: true,
+                        onOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    })
+
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'Ocurrio un error en el servidor'
+                    })
+            }).always(function () {
+            });
+        });
+    });
+</script>
+

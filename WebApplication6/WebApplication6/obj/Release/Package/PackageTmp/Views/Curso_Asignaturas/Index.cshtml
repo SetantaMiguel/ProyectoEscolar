@@ -1,0 +1,51 @@
+﻿@model IEnumerable<WebApplication6.Models.Curso_Asignaturas>
+
+@{
+
+}
+<div class="p-3 mb-2 bg-dark text-white text-center h4 m-1 shadow-sm"> Maestros del curso  </div>
+<div class="bg-light" style="background:#e0e2ff !important;">
+    <p class="p-2"> 
+        @Html.ActionLink("Añadir Clase al Curso", "Create", null, new { @class = "btn btn-primary", data_modal = "" })
+    </p>
+    @{ 
+        if (Model.Count()==0)
+        {
+            <div class="alert alert-danger shadow container h3">
+                Aun No hay materias en el curso
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive p-2" >
+        <table class="table table-bordered table-hover shadow">
+            <tr class="table-info">
+                <th>
+                    Nombre completo
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Materias.Nombre_Materia)
+                </th>
+                <th>
+                    Opciones
+                </th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr class="table-light ">
+                    <td>@Html.DisplayFor(Modelitem => item.Empleado.NCompleto)</td>
+                    <td>@Html.DisplayFor(Modelitem => item.Materias.Nombre_Materia)</td>
+                    <td>
+                        @Html.ActionLink("Desactivar", "Delete", new { id = item.Id_Curso_Asignatura }, new { @class = "btn btn-danger btn-sm", data_modal = "" })
+                    </td>
+                </tr>
+            }
+        </table>
+
+    </div>
+
+        }
+    }
+</div>
+

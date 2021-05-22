@@ -1,0 +1,36 @@
+﻿@model WebApplication6.Models.CalendarioCurso
+
+@{
+    Layout = null;
+}
+
+
+
+    <div class="container">
+        <br />
+        <div class="h2 alert alert-secondary shadow p-2 "><strong>Informacion del Calendario</strong></div>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt class="h4">
+                @Html.DisplayNameFor(model => model.CursoEscolar.NombredeCurso)
+            </dt>
+    
+            <dd class="h5 text-primary">
+                @Html.DisplayFor(model => model.CursoEscolar.NombredeCurso)
+            </dd>
+            
+            <dt class="h4">
+                @Html.DisplayNameFor(model => model.Curso_Asignaturas.Materias.Nombre_Materia)
+            </dt>
+    
+            <dd class="h5 text-primary">
+                @Html.DisplayFor(model => model.Curso_Asignaturas.Materias.Nombre_Materia)
+            </dd>
+            <dt class="h4">
+                @Html.DisplayNameFor(model=>model.PeriodosEscolares.Nombre_Periodo)
+            </dt>
+            <dd class="h5 text-primary">
+                @Html.DisplayFor(model=>model.PeriodosEscolares.Nombre_Periodo)
+            </dd>
+        </dl>
+    </div>

@@ -1,0 +1,151 @@
+﻿@model WebApplication6.Models.Curso_Asignaturas
+
+@{
+    Layout = null;
+}
+<div class="container">
+
+    <h2 class="alert alert-success shadow p-2 text-center m-1">Añadir clase al curso</h2>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.Id_Materia, "Materia", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("Id_Materia", null, htmlAttributes: new { @class = "form-control", id = "SelectMateria" })
+                    @Html.ValidationMessageFor(model => model.Id_Materia, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Id_Empleado, "Empleado", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <select name="Id_Empleado" id="Empleado1" class="form-control">
+                    </select>
+                    @Html.ValidationMessageFor(model => model.Id_Empleado, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group text-center">
+                <div class="col-md-offset-2">
+                    <input type="button" id="Save" value="Guardar" class="btn btn-success" />
+                </div>
+            </div>
+        </div>
+    }
+
+</div>
+<script>
+        $(function () {
+        $("#Save").click(function () {
+    
+            $('#Save').prop('disabled', true);
+            var url = "@Url.Action("Create", "Curso_Asignaturas")";
+            var _Id_Materia = $("#SelectMateria").val();
+            var _Id_Empleado = $("#Empleado1").val();
+
+            var data = { Id_Empleado: _Id_Empleado, Id_Materia: _Id_Materia }
+            $.post(url, data).done(function (data) {
+
+                if (data.Ok) {
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 2000,
+                        timerProgressBar: true,
+                        onOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    })
+
+                    Toast.fire({
+                        icon: 'success',
+                        title: data.Mensaje
+                    })
+                    setTimeout(function(){ window.location = window.location;  }, 2000);
+
+                }
+                else {
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 2000,
+                        timerProgressBar: true,
+                        onOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    })
+
+                    Toast.fire({
+                        icon: 'error',
+                        title: data.Mensaje
+                    })
+                    $("#div-alerta").removeClass("invisible").addClass("alert alert-danger").slideDown(200);
+                    $("#mensaje-alerta").html(data.Mensaje);
+                    $('#Save').prop('disabled', false);
+                }
+
+            }).fail(function () {
+                  $('#Save').prop('disabled', false);
+               const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 2000,
+                        timerProgressBar: true,
+                        onOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    })
+
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'Ocurrio un error en el servidor'
+                    })
+            }).always(function () {
+            });
+        });
+    });
+</script>
+<script language="JavaScript" type="text/javascript">
+    $(function () {
+        $("#SelectMateria").change(function () {
+            var url = "@Url.Action("EmpleadosHabiles","Curso_Asignaturas")";
+            var IdMateria = $("#SelectMateria").val();
+            var data = { IdMateria: IdMateria };
+
+            //pasar los datos al post
+            $.post(url, data).done(function (data) {
+                //se ejecutara si fue un exito
+                $("#Empleado1").html(data);
+                $.each(data, function (key, data) {
+                    $("#Empleado1").append('<option value=' + data.Empleado.Id + '>' + data.Empleado.NCompleto + '</option>');                                          
+                });  
+            });
+        });
+    });
+    $(document).ready(function () {
+            var url = "@Url.Action("EmpleadosHabiles","Curso_Asignaturas")";
+            var IdMateria = $("#SelectMateria").val();
+            var data = { IdMateria: IdMateria };
+
+            //pasar los datos al post
+            $.post(url, data).done(function (data) {
+                //se ejecutara si fue un exito
+                $("#Empleado1").html(data);
+                $.each(data, function (key, data) {
+                    $("#Empleado1").append('<option value=' + data.Empleado.Id + '>' + data.Empleado.NCompleto + '</option>');                                          
+                });  
+            });
+        });
+</script>

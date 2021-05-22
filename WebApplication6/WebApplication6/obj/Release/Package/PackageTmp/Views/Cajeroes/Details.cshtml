@@ -1,0 +1,45 @@
+﻿@model WebApplication6.Models.Cajero
+
+@{
+    ViewBag.Title = "Details";
+}
+
+
+<div class="container">
+    <hr />
+    <h2 class="alert alert-info">Detalles</h2>
+    <h4>Cajero</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NumCajero)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NumCajero)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Empleado.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Empleado.Nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Empleado.Apellido)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Empleado.Apellido)
+        </dd>
+
+    </dl>
+    <p>
+        @Html.ActionLink("Editar", "Edit", new { id = Model.IdCajero },new { @class="btn btn-success"}) |
+        @Html.ActionLink("Regresar", "Index",null,new { @class="btn btn-secondary"})
+    </p>
+</div>

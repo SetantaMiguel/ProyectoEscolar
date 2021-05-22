@@ -1,0 +1,63 @@
+﻿@model WebApplication6.viewModels.IndexViewModel2
+@{
+
+}
+<div class="container" id="Curso">
+    <hr />
+    @if (Model.CursoEstudiantes.Count() == 0)
+    {
+        <div class="alert alert-dark">
+            No hay estudiantes en el curso
+        </div>
+    }
+    else
+    {
+        <br />
+        <button onclick="Retornar()" class="btn btn-secondary m-1" id="Regresar">Regresar</button>
+        <div class="alert alert-secondary text-center h4 display-4"> <strong>Estudiantes del curso</strong> </div>
+        <div class="table-responsive">
+            <table class="table table-hover table-bordered" id="">
+                <tr class="table-primary">
+                    <th scope="col">#</th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CursoEstudiantes.FirstOrDefault().CursoEscolar.NombredeCurso)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CursoEstudiantes.FirstOrDefault().Estudiantes.NombreCompleto)
+                    </th>
+                    <th>Opciones</th>
+                </tr>
+                @{int Coun = 0; }
+                @foreach (var item in Model.CursoEstudiantes)
+                {
+                    Coun++;
+                    <tr>
+                        <th scope="row">@Coun</th>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CursoEscolar.NombredeCurso)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Estudiantes.NombreCompleto)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Borrar", "Delete", new { id = item.Id }, new { @class = "btn btn-danger", data_modal = "" })
+                        </td>
+                    </tr>
+                }
+
+            </table>
+
+        </div>
+        Html.RenderPartial("_paginadorParcial", Model);
+    }
+
+</div>
+
+<script src="~/Scripts/modalform.js">
+
+</script>
+<script>
+    function Retornar() {
+        window.history.back();
+    }
+</script>

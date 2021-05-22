@@ -1,0 +1,60 @@
+﻿@model WebApplication6.Models.Cajero
+
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<div class="container">
+    <hr />
+    <h2 class="text-center alert alert-success p-4 shadow font-weight-bold">Crear Nuevo Cajero</h2>
+
+</div>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="container">
+        &nbsp;
+        <div class="form-horizontal w-75">
+
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.NumCajero, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.NumCajero, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.NumCajero, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.codigo, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.codigo, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.codigo, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Crear" class="btn btn-success" /> |
+                    @Html.ActionLink("Regresar", "Index", null, new { @class = "btn btn-dark" })
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+@section scripts{
+    <script src="~/Scripts/jquery-ui-1.12.1.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+
+    <script>
+        $(function () {
+            $("#codigo").autocomplete({ source: "/Empleado/BuscarPersona" });
+        });
+    </script>
+}

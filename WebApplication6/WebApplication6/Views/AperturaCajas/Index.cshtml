@@ -1,0 +1,68 @@
+﻿@model IEnumerable<WebApplication6.Models.AperturaCaja>
+
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="container">
+    <br />
+<h1 class=" text-center alert alert-light p-4 shadow border border-secondary font-weight-bold text-dark">Listado de Aperturas</h1>
+<div class="form-horizontal">
+    <div class="row">
+        @Html.ActionLink("Ingresar Nueva Apertura de Caja", "Create", null, new { @class = "btn btn-success " })
+
+
+    </div>
+
+    &nbsp;&nbsp;
+
+    <div class="table-responsive">
+        <table class="table">
+            <thead class="table-info">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Caja.NumCaja)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Cajero.Empleado.Nombre)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Fecha)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.TotalCordoba)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.TotalDolar)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Caja.NumCaja)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Cajero.Empleado.Nombre)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Fecha)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TotalCordoba)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TotalDolar)
+                    </td>
+
+                </tr>
+
+            }
+
+        </table>
+    </div>
+</div>
+</div>

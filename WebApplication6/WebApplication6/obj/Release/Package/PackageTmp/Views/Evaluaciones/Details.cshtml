@@ -1,0 +1,102 @@
+﻿@model WebApplication6.Models.Evaluaciones
+
+@{
+
+}
+
+<div class="container">
+    <div>
+        <hr />
+        <div class="row">
+            <div class="card border-dark mb-3 col-3" style="">
+                <div class="card-header bg-transparent border-dark shadow">Detalles: </div>
+                <div class="card-body text-dark">
+                    <h5 class="card-title"> Evaluacion.   </h5>
+                    <p class="card-text">
+                        <dl class="dl-horizontal">
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Materias.Codigo_Materia)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Materias.Codigo_Materia)
+                            </dd>
+                            
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Materias.Nombre_Materia)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Materias.Nombre_Materia)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.TipoEvaluacion.strTipoEvaluacion)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.TipoEvaluacion.strTipoEvaluacion)
+                            </dd>
+                            <dt>
+                                @Html.DisplayNameFor(model => model.TipoEvaluacion.Valor)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.TipoEvaluacion.Valor)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Fecha_Comienzo)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Fecha_Comienzo)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Fecha_Final)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Fecha_Final)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Descripcion)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Descripcion)
+                            </dd>
+
+
+                        </dl>
+                    </p>
+                </div>
+            </div>
+            <div class="col-9" id="EvaEdit">
+
+            </div>
+        </div>
+        <hr />
+
+    </div>
+    <p>
+        @Ajax.ActionLink("Editar", "Edit", "Evaluaciones", new { id = Model.Id_Evaluacion }, new AjaxOptions()
+        {
+        HttpMethod = "GET",
+        InsertionMode = InsertionMode.Replace
+            ,
+        UpdateTargetId = "EvaEdit"
+        }, new { @class = "btn btn-success" }
+        )
+        @Html.ActionLink("Regresar", "Index", new { idCurso=Model.Id_Curso}, new { @class = "btn btn-dark" })
+    </p>
+
+</div>
+
+@section scripts{
+    <script src="~/Scripts/jquery-ui-1.12.1.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+}

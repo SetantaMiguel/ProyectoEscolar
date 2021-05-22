@@ -1,0 +1,132 @@
+﻿@model WebApplication6.Models.SemestresEscolares
+
+@{
+    Layout = null;
+}
+
+<div class="container">
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <br />
+        <div class="form-horizontal">
+            <div class="shadow h2 alert bg-success p-4 text-center">Crear Semestre</div>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.NombreSemestre, htmlAttributes: new { @class = "control-label " })
+                <div class="">
+                    @Html.EditorFor(model => model.NombreSemestre, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.NombreSemestre, "", new { @class = "text-danger" })
+                </div>
+            </div>   
+            <div class="form-group">
+                @Html.LabelFor(model => model.FchInicio, htmlAttributes: new { @class = "control-label " })
+                <div class="">
+                    @Html.EditorFor(model => model.FchInicio, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.FchInicio, "", new { @class = "text-danger" })
+                </div>
+            </div>        
+            <div class="form-group">
+                @Html.LabelFor(model => model.FchFinal, htmlAttributes: new { @class = "control-label " })
+                <div class="">
+                    @Html.EditorFor(model => model.FchFinal, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.FchFinal, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <hr />
+            <div class="form-group">
+                <div class="col-md-offset-2 text-md-center">
+                    <input type="button" value="Guardar" id="Save" class="btn btn-success" />
+                </div>
+            </div>
+        </div>
+    }
+
+
+</div>
+<script language="JavaScript" type="text/javascript">
+    $(function () {
+        $("#Save").click(function () {
+
+            var url = "@Url.Action("Create", "SemestresEscolares")";
+            var _NombreSemestre = $("#NombreSemestre").val();
+            var _FchFinal = $("#FchFinal").val();
+            var _FchInicio = $("#FchInicio").val();
+            if (_FchInicio >= _FchFinal) {
+                $('#Save').prop('disabled', false);
+                        const Toast = Swal.mixin({
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 2000,
+                            timerProgressBar: true,
+                            onOpen: (toast) => {
+                                toast.addEventListener('mouseenter', Swal.stopTimer)
+                                toast.addEventListener('mouseleave', Swal.resumeTimer)
+                            }
+                        })
+
+                        Toast.fire({
+                            icon: 'error',
+                            title: 'El campo fecha inicial es mayor que la final'
+                        })
+            } else {
+                var data = { NombreSemestre: _NombreSemestre, FchInicio: _FchInicio,FchFinal: _FchFinal }
+                $.post(url, data).done(function (data) {
+
+                    if (data.Ok) {
+                        const Toast = Swal.mixin({
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 2000,
+                            timerProgressBar: true,
+                            onOpen: (toast) => {
+                                toast.addEventListener('mouseenter', Swal.stopTimer)
+                                toast.addEventListener('mouseleave', Swal.resumeTimer)
+                            }
+                        })
+
+                        Toast.fire({
+                            icon: 'success',
+                            title: data.Mensaje
+                        })
+                        setTimeout(function(){ window.location = window.location;  }, 2000);
+
+                    }
+                    else {
+                        Swal.fire({
+                          position: 'top-end',
+                            icon: 'error',
+                            title: data.Mensaje,
+                          showConfirmButton: false,
+                          timer: 1500
+                        })
+                        $('#Save').prop('disabled', false);
+                    }
+
+                }).fail(function () {
+                      $('#Save').prop('disabled', false);
+                   const Toast = Swal.mixin({
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 2000,
+                            timerProgressBar: true,
+                            onOpen: (toast) => {
+                                toast.addEventListener('mouseenter', Swal.stopTimer)
+                                toast.addEventListener('mouseleave', Swal.resumeTimer)
+                            }
+                        })
+
+                        Toast.fire({
+                            icon: 'error',
+                            title: 'Ocurrio un error en el servidor'
+                        })
+                }).always(function () {
+                });
+            }
+        });
+    });
+</script>

@@ -1,0 +1,140 @@
+﻿@model IEnumerable<WebApplication6.Models.EmpleadoCalendario>
+
+@{
+
+}
+
+<div class="container">
+    <hr />
+    <h3 class="alert alert-primary text-center display-4 text-center">Calendario del Empleado</h3>
+    <br />
+    <div class="shadow" style="background:#b5a2ff2e;">
+        <div class="row justify-content-center">
+            <div class="overflow-auto m-1 table-info" style="width:12rem;">
+                <h4 class="text-center border border-white bg-dark text-white p-2"> Lunes </h4>
+                @foreach (var item in Model.Where(x => x.PeriodosEscolares.DiaSemana == "Lunes"))
+                {
+                    <div class="">
+
+                        <div class="card m-1" style="">
+                            <div class="card-body shadow">
+                                <h5 class="card-title">@item.Curso_Asignaturas.CursoEscolar.NombredeCurso</h5>
+                                @if (true)
+                                {
+                                    //permiso de edicion
+                                }
+                                <h6 class="card-subtitle mb-2 text-muted">@Html.ActionLink("Editar", "Edit", new { id = item.Id_Periodo }, new { @class = "", data_modal = "" })</h6>
+                                <p class="card-text">@item.Curso_Asignaturas.Materias.Nombre_Materia</p>
+                                <span class="border border-primary p-2">
+                                    <a class="card-link">@item.PeriodosEscolares.InicioPeriodo -</a>
+
+                                    <a class="card-link"> - @item.PeriodosEscolares.FinPeriodo</a>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                }
+                @if (Model.Where(x => x.PeriodosEscolares.DiaSemana == "Lunes").Count() == 0)
+                {
+                    <div class="alert alert-danger shadow m-1">No hay Periodo</div>
+                }
+            </div>
+            <div class="overflow-auto m-1 table-primary " style="width:12rem;">
+                <h4 class="text-center border border-dark bg-dark text-white p-2"> Martes </h4>
+                @foreach (var item in Model.Where(x => x.PeriodosEscolares.DiaSemana == "Martes"))
+                {
+                    <div class="">
+
+                        <div class="card m-1" style="">
+                            <div class="card-body shadow" >
+                                <h5 class="card-title">@item.Curso_Asignaturas.CursoEscolar.NombredeCurso</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">@Html.ActionLink("Editar", "Edit", new { id = item.Id_Periodo }, new { @class = "", data_modal = "" })</h6>
+                               <p class="card-text">@item.Curso_Asignaturas.Materias.Nombre_Materia</p>
+                                <a class="card-link">@item.PeriodosEscolares.InicioPeriodo</a>
+                                <a class="card-link">@item.PeriodosEscolares.FinPeriodo</a>
+                            </div>
+                        </div>
+                    </div>
+
+                }
+                @if (Model.Where(x => x.PeriodosEscolares.DiaSemana == "Martes").Count() == 0)
+                {
+                    <div class="alert alert-danger shadow m-1" >No hay Periodo</div>
+                }
+            </div>
+            <div class="overflow-auto m-1 table-info " style="width:12rem;">
+                <h4 class="text-center border border-dark bg-dark text-white p-2"> Miercoles </h4>
+                @foreach (var item in Model.Where(x => x.PeriodosEscolares.DiaSemana == "Miercoles"))
+                {
+                    <div class="">
+
+                        <div class="card m-1" style="">
+                            <div class="card-body shadow">
+                                <h5 class="card-title">@item.Curso_Asignaturas.CursoEscolar.NombredeCurso</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">@Html.ActionLink("Editar", "Edit", new { id = item.Id_Periodo }, new { @class = "", data_modal = "" })</h6>
+                                <p class="card-text">@item.Curso_Asignaturas.Materias.Nombre_Materia</p>
+                                <a class="card-link">@item.PeriodosEscolares.InicioPeriodo</a>
+                                <a class="card-link">@item.PeriodosEscolares.FinPeriodo</a>
+                            </div>
+                        </div>
+                    </div>
+
+                }
+                @if (Model.Where(x => x.PeriodosEscolares.DiaSemana == "Miercoles").Count() == 0)
+                {
+                    <div class="alert alert-danger shadow m-1">No hay Periodo</div>
+                }
+            </div>
+            <div class="overflow-auto m-1 table-primary" style="width:12rem;">
+                <h4 class="text-center border border-dark bg-dark text-white p-2"> Jueves </h4>
+                @foreach (var item in Model.Where(x => x.PeriodosEscolares.DiaSemana == "Jueves"))
+                {
+                    <div class="">
+
+                        <div class="card m-1" style="">
+                            <div class="card-body shadow">
+                                <h5 class="card-title">@item.Curso_Asignaturas.CursoEscolar.NombredeCurso</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">@Html.ActionLink("Editar", "Edit", new { id = item.Id_Periodo }, new { @class = "", data_modal = "" })</h6>
+                                <p class="card-text">@item.Curso_Asignaturas.Materias.Nombre_Materia</p>
+                                <a class="card-link">@item.PeriodosEscolares.InicioPeriodo</a>
+                                <a class="card-link">@item.PeriodosEscolares.FinPeriodo</a>
+                            </div>
+                        </div>
+                    </div>
+
+                }
+                @if (Model.Where(x => x.PeriodosEscolares.DiaSemana == "Jueves").Count() == 0)
+                {
+                    <div class="alert alert-danger shadow m-1">No hay Periodo</div>
+                }
+            </div>
+            <div class="overflow-auto m-1 table-info" style="width:12rem;">
+                <h4 class="text-center border border-dark bg-dark text-white p-2"> Viernes </h4>
+                @foreach (var item in Model.Where(x => x.PeriodosEscolares.DiaSemana == "Viernes"))
+                {
+                    <div class="">
+
+                        <div class="card m-1" style="">
+                            <div class="card-body shadow">
+                                <h5 class="card-title">@item.Curso_Asignaturas.CursoEscolar.NombredeCurso</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">@Html.ActionLink("Editar", "Edit", new { id = item.Id_Periodo }, new { @class = "", data_modal = "" })</h6>
+                                <p class="card-text">@item.Curso_Asignaturas.Materias.Nombre_Materia</p>
+                                <a class="card-link">@item.PeriodosEscolares.InicioPeriodo</a>
+                                <a class="card-link">@item.PeriodosEscolares.FinPeriodo</a>
+                            </div>
+                        </div>
+                    </div>
+
+                }
+                @if (Model.Where(x => x.PeriodosEscolares.DiaSemana == "Viernes").Count() == 0)
+                {
+                    <div class="alert alert-danger shadow m-1">No hay Periodo</div>
+                }
+            </div>
+
+        </div>
+
+    </div>
+</div>
+

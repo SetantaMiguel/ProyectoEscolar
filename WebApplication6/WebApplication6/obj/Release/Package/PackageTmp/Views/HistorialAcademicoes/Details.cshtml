@@ -1,0 +1,50 @@
+﻿@model WebApplication6.Models.HistorialAcademico
+
+@{
+    ViewBag.Title = "Details";
+}
+<div class="container">
+    <div>
+        <h4>Historial Academico de  <b>@Model.Estudiantes.Nombre</b></h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Estudiantes.Nombre)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Estudiantes.Nombre)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Cod_Escuela)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Cod_Escuela)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Str_NombreColegio)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Str_NombreColegio)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Num_AnioCursado)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Num_AnioCursado)
+            </dd>
+
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Editar", "Edit", new { id = Model.Id }, new { @class = "btn btn-success" }) |
+        @Html.ActionLink("Regresar", "Index", new { id = Model.Id_Estudiante }, new { @class = "btn btn-dark" })
+    </p>
+</div>
+

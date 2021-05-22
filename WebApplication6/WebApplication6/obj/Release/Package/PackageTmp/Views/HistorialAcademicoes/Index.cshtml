@@ -1,0 +1,54 @@
+﻿@model IEnumerable<WebApplication6.Models.HistorialAcademico>
+
+@{
+    ViewBag.Title = "Index";
+}
+<div class="container">
+    <hr />
+    <p>
+        @Html.ActionLink("Añadir nuevo", "Create", null, new { @class = "btn btn-primary" })    | @Html.ActionLink("Detalles del Estudiante", "Details", "Estudiantes", new { id = Convert.ToInt32(ViewBag.id) }, new { @class = "btn btn-dark" })
+    </p>
+    <table class="table">
+        <tr class="bg-info">
+            <th>
+                @Html.DisplayNameFor(model => model.Estudiantes.Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cod_Escuela)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Str_NombreColegio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Num_AnioCursado)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Estudiantes.Nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cod_Escuela)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Str_NombreColegio)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Num_AnioCursado)
+                </td>
+                <td>
+                    @Html.ActionLink("Editar", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Detalles", "Details", new { id = item.Id }) |
+                    @Html.ActionLink("Borrar", "Delete", new { id = item.Id }) |
+                    @Html.ActionLink("Años Cursados", "Index", "HistorialAñosCursado", new { id = item.Id, id_est = item.Id_Estudiante }, new { @class = "btn btn-info" })
+                </td>
+            </tr>
+        }
+
+    </table>
+
+</div>

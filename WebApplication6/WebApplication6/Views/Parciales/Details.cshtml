@@ -1,0 +1,66 @@
+﻿@model WebApplication6.Models.Parciales
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Details</title>
+</head>
+<body>
+    <div>
+        <h4>Parciales</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.SemestresEscolares.NombreSemestre)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.SemestresEscolares.NombreSemestre)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Nombre_Parcial)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Nombre_Parcial)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Estado_Parcial)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Estado_Parcial)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Dt_Inicio)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Dt_Inicio)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Dt_Final)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Dt_Final)
+            </dd>
+    
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id_Parcial }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+</body>
+</html>

@@ -1,0 +1,101 @@
+﻿@model WebApplication6.Models.AniosACursar
+
+@{
+    ViewBag.Title = "Delete";
+}
+<div class="container">
+    <hr />
+    <h2 class="alert alert-danger text-center">¿ Esta seguro de borrar este año ? </h2>
+    <hr />
+    <div>
+        @Html.HiddenFor(model => model.Id)
+        <dl class="dl-horizontal">
+            <dd class="display-4 text-center">
+                @Html.DisplayFor(model => model.Str_Curso)
+            </dd>
+        </dl>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-group text-md-center">
+                <input type="button" value="Borrar" class="btn btn-danger" id="Save"/>
+            </div>
+        }
+    </div>
+
+</div>
+<script language="JavaScript" type="text/javascript">
+    $(function () {
+        $("#Save").click(function () {
+            $('#Save').prop('disabled', true);
+            var url = "@Url.Action("Delete", "AniosACursars")";
+            var _id = $("#Id").val();
+            var data = { id:_id }
+            $.post(url, data).done(function (data) {
+                if (data.Ok) {
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 2000,
+                        timerProgressBar: true,
+                        onOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    })
+
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Se borro correctamente'
+                    })
+                    setTimeout(function(){ window.location = window.location;  }, 2000);SS
+
+                }
+                else {
+                    $('#Save').prop('disabled', false);
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        onOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    })
+
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'Digito campos vacios'
+                    })
+                }
+
+
+            }).fail(function () {
+                $('#Save').prop('disabled', false);
+               const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        onOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    })
+
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'Ocurrio un error en el servidor'
+                    })
+            }).always(function () {
+
+            });
+        });
+    });
+</script>

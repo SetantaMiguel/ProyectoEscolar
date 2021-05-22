@@ -1,0 +1,90 @@
+﻿@model WebApplication6.Models.Notas
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Details</title>
+</head>
+<body>
+    <div>
+        <h4>Notas</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Curso_Asignaturas.Id_Curso_Asignatura)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Curso_Asignaturas.Id_Curso_Asignatura)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Estudiantes.Nombre)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Estudiantes.Nombre)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Nota1)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Nota1)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Nota2)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Nota2)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Nota3)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Nota3)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Nota4)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Nota4)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.promedio)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.promedio)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Bl_Aprobado)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Bl_Aprobado)
+            </dd>
+    
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id_Nota }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+</body>
+</html>

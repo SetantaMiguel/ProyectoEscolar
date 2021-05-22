@@ -1,0 +1,40 @@
+﻿@model WebApplication6.Models.ProfesorGuia
+
+@{
+    Layout = null;
+}
+<div class="modal-body">
+    <h3 class="alert alert-danger">¿Esta seguro de eliminar al profesor guia?</h3>
+    <div>
+        <h4>Profesor: @Model.Empleado.NCompleto </h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.CursoEscolar.NombredeCurso)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.CursoEscolar.NombredeCurso)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Estado_Profesor)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Estado_Profesor)
+            </dd>
+
+        </dl>
+        <hr />
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-actions no-color">
+                <input type="submit" value="Desactivar" class="btn btn-danger" /> 
+            </div>
+        }
+    </div>
+
+</div>
+

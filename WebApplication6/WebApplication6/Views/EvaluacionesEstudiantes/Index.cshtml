@@ -1,0 +1,155 @@
+﻿@model IEnumerable<WebApplication6.Models.EvaluacionesEstudiantes>
+
+    <div class="container">
+        <hr />
+        @{
+            // @Html.ActionLink("Crear","Create",null,new { @class="btn btn-primary"})
+        }
+
+        <div class="alert alert-light p-3 shadow">
+            <h2 class="text-center font-weight-bold text-dark">
+                Evaluaciones del Estudiante de @ViewBag.NMateria
+
+            </h2>
+            @Html.ActionLink("Regresar", "Index", "Notas", new { idEst = ViewBag.idCurso, idMat = ViewBag.idMat, idCurso = ViewBag.idCurso }, new { @class = "btn btn-secondary" })
+            <div class="font-weight-bolder text-dark row">
+                <p class="m-auto">Parcial :@ViewBag.NParcial</p>
+                <p class="m-auto">Estudiante :@ViewBag.NEstudiante</p>
+            </div>
+            <div class="row font-weight-bold text-dark">
+                @if (ViewBag.ParcialAprobado == true)
+                {
+                    <p class="m-auto"> Parcial Aprobad : <img src="~/Images/small-images/comprobado.png" alt="Aprobado" class="text-success" /></p>
+                    <p class="m-auto">Notal Actual: @ViewBag.NotaFinal</p>
+                }
+                else if (ViewBag.ParcialAprobado == false)
+                {
+                    <p class="m-auto"> Parcial Aprobado : <img src="~/Images/small-images/Denegado.png" alt="Reprobado" class="text-danger" /></p>
+                    <p class="m-auto">Nota Actual : @ViewBag.NotaFinal</p>
+                }
+                else
+                {
+
+                }
+
+            </div>
+        </div>
+        <br />
+        <div class="alert alert-success text-center">
+            <button class="btn btn-success h2" data-toggle="collapse" data-target="#collapseAprobado" aria-expanded="false" aria-controls="collapseAprobado">Evaluadas</button>
+            <div class="border border-success collapse" id="collapseAprobado">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover shadow">
+                        <tr class="bg-dark text-white">
+                            <th>
+                                @Html.DisplayNameFor(model => model.Estudiantes.Nombre)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Evaluaciones.Descripcion)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Evaluaciones.Materias.Nombre_Materia)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Resultado)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Evaluaciones.TipoEvaluacion.Valor)
+                            </th>
+
+                            <th>Evaluar</th>
+                        </tr>
+
+                        @foreach (var item in Model.Where(x => x.EstadoEvaluado == true))
+                        {
+                            <tr class="table-light">
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Estudiantes.NombreCompleto)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Evaluaciones.Descripcion)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Evaluaciones.Materias.Nombre_Materia)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Resultado)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Evaluaciones.TipoEvaluacion.Valor)
+                                </td>
+
+                                <td>
+                                    @Html.ActionLink("Ajustar Nota", "Edit", new { id = item.Id_EvaluacionesEstudiantes }, new { @class = "btn btn-outline-success" })
+                                </td>
+                            </tr>
+                        }
+
+                    </table>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="alert alert-info text-center">
+            <button class="btn btn-danger h2" data-toggle="collapse" data-target="#collapseReprobado" aria-expanded="false" aria-controls="collapseReprobado">No Evaluadas</button>
+            <div class="border border-danger collapse" id="collapseReprobado">
+                <div class="table-responsive">
+                    <table class="table table-bordered ">
+                        <tr class="bg-dark text-white">
+                            <th>
+                                @Html.DisplayNameFor(model => model.Estudiantes.Nombre)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Evaluaciones.Descripcion)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Evaluaciones.Materias.Nombre_Materia)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Resultado)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Evaluaciones.TipoEvaluacion.Valor)
+                            </th>
+
+                            <th>Evaluar</th>
+                        </tr>
+
+                        @foreach (var item in Model.Where(x => x.EstadoEvaluado == false))
+                        {
+                            <tr class="table-light">
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Estudiantes.NombreCompleto)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Evaluaciones.Descripcion)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Evaluaciones.Materias.Nombre_Materia)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Resultado)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Evaluaciones.TipoEvaluacion.Valor)
+                                </td>
+
+                                <td>
+                                    @Html.ActionLink("Dar Resultado", "Edit", new { id = item.Id_EvaluacionesEstudiantes }, new { @class = "btn btn-outline-info" })
+                                </td>
+                            </tr>
+                        }
+
+                    </table>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+<script>
+    function Retornar() {
+        window.history.back();
+    }
+</script>

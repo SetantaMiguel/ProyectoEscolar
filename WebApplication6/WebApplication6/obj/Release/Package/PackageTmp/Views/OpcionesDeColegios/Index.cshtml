@@ -1,0 +1,30 @@
+﻿@model IEnumerable<WebApplication6.Models.OpcionesDeColegio>
+
+@{
+    Layout = null;
+}
+
+<div>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.NombreColegio)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NombreColegio)
+                </td>
+                <td>
+                    @Html.ActionLink("Editar", "Edit", new { id = item.Id })
+                </td>
+            </tr>
+        }
+
+    </table>
+
+</div>

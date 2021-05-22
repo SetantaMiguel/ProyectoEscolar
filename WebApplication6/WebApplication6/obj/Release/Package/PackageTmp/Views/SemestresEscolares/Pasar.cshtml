@@ -1,0 +1,90 @@
+﻿@{ 
+    Layout = null;
+}
+<div class="container">
+    @using (Html.BeginForm())
+    {
+        <div class="h2 alert alert-success shadow p-2 mt-2">
+            ¿Esta seguro de pasar el curso actual al siguente año?
+        </div>
+        <p class="text-center font-weight-bold"> Recuerde: Necesita estar fuera de los rangos de semestre para poder cursar </p>
+        <input type="button" id="Save" class="btn btn-secondary btn-lg" value="Pasar" />
+
+    }
+<br />
+</div>
+<script language="JavaScript" type="text/javascript">
+    $(function () {
+        $("#Save").click(function () {
+
+            $('#Save').prop('disabled', true);
+            var url = "@Url.Action("Pasar", "SemestresEscolares")";
+            var data = {
+                id:1
+            }
+            $.post(url, data).done(function (data) {
+                if (data.Ok) {
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 2000,
+                        timerProgressBar: true,
+                        onOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    })
+                    Toast.fire({
+                        icon: 'success',
+                        title: data.Mensaje
+                    })
+                    setTimeout(function(){ window.location = window.location;  }, 2000);
+                }
+                else {
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 2000,
+                        timerProgressBar: true,
+                        onOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    })
+
+                    Toast.fire({
+                        icon: 'error',
+                        title: data.Mensaje
+                    })
+                    $('#Save').prop('disabled', false);
+                }
+
+            }).fail(function () {
+                  $('#Save').prop('disabled', false);
+               const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 2000,
+                        timerProgressBar: true,
+                        onOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    })
+
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'Ocurrio un error en el servidor'
+                    })
+            }).always(function () {
+            });
+
+
+
+
+        });
+    });
+</script>

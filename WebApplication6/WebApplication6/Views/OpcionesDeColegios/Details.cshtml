@@ -1,0 +1,26 @@
+﻿@model WebApplication6.Models.OpcionesDeColegio
+
+@{
+    Layout = null;
+}
+
+    <br />
+    <div class="col-sm-6 bg-light shadow border-left" >
+        <h3 class="text-center">Opciones Del Colegio</h3>
+        <hr />
+        <dl class="dl-horizontal font-weight-bold">
+
+            <dt>
+                @Html.DisplayNameFor(model => model.NombreColegio)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.NombreColegio)
+            </dd>
+
+        </dl>
+        <div>
+            @Html.ActionLink("Editar", "Edit", new { id = Model.Id }, new { @class = "btn btn-success text-md-center", data_modal = "" })
+        </div>
+        <br />
+    </div>

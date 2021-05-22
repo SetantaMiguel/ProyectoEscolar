@@ -1,0 +1,168 @@
+﻿@model WebApplication6.Models.Empleado
+@using WebApplication6.Models;
+@using Microsoft.AspNet.Identity;
+
+@{
+    ViewBag.Title = "Details";
+    ApplicationDbContext db = new ApplicationDbContext();
+    var usuario = db.Users.Find(User.Identity.GetUserId());
+    bool respues = Validador.PuedeEntrar(usuario.Id, "Administrar Empleados");
+    
+}
+<div class="container">
+    <hr />
+    <h2 class="alert alert-info border border-info text-center">Detalles del empleado <b>@Model.NCompleto</b></h2>
+
+    <div class="container ">
+        @if (respues == true)
+        { 
+            <span class="border border-info p-3 rounded mr-2 justify-content-center ">
+                <span class="font-weight-bold">
+                    Opciones:
+                </span>
+
+                @Html.ActionLink("Editar Empleado", "Edit", new { id = Model.Id }, new { @class = "btn btn-success  " })
+                @Html.ActionLink("Estudios Empleado", "Index", "Estudios_Maestro", new { id = Model.Id }, new { @class = "btn btn-outline-secondary " })
+                @Html.ActionLink("Usuario", "Register", "Account", new { idEmpleado = Model.Id, email = Model.Correo }, new { @class = "btn btn-outline-secondary " })
+                @Html.ActionLink("Clases", "Index", "EmpleadoMaterias", new { IdEmpleado = Model.Id }, new { @class = "btn btn-outline-secondary", data_modal = "" })
+
+
+                @Html.ActionLink("Calendario", "Index", "EmpleadoCalendarios", new { id = Model.Id }, new { @class = "btn btn-outline-secondary" })
+            </span>
+        
+        }
+            @Html.ActionLink("Regresar al menu", "Index", null, new { @class = "btn btn-dark float-right " })
+
+        </div>
+    <hr />
+    <h4>Detalles</h4>
+    <div class="row">
+        <div class="d-inline m-1">
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Nombre)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Nombre)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Apellido)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Apellido)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Direccion)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Direccion)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Correo)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Correo)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.FechaNaci)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.FechaNaci)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Dt_Contratacion)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Dt_Contratacion)
+                </dd>
+                <dt>
+                    Edad
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Edad)
+                </dd>
+
+            </dl>
+        </div>
+        <div class="d-inline m-1">
+            <dl>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Domicilio)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Domicilio)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Telefono)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Telefono)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Genero)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Genero)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Identificacion)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Identificacion)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Codigo_Empleado)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Codigo_Empleado)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.EstadoCivil)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.EstadoCivil)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.BL_ProfesorGuia)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.BL_ProfesorGuia)
+                </dd>
+
+
+            </dl>
+        </div>
+    </div>
+
+
+    <br />
+
+</div>
+@section scripts
+{
+    <script src="~/Scripts/jquery-ui-1.12.1.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+}

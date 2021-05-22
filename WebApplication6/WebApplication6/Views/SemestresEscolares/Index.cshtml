@@ -1,0 +1,98 @@
+﻿@model IEnumerable<WebApplication6.Models.SemestresEscolares>
+
+@{
+    ViewBag.Title = "Inicio Semestres";
+
+}
+    <div class="container">
+        <br />
+        <div class="row">
+            @if (ViewBag.AdministrarSemestres == true)
+            {
+                <div class="col pt-3">
+                    @Html.ActionLink("Crear Semestre", "Create", null, new { @class = "btn btn-success ml-4 mt-2", data_modal = "" })
+                </div>
+                <div class="col-10">
+                    <div class="alert alert-secondary shadow row">
+                        <div class="mt-2 col-9">
+                            <strong class="h2">Menu de Semestres</strong>
+                        </div>
+                        <div class="col">
+                            @Html.ActionLink("Pasar al sieguiente curso", "Pasar", null, new { @class = "btn btn-outline-dark ", data_modal = "" })
+                        </div>
+                    </div>
+
+                </div>
+            }
+            else
+            {
+
+                <div class="alert alert-secondary shadow row w-100 p-4">
+                    <div class="col-10">
+                        <strong class="h2">Semestres</strong>
+                    </div>
+                    <div class="col-2">
+                        @Html.ActionLink("Pasar al sieguiente curso", "Pasar", null, new { @class = "btn btn-outline-dark ", data_modal = "" })
+                    </div>
+                </div>
+
+            }
+
+        </div>
+
+        <div class="table-responsive shadow">
+            <table class="table table-bordered">
+                <tr class="table-info">
+                    <th>
+                        @Html.DisplayNameFor(model => model.NombreSemestre)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FchInicio)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FchFinal)
+                    </th>
+                    <th>
+                       Estado
+                    </th>
+                    @if (ViewBag.AdministrarSemestres==true)
+                    {
+                        <th>Opciones</th>
+                    }
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="">
+                            @Html.ActionLink(item.NombreSemestre, "Index", "Parciales", new { IdSemestre=item.Id_Semestre}, new { @class = "btn btn-info" })
+                        </td>
+                        <td>
+                            @item.FchInicio.ToString("dddd, dd MMMM yyyy")
+                        </td>
+                        <td>
+                            @item.FchFinal.ToString("dddd, dd MMMM yyyy")
+                        </td>
+                        <td class="text-center">
+                            @Html.DisplayFor(modelItem => item.EstadoSemestre)
+                        </td>
+                        <td>
+                            @if (ViewBag.AdministrarSemestres==true)
+                            {
+                                @Html.ActionLink("Editar", "Edit", new { id = item.Id_Semestre }, new { @class = "btn btn-info", data_modal = "" }) 
+                                @Html.ActionLink("Desactivar", "Delete", new { id = item.Id_Semestre }, new { @class = "btn btn-danger", data_modal = "" })
+                            }
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        </div>
+    </div>
+@section scripts{
+    <script src="~/Scripts/jquery-ui-1.12.1.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+
+}

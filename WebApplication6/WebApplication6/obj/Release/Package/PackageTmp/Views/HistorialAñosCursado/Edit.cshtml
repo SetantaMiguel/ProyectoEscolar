@@ -1,0 +1,60 @@
+﻿@model WebApplication6.Models.HistorialAñosCursado
+
+@{
+    ViewBag.Title = "Edit";
+}
+<div class="container">
+    <hr />
+    <div>
+        <h2>Año cursado de <b>@ViewBag.nom</b></h2>
+    </div>
+
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.Id)
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Id_Anio, "Año cursado", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("Id_Anio", null, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Id_Anio, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.FechFinaly, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.FechFinaly, new { htmlAttributes = new { @class = "form-control date", Value = @String.Format("{0:yyyy-MM-dd}", Model.FechFinaly) } })
+                    @Html.ValidationMessageFor(model => model.FechFinaly, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Guardar" class="btn btn-success" /> |   @Html.ActionLink("Regresar", "Index", new { id = Model.Id_Escuela, id_est = Model.HistorialAcademico.Id_Estudiante }, new { @class = "btn btn-dark" })
+                </div>
+                <br />
+                <div>
+                    @{
+                        if (ViewBag.Error == null)
+                        {
+
+                        }
+                        else
+                        {
+                            <div class="alert alert-danger">
+                                @ViewBag.Error
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    }
+
+</div>

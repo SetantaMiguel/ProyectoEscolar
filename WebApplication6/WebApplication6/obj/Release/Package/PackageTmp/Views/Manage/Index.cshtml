@@ -1,0 +1,76 @@
+﻿@model WebApplication6.Models.IndexViewModel
+@using WebApplication6.Models;
+@using Microsoft.AspNet.Identity;
+    <br />
+@{
+    ViewBag.Title = "Cuenta";
+}
+@{
+
+    ApplicationDbContext db = new ApplicationDbContext();
+    string rol = "";
+
+
+
+        var usuario = db.Users.Find(User.Identity.GetUserId());
+        foreach (var item in usuario.Roles)
+        {
+            rol = item.RoleId.ToString();
+        }
+        var _rol=db.Roles.Where(x => x.Id == rol).First().Name;
+
+    
+}
+
+
+
+<div class="container">
+    <h2 class="thead-light shadow p-2 display-4 border border-dark">Cuenta  </h2>
+    
+    <p class="text-success">@ViewBag.StatusMessage</p>
+    <hr />
+    <div>
+        <br />
+        <div class="row">
+            <div class="col-sm-6 bg-light shadow border-right" >
+                <h3 class="alert">El rol del usuario es @_rol  </h3>
+
+            </div>
+
+                @{
+                    var usuario2 = db.Users.Find(User.Identity.GetUserId());
+                    bool respues = Validador.PuedeEntrar(usuario2.Id, "Administrar Colegio");
+                    if (respues == true)
+                    {
+                        Html.RenderAction("Details", "OpcionesDeColegios");
+
+                    }
+                }
+
+
+
+        </div>
+            
+        <br />
+        <h4>Cambiar la configuración de la cuenta</h4>
+        <hr />
+        <dl class="dl-horizontal bg-light">
+            <dt>Contraseña:</dt>
+            <dd>
+                [
+                @if (Model.HasPassword)
+                {
+                    @Html.ActionLink("Cambiar la contraseña", "ChangePassword")
+                }
+                else
+                {
+                    @Html.ActionLink("Crear", "SetPassword")
+                }
+                ]
+            </dd>
+
+        </dl>
+    </div>
+
+</div>
+

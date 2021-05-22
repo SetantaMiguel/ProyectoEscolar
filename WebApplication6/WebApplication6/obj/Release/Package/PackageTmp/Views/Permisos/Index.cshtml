@@ -1,0 +1,38 @@
+﻿@model IEnumerable<WebApplication6.Models.Permisos>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = null;
+}
+
+    <div class="container">
+        <h2>Permisos del empleado</h2>
+
+        <p>
+            @Html.ActionLink("Crear nuevo permisos", "Create")
+        </p>
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.NombrePermiso)
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr class="bg-light">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NombrePermiso)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.Id_Permiso }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.Id_Permiso }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.Id_Permiso })
+                    </td>
+                </tr>
+            }
+
+        </table>
+
+    </div>

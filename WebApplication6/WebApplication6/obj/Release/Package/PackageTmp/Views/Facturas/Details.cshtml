@@ -1,0 +1,114 @@
+﻿@model WebApplication6.Models.Factura
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Details</title>
+</head>
+<body>
+    <div>
+        <h4>Factura</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Caja.NumCaja)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Caja.NumCaja)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Cajero.codigo)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Cajero.codigo)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.FechaFactura)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.FechaFactura)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.IdEstudiante)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.IdEstudiante)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.IdConcepto)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.IdConcepto)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Id_Tipo)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Id_Tipo)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Monto)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Monto)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.IdMoneda)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.IdMoneda)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.PagoAbonado)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.PagoAbonado)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.IdEquivalencia)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.IdEquivalencia)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Mora)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Mora)
+            </dd>
+    
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id_Factura }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+</body>
+</html>

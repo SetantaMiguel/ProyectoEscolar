@@ -1,0 +1,79 @@
+﻿@model WebApplication6.viewModels.IndexViewModel2
+
+@{
+    ViewBag.Title = "Index";
+}
+<div class="container">
+    <hr />
+    <h2 class="text-center alert alert-primary">Materias</h2>
+    <hr />
+    <form>
+        <div class="row">
+
+            @Html.ActionLink("Crear Nueva Materia", "Create", null, new { @class = "btn btn-primary", data_modal = "" })
+
+            <div class="input-group col-md-4">
+
+                <input class="form-control py-2 border-right-0 border shadow" name="txtMateria" type="search" placeholder="Buscar Materia" id="Codi">
+                <span class="input-group-append">
+                    <button class="btn btn-outline-secondary border-left-0 border" type="submit">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </span>
+            </div>
+
+        </div>
+    </form>
+    <br />
+    <div class="table-responsive shadow">
+        <table class="table table-hover table-bordered">
+            <tr class="table-info">
+                <th>
+                    @Html.DisplayNameFor(model => model.Materias.FirstOrDefault().Codigo_Materia)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Materias.FirstOrDefault().Nombre_Materia)
+                </th>
+                <th>
+                    Grado:
+                </th>
+                <th>Opciones</th>
+            </tr>
+
+            @foreach (var item in Model.Materias)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Codigo_Materia)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nombre_Materia)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AniosACursar.Str_Curso)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Editar", "Edit", new { id = item.Id_Materia }, new { @class = "btn btn-info", data_modal = "" })
+                        @Html.ActionLink("Borrar", "Delete", new { id = item.Id_Materia }, new { @class = "btn btn-danger", data_modal = "" })
+                    </td>
+                </tr>
+            }
+
+        </table>
+        @{Html.RenderPartial("_paginador", Model);}
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    @section scripts{
+        <script src="~/Scripts/jquery-ui-1.12.1.js"></script>
+        <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+        <script src="~/Scripts/jquery.validate.js"></script>
+        <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+
+    }
+    <script>
+        $(function () {
+            $("#Codi").autocomplete({ source: "/Materias/BuscarMaterias" });
+        });
+    </script>
+</div>
+

@@ -1,0 +1,168 @@
+﻿@model WebApplication6.Models.Evaluaciones
+
+@{
+    if (ViewBag.PermisoDenegado == true)
+    { 
+        <div class="alert alert-danger m-2 h3">Permiso Denegado</div>
+    }
+    else
+    {
+        @Html.HiddenFor(model => model.Id_Evaluacion);
+        <div class="container">
+            <div class="alert alert-primary mt-2 h3">
+                ¿Como valorar esta evaluacion?
+            </div>
+            <div class="mb-2">
+                <button class="btn btn-success " id="Aceptar">Aceptar</button>
+                <button class="btn btn-danger float-md-right" id="Denegar">Elimitar</button>
+            </div>
+        </div>
+    }
+
+}
+
+<script language="JavaScript" type="text/javascript">
+    $(function () {
+        $("#Aceptar").click(function () {
+            $('#Aceptar').prop('disabled', true);
+            var url = "@Url.Action("Valorar", "Evaluaciones")";
+            var _Id_Evaluacion = $("#Id_Evaluacion").val();
+            var data = { id: _Id_Evaluacion, res: true }
+            $.post(url, data).done(function (data) {
+
+                if (data.Ok) {
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 2500,
+                        timerProgressBar: true,
+                        onOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    })
+
+                    Toast.fire({
+                        icon: 'success',
+                        title: data.Mensaje
+                    })
+                    setTimeout(function(){ window.location = window.location;  }, 2000);
+
+                }
+                else {
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 2000,
+                        timerProgressBar: true,
+                        onOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    })
+
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'Digito campos vacios'
+                    })
+                         $('#Aceptar').prop('disabled', false);
+                }
+
+
+            }).fail(function () {
+                  $('#Aceptar').prop('disabled', false);
+               const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 2000,
+                        timerProgressBar: true,
+                        onOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    })
+
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'Ocurrio un error en el servidor'
+                    })
+            }).always(function () {
+            });
+        });
+    });
+    $(function () {
+        $("#Denegar").click(function () {
+            $('#Denegar').prop('disabled', true);
+            var url = "@Url.Action("Valorar", "Evaluaciones")";
+            var _Id_Evaluacion = $("#Id_Evaluacion").val();
+            var data = { id: _Id_Evaluacion, res: false }
+            $.post(url, data).done(function (data) {
+
+                if (data.Ok) {
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 2500,
+                        timerProgressBar: true,
+                        onOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    })
+
+                    Toast.fire({
+                        icon: 'success',
+                        title: data.Mensaje
+                    })
+                    setTimeout(function(){ window.location = window.location;  }, 2000);
+
+                }
+                else {
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 2000,
+                        timerProgressBar: true,
+                        onOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    })
+
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'Digito campos vacios'
+                    })
+                         $('#Denegar').prop('disabled', false);
+                }
+
+
+            }).fail(function () {
+                  $('#Denegar').prop('disabled', false);
+               const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 2000,
+                        timerProgressBar: true,
+                        onOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    })
+
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'Ocurrio un error en el servidor'
+                    })
+            }).always(function () {
+            });
+        });
+    });
+</script>
+

@@ -1,0 +1,42 @@
+﻿@model IEnumerable<WebApplication6.Models.Modalidades>
+
+@{
+    Layout = null;
+}
+
+<div class="container">
+    <hr />
+    <div class="row m-1">
+        @Html.ActionLink("Crear nueva", "Create", null, new { @class = "btn btn-success col-3", data_modal = "" })
+        <h2 class="col-7">Modalidades</h2>
+    </div>
+    <div class="modal-body">
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Str_Modalidad)
+                </th>
+                <th>Opciones</th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="btn btn-light">
+                        @Html.DisplayFor(modelItem => item.Str_Modalidad)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Editar", "Edit", new { id = item.Id_Modalidad }, new { data_modal = "" ,@class="btn btn-success"}) |
+                        @Html.ActionLink("Borrar", "Delete", new { id = item.Id_Modalidad }, new { data_modal = "",@class="btn btn-danger" })
+                    </td>
+                </tr>
+            }
+
+        </table>
+
+    </div>
+</div>
+
+
+
+<script src="~/Scripts/modalform.js"></script>

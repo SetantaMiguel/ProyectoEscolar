@@ -1,0 +1,65 @@
+﻿@model WebApplication6.Models.Pago
+
+@{
+    ViewBag.Title = "Borrar Concepto";
+}
+
+    <div class="container align-content-center">
+        <hr />
+        <h1 class=" text-center fa-header alert-danger">Eliminar Pago</h1>
+    </div>
+
+<h2>Delete</h2>
+
+<div class="container align-content-center">
+    <hr />
+    <h1 class=" text-center fa-header alert-heading">Seguro que deseas eliminar este Deudor de los registros?</h1>
+</div>
+
+<div>
+    <h4>Pago</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Caja.NumCaja)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Caja.NumCaja)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Cajero.Empleado.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cajero.Empleado.Nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FechaTransaccion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FechaTransaccion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IdEstudiante)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IdEstudiante)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

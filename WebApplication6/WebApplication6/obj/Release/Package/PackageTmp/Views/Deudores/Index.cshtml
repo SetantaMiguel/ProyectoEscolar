@@ -1,0 +1,251 @@
+﻿@using WebApplication6.Models;
+@{
+    ApplicationDbContext db = new ApplicationDbContext();
+}
+
+
+@model IEnumerable<WebApplication6.Models.Deudores>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<script src="~/Content/FileSaver.js"></script>
+<script>
+    function fnExcelReport(id, name) {
+        var tab_text = tab_text + '<html xmins: "urn:schemas-microsoft-com:office:excel">';
+        tab_text = tab_text + '<head><xml><x: ExcelWorkbook><x: ExcelWorksheets><x: ExcelWorkSheet>';
+        tab_text = tab_text + '<x: Name>Test Sheet</x: Name>';
+        tab_text = tab_text + '<x: WorkSheetOptions><x: Panes></x: Panes></x: WorkSheetOptions></x:ExcelWorkSheet>';
+        tab_text = tab_text + '</x:ExcelWorkSheet></x:ExcelWorkbook></xml></head><body>';
+        tab_text = tab_text + "<table border='1px' style='color:black'>";
+
+        var exportTable = $('#' + id).clone();
+        //some code here
+        exportTable.find('input').each(function (index, elem) { $(elem).remove(); });
+        exportTable.find('a').each(function (index, elem) { $(elem).remove(); });
+
+        tab_text = tab_text + exportTable.html();
+        tab_text = tab_text + '</table></body><html>';
+        var fileName = "Reporte Deudores  " + '.xls';
+
+        //Save shit
+        var blob = new Blob([tab_text], { type: "application/vnd.ms-excel;charset=utf-8" })
+        window.saveAs(blob, fileName);
+
+    }
+</script>
+
+<div class="container body-content">
+    <hr />
+    <h1 class=" text-center fa-header alert-heading">Listado de Deudores </h1>
+
+    &nbsp;&nbsp;
+
+
+
+    <div class="row">
+        <div class="col-md-6 col-xl-3 mb-4">
+            <div class="card shadow border-left-primary py-2">
+                <div class="card-body">
+                    <div class="row align-items-center no-gutters">
+                        <div class="col mr-2">
+                            <div class="text-uppercase text-primary font-weight-bold text-xs mb-1"><span>Total de Deudas</span></div>
+                            <div class="text-dark font-weight-bold h5 mb-0"><span>@Model.Sum(i => i.Total_Pagar)</span></div>
+                        </div>
+                        <div class="col-auto"><i class="fas fa-dollar-sign fa-2x text-gray-300"></i></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-xl-3 mb-4">
+            <div class="card shadow border-left-success py-2">
+                <div class="card-body">
+                    <div class="row align-items-center no-gutters">
+                        <div class="col mr-2">
+                            <div class="text-uppercase text-success font-weight-bold text-xs mb-1"><span>Deudores Totales</span></div>
+                            <div class="text-dark font-weight-bold h5 mb-0"><span>@Model.Count()</span></div>
+                        </div>
+                        <div class="col-auto"><i class="fas fa-file-invoice-dollar fa-2x text-gray-300"></i></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-xl-3 mb-4">
+            <div class="card shadow border-left-info py-2">
+                <div class="card-body">
+                    <div class="row align-items-center no-gutters">
+                        <div class="col mr-2">
+                            <div class="text-uppercase text-info font-weight-bold text-xs mb-1"><span>Deudores Activos</span></div>
+                            <div class="row no-gutters align-items-center">
+                                <div class="col-auto">
+                                    <div class="text-dark font-weight-bold h5 mb-0 mr-3"><span>@ViewBag.Activos</span></div>
+                                </div>
+                                <div class="col">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-auto"><i class="fas fa-clipboard-list fa-2x text-gray-300"></i></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-xl-3 mb-4">
+            <div class="card shadow border-left-warning py-2">
+                <div class="card-body">
+                    <div class="row align-items-center no-gutters">
+                        <div class="col mr-2">
+                            <div class="text-uppercase text-warning font-weight-bold text-xs mb-1"><span>Deudores Solventes</span></div>
+                            <div class="text-dark font-weight-bold h5 mb-0"><span>@ViewBag.NoActivos</span></div>
+                        </div>
+                        <div class="col-auto"><i class="fas fa-clipboard-check fa-2x text-gray-300"></i></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    &nbsp;&nbsp;
+
+    <div class="row">
+        @Html.ActionLink("Ingresar Nuevo Deudor", "Create", null, new { @class = "btn btn-success " })
+        <a class="btn btn-primary mx-2" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">Buscar Estudiante</a>
+        <button class="btn btn-primary" onclick="javascript: fnExcelReport('dataTable','Deudores')">Generar Reporte</button>&nbsp;
+
+        &nbsp;
+    </div>
+
+    &nbsp;&nbsp;
+
+    <div class="collapse multi-collapse" id="multiCollapseExample1">
+        <div class="card card-body">
+            <div class="container-fluid">
+                @using (Html.BeginForm())
+                {
+                    <div class="form-horizontal">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-group">
+                            &nbsp;&nbsp;
+                            <div class="col-md-10 row">
+                                <dl class="mr-3">
+                                    <p>
+                                        Buscar por nombre: @Html.TextBox("SearchString")
+                                        @*<input type="submit" class="btn btn-block btn-warning" value="Buscar" />*@
+                                    </p>
+                                </dl>
+
+
+
+
+                            </div>
+                            <input type="submit" class="btn btn-block btn-info" value="Buscar" />
+
+                        </div>
+                    </div>
+                }
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="table-responsive">
+
+        <table class="table " id="dataTable">
+            <thead class="table-info">
+                @{bool aux = true; }
+                @foreach (var item in Model)
+                {
+
+                    if (aux == true)
+                    {
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Estudiantes.Nombre)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Fecha_Ingreso)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Fecha_Pagar)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Total_Pagar)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.IdEstado)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Detalles)
+                            </th>
+                            <th></th>
+                        </tr>
+
+                        aux = false;
+                    }
+
+                }
+            </thead>
+
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Estudiantes.NombreCompleto)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Fecha_Ingreso)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Fecha_Pagar)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Total_Pagar)
+                        </td>
+                        <td>
+                            @db.Estado.Find(item.IdEstado).Nombre
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Detalles)
+                        </td>
+                        <td>
+                            @*Html.ActionLink("Editar", "Edit", new { id = item.Id_Deudor }, new { @class = "btn btn-outline-warning" })*@
+                            @Html.ActionLink("Conceptos", "Conceptos", new { id = item.Id_Deudor }, new { @class = "btn btn-outline-success" })
+                            @Html.ActionLink("Detalles", "Details", new { id = item.Id_Deudor }, new { @class = "btn btn-outline-primary" })
+                            @*Html.ActionLink("Eliminar", "Delete", new { id = item.Id_Deudor }, new { @class = "btn btn-outline-danger" })*@
+
+                        </td>
+                    </tr>
+
+                }
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+</div>
+
+ &nbsp;&nbsp;
+
+
+
+@*
+    @using (Html.BeginForm())
+    {
+        <p>
+            Find by name: @Html.TextBox("SearchString")
+            <input type="submit" class="btn btn-block btn-warning" value="Buscar" />
+        </p>
+    }
+*@
+
+
+
+
+
+

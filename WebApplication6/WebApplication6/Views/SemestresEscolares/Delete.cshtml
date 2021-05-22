@@ -1,0 +1,179 @@
+﻿@model WebApplication6.Models.SemestresEscolares
+
+@{
+    Layout = null;
+}
+
+<div class="container p-4">
+    <div class="shadow alert bg-danger text-center h5 text-white"> <strong>¿Esta seguro de desactivar/borrar el semestre?</strong></div>
+    <div>
+        <hr />
+        @Html.HiddenFor(model => model.Id_Semestre)
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.NombreSemestre)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.NombreSemestre)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.EstadoSemestre)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.EstadoSemestre)
+            </dd>
+
+        </dl>
+        <table class="table">
+            <tr>
+                <th>Inicio</th>
+                <th>Final</th>
+            </tr>
+            <tr>
+                <td>
+                    @Model.FchInicio.ToString("dddd, dd MMMM yyyy")
+                </td>
+                <td>
+                    @Model.FchFinal.ToString("dddd, dd MMMM yyyy")
+                <td />
+            </tr>
+        </table>
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="">
+                <input type="button" value="Borrar" id="Delete" class="btn btn-outline-danger" />
+                <input type="button" value="Desactivar" id="Dess" class="btn btn-outline-danger right" />
+            </div>
+        }
+    </div>
+    <hr />
+</div>
+<script language="JavaScript" type="text/javascript">
+    $(function () {
+        $("#Delete").click(function () {
+            var url = "@Url.Action("Delete", "SemestresEscolares")";
+
+            var _Id_Semestre = $("#Id_Semestre").val();
+            var _estado = new Boolean(true);
+
+            var data = { Id_Semestre:_Id_Semestre, estado:_estado }
+            $.post(url, data).done(function (data) {
+
+                if (data.Ok) {
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 2000,
+                        timerProgressBar: true,
+                        onOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    })
+
+                    Toast.fire({
+                        icon: 'success',
+                        title: data.Mensaje
+                    })
+                    setTimeout(function(){ window.location = window.location;  }, 2000);
+
+                }
+                else {
+                    Swal.fire({
+                      position: 'top-end',
+                        icon: 'error',
+                        title: data.Mensaje,
+                      showConfirmButton: false,
+                      timer: 1500
+                    })
+                    $('#Save').prop('disabled', false);
+                }
+
+            }).fail(function () {
+                  $('#Save').prop('disabled', false);
+               const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 2000,
+                        timerProgressBar: true,
+                        onOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    })
+
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'Ocurrio un error en el servidor'
+                    })
+            }).always(function () {
+            });
+        });
+        $("#Dess").click(function () {
+            var url = "@Url.Action("Delete", "SemestresEscolares")";
+            var _Id_Semestre2 = $("#Id_Semestre").val();
+            var _estado = new Boolean(false);
+            var data = { Id_Semestre:_Id_Semestre2, estado: _estado }
+            $.post(url, data).done(function (data) {
+
+                if (data.Ok) {
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 2000,
+                        timerProgressBar: true,
+                        onOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    })
+
+                    Toast.fire({
+                        icon: 'success',
+                        title: data.Mensaje
+                    })
+                    setTimeout(function(){ window.location = window.location;  }, 2000);
+
+                }
+                else {
+                    Swal.fire({
+                      position: 'top-end',
+                        icon: 'error',
+                        title: data.Mensaje,
+                      showConfirmButton: false,
+                      timer: 1500
+                    })
+                    $('#Save').prop('disabled', false);
+                }
+
+            }).fail(function () {
+                  $('#Save').prop('disabled', false);
+               const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 2000,
+                        timerProgressBar: true,
+                        onOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    })
+
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'Ocurrio un error en el servidor'
+                    })
+            }).always(function () {
+            });
+        });
+    });
+</script>

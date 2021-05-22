@@ -1,0 +1,93 @@
+﻿@model IEnumerable<WebApplication6.Models.Parciales>
+
+@{
+    ViewBag.Title = "Menu parciales";
+}
+
+<div class="container">
+    <br />
+    <div class="row">
+        @if (ViewBag.AdministrarSemestres == true)
+        {
+            <div class="col align-content-center">
+                @Html.ActionLink("Crear Parcial", "Create", null, new { @class = "btn btn-success ml-4 mt-2", data_modal = "" })
+            </div>
+
+            <div class="alert alert-secondary col-10 h4">
+                <strong>
+                    Menu Parciales de @ViewBag.NombreSemestre
+                </strong>
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-secondary shadow row w-100 p-4">
+                <strong class="h2">Parciales de @ViewBag.NombreSemestre</strong>
+            </div>
+
+        }
+    </div>
+    <div class="table-responsive">
+        <table class="table table-hover table-bordered">
+            <tr class="table-info">
+                <th>
+                    @Html.DisplayNameFor(model => model.SemestresEscolares.NombreSemestre)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Nombre_Parcial)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Estado_Parcial)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Dt_Inicio)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Dt_Final)
+                </th>
+                @if (ViewBag.AdministrarSemestres == true)
+                {
+                    <th>Desactivar</th>
+                }
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SemestresEscolares.NombreSemestre)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nombre_Parcial)
+                    </td>
+                    <td class="text-center">
+                        @Html.DisplayFor(modelItem => item.Estado_Parcial)
+                    </td>
+                    <td>
+                        @item.Dt_Inicio.ToString("dddd, dd MMMM yyyy")
+                    </td>
+                    <td>
+                        @item.Dt_Final.ToString("dddd, dd MMMM yyyy")
+                    </td>
+                    @if (ViewBag.AdministrarSemestres == true)
+                    {
+                        <td>
+                            @Html.ActionLink("Desactivar", "Delete", new { id = item.Id_Parcial }, new { @class = "btn btn-danger", data_modal = "" })
+                        </td>
+                    }
+                </tr>
+            }
+
+        </table>
+
+    </div>
+
+</div>
+
+@section scripts{
+    <script src="~/Scripts/jquery-ui-1.12.1.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+
+}

@@ -1,0 +1,138 @@
+﻿@model WebApplication6.Models.Estudiantes
+
+@{
+    ViewBag.Title = "Delete";
+}
+<div class="container">
+    <hr />
+    <h3>¿Esta seguro de borrar al estudiante <b>@Model.Nombre  @Model.Apellido</b>?</h3>
+    <div>
+        <hr />
+        <div class="row">
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Nombre)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Nombre)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Apellido)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Apellido)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Direccion)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Direccion)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Correo)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Correo)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.FechaNacimiento)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.FechaNacimiento)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Domicilio)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Domicilio)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Telefono)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Telefono)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Genero)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Genero)
+                </dd>
+            </dl>
+            <div class="col">
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Estado_Estudiante)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Estado_Estudiante)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Codigo_Estudiante)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Codigo_Estudiante)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Codigo_MINED)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Codigo_MINED)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Str_Nombre_Padre)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Str_Nombre_Padre)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Str_Nombre_Madre)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Str_Nombre_Madre)
+                    </dd>
+                    <dt>Imagen</dt>
+                    <dd>
+                        <div class="editor-label d-inline">
+                            <br />
+                            <img src="@Url.Action("getImage","Estudiantes",new { id=Model.Id_Estudiante})" class="img_small" />
+                        </div>
+                    </dd>
+                </dl>
+            </div>
+        </div>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-actions no-color">
+                <input type="submit" value="Dar de alta" class="btn btn-danger" /> |
+                @Html.ActionLink("Regresar", "Index", null, new { @class = "btn btn-dark" })
+            </div>
+        }
+    </div>
+</div>

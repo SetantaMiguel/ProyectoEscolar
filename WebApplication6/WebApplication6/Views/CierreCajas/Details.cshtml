@@ -1,0 +1,58 @@
+﻿@model WebApplication6.Models.CierreCaja
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>CierreCaja</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Caja.NumCaja)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Caja.NumCaja)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Cajero.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cajero.Nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Hora_Cierre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Hora_Cierre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Total_Cordobas)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Total_Cordobas)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Total_Dolar)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Total_Dolar)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id_Cierre }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

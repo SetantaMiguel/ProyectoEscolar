@@ -1,0 +1,25 @@
+﻿@model WebApplication6.Models.Modalidades
+
+@{
+    Layout = null;
+}
+
+<div class="container">
+
+    <h3 class="alert">¿Esta seguro de borrar esta modalidad?</h3>
+    <div>
+        <h4 class="text-center bg-warning">Modalidad @Model.Str_Modalidad</h4>
+        <hr />
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-actions text-md-center">
+                <input type="submit" value="Borrar" class="btn btn-danger" /> 
+            </div>
+        }
+    </div>
+    <br />
+</div>
+

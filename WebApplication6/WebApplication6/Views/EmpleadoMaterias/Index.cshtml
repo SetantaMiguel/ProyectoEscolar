@@ -1,0 +1,56 @@
+﻿@model IEnumerable<WebApplication6.Models.EmpleadoMaterias>
+
+@{
+    Layout = null;
+}
+
+    <div class="container">
+        <hr />
+        @if (Model.Count() == 0)
+        {
+            <p>
+                @Html.ActionLink("Añadir una nueva clase", "Create", null, new { @class = "btn btn-primary", data_modal = "" })
+            </p>
+            <div class="alert alert-danger shadow">
+                No hay Clases Habiles para este maestro
+            </div>
+        }
+        else
+        {
+            <h2 class="text-center alert">Clases Del Maestro</h2>
+            <hr />
+            <p>
+                @Html.ActionLink("Añadir una nueva clase", "Create", null, new { @class = "btn btn-primary", data_modal = "" })
+            </p>
+            <div>
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Materias Habiles del Empleado</th>
+                            <th>Opciones</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Materias.Nombre_Materia)
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Borrar", "Delete", new { id = item.Id_EmpleadoMaterias }, new {@class="btn btn-danger", data_modal = "" })
+                                </td>
+                            </tr>
+
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+
+
+        <hr />
+    </div>
+<script src="~/Scripts/modalform.js"></script>

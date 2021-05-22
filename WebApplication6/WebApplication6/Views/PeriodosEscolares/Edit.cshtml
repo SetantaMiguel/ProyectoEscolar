@@ -1,0 +1,128 @@
+﻿@model WebApplication6.Models.PeriodosEscolares
+
+@{
+    Layout = null;
+}
+
+
+<div class="m-4">
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <h4>Formulario de edicion</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.Id_Periodo)
+            <div class="form-group">
+                @Html.LabelFor(model => model.Nombre_Periodo, htmlAttributes: new { @class = "control-label " })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Nombre_Periodo, new { htmlAttributes = new { @class = "form-control ", @readonly = "" } })
+                    @Html.ValidationMessageFor(model => model.Nombre_Periodo, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.DiaSemana, htmlAttributes: new { @class = "control-label" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.DiaSemana, new { htmlAttributes = new { @class = "form-control", @readonly = "" } })
+                    @Html.ValidationMessageFor(model => model.DiaSemana, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.InicioPeriodo, htmlAttributes: new { @class = "control-label " })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.InicioPeriodo, new { htmlAttributes = new { @class = "form-control", type = "time", min = "07:00", required = "" } })
+                    @Html.ValidationMessageFor(model => model.InicioPeriodo, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.FinPeriodo, htmlAttributes: new { @class = "control-label " })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.FinPeriodo, new { htmlAttributes = new { @class = "form-control", type = "time" } })
+                    @Html.ValidationMessageFor(model => model.FinPeriodo, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 text-md-center">
+                    <input type="button" id="Save" value="Guardar" class="btn btn-success" />
+                </div>
+            </div>
+        </div>
+    }
+
+</div>
+<script src="~/Scripts/DessKey.js"></script>
+
+<script language="JavaScript" type="text/javascript">
+    $(function () {
+        $("#Save").click(function () {
+            $('#Save').prop('disabled', true);
+            
+            var url = "@Url.Action("Edit", "PeriodosEscolares")";
+            var _Id_Periodo = $("#Id_Periodo").val();
+            var _DiaSemana = $("#DiaSemana").val();
+            var _InicioPeriodo = $("#InicioPeriodo").val();
+            var _FinPeriodo = $("#FinPeriodo").val();
+            var _Nombre_Periodo = $("#Nombre_Periodo").val();
+
+            var data = { Id_Periodo: _Id_Periodo, DiaSemana: _DiaSemana, InicioPeriodo: _InicioPeriodo, FinPeriodo: _FinPeriodo, Nombre_Periodo: _Nombre_Periodo }
+            $.post(url, data).done(function (data) {
+
+                if (data.Ok) {
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 2000,
+                        timerProgressBar: true,
+                        onOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    })
+
+                    Toast.fire({
+                        icon: 'success',
+                        title: data.Mensaje
+                    })
+                    setTimeout(function(){ window.location = window.location;  }, 2000);
+
+                }
+                else {
+                    Swal.fire({
+                      position: 'top-end',
+                        icon: 'error',
+                        title: data.Mensaje,
+                      showConfirmButton: false,
+                      timer: 1500
+                    })
+                    $('#Save').prop('disabled', false);
+                }
+
+            }).fail(function () {
+                  $('#Save').prop('disabled', false);
+               const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 2000,
+                        timerProgressBar: true,
+                        onOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    })
+
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'Ocurrio un error en el servidor'
+                    })
+            }).always(function () {
+            });
+        });
+    });
+</script>

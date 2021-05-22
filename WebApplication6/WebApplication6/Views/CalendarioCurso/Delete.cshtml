@@ -1,0 +1,170 @@
+﻿@model WebApplication6.Models.CalendarioCurso
+
+@{
+    Layout = null;
+}
+
+
+
+<div class="container">
+    <div class="h5 alert alert-danger shadow p-4 mt-3">¿Esta seguro de borrar/desactivar esta hora?</div>
+    <div>
+        <hr />
+        <dl class="dl-horizontal">
+            @Html.HiddenFor(model => model.Id_CalendarioCurso)
+            <dt>
+                @Html.DisplayNameFor(model => model.PeriodosEscolares.Nombre_Periodo)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.PeriodosEscolares.Nombre_Periodo)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Curso_Asignaturas.Materias.Nombre_Materia)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Curso_Asignaturas.Materias.Nombre_Materia)
+            </dd>
+
+        </dl>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-actions no-color">
+                <div class="mb-4">
+                    <input type="button" value="Borrar" id="Delete" class="btn btn-outline-danger" />
+                    <input type="button" value="Desactivar" id="Dess" class="btn btn-outline-danger float-right" />
+                </div>
+            </div>
+        }
+    </div>
+
+</div>
+<script language="JavaScript" type="text/javascript">
+    $(function () {
+        $("#Delete").click(function () {
+            var url = "@Url.Action("Delete", "CalendarioCurso")";
+
+            var _Id_CalendarioCurso = $("#Id_CalendarioCurso").val();
+            var _estado = new Boolean(true);
+
+            var data = { id: _Id_CalendarioCurso, estado: _estado }
+            $.post(url, data).done(function (data) {
+
+                if (data.Ok) {
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 2000,
+                        timerProgressBar: true,
+                        onOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    })
+
+                    Toast.fire({
+                        icon: 'success',
+                        title: data.Mensaje
+                    })
+                    setTimeout(function(){ window.location = window.location;  }, 2000);
+
+                }
+                else {
+                    Swal.fire({
+                      position: 'top-end',
+                        icon: 'error',
+                        title: data.Mensaje,
+                      showConfirmButton: false,
+                      timer: 1500
+                    })
+                    $('#Save').prop('disabled', false);
+                }
+
+            }).fail(function () {
+                  $('#Save').prop('disabled', false);
+               const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 2000,
+                        timerProgressBar: true,
+                        onOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    })
+
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'Ocurrio un error en el servidor'
+                    })
+            }).always(function () {
+            });
+        });
+        $("#Dess").click(function () {
+            var url = "@Url.Action("Delete", "CalendarioCurso")";
+            var _Id_CalendarioCurso2 = $("#Id_CalendarioCurso").val();
+            var _estado = new Boolean(false);
+            var data = { id: _Id_CalendarioCurso2, estado: _estado }
+            $.post(url, data).done(function (data) {
+
+                if (data.Ok) {
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 2000,
+                        timerProgressBar: true,
+                        onOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    })
+
+                    Toast.fire({
+                        icon: 'success',
+                        title: data.Mensaje
+                    })
+                    setTimeout(function(){ window.location = window.location;  }, 2000);
+
+                }
+                else {
+                    Swal.fire({
+                      position: 'top-end',
+                        icon: 'error',
+                        title: data.Mensaje,
+                      showConfirmButton: false,
+                      timer: 1500
+                    })
+                    $('#Save').prop('disabled', false);
+                }
+
+            }).fail(function () {
+                  $('#Save').prop('disabled', false);
+               const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 2000,
+                        timerProgressBar: true,
+                        onOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    })
+
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'Ocurrio un error en el servidor'
+                    })
+            }).always(function () {
+            });
+        });
+    });
+</script>

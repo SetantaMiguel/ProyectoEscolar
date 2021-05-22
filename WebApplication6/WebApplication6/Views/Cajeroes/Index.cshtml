@@ -1,0 +1,59 @@
+﻿@model IEnumerable<WebApplication6.Models.Cajero>
+
+
+@{
+    ViewBag.Title = "Cajero_Index";
+}
+
+<div class="container body-content">
+    <hr />
+    <h2 class="text-center alert alert-secondary p-4 shadow border ">Listado de Cajeros</h2>
+    &nbsp;
+    <div class="row">
+        @Html.ActionLink("Ingresar Nueva Cajero", "Create", null, new { @class = "btn btn-success " })
+
+    </div>
+
+    &nbsp;
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped table-hover">
+            <thead class="table-info">
+                <tr>
+
+                    <th>
+                        @Html.DisplayNameFor(model => model.NumCajero)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Empleado.Nombre)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Empleado.Apellido)
+                    </th>
+                    <th>Opciones</th>
+                </tr>
+            </thead>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NumCajero)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Empleado.Nombre)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Empleado.Apellido)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Detalles", "Details", new { id = item.IdCajero }, new { @class = "btn btn-outline-secondary" })
+                        @Html.ActionLink("Eliminar", "Delete", new { id = item.IdCajero }, new { @class = "btn btn-outline-danger" })
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+</div>

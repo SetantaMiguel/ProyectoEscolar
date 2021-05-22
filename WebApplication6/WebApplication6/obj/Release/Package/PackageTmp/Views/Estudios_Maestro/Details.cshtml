@@ -1,0 +1,58 @@
+﻿@model WebApplication6.Models.Estudios_Maestro
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<div class="container">
+    <div>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Str_Tipo_Estudio)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Str_Tipo_Estudio)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Str_Nombre_Estudio)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Str_Nombre_Estudio)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Str_Centro_Estudio)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Str_Centro_Estudio)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Bl_Estado_Estudio)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Bl_Estado_Estudio)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Fch_Finalizacion)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Fch_Finalizacion)
+            </dd>
+
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Editar", "Edit", new { id = Model.Id_Estudio }, new { @class = "btn btn-success" }) |
+        @Html.ActionLink("Regresar", "Index", new { id = Model.Id_Empleado }, new { @class = "btn btn-dark" })
+    </p>
+
+</div>

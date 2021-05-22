@@ -1,0 +1,69 @@
+﻿@model WebApplication6.Models.CursoEscolar
+
+<div class="container">
+    <hr />
+    <div>
+        <h4 class="text-center alert alert-secondary">Detalles del Curso Escolar @Model.NombredeCurso</h4>
+        @Html.ActionLink("Estudiantes en el curso", "IndexCurso", "CursoEstudiantes", new { IdCurso = Model.Id_Curso }, new { @class = "btn btn-info" })
+        @if (ViewBag.VerNotas == true)
+        {
+            @Html.ActionLink("Notas", "Index", "Notas", new { idCurso = Model.Id_Curso }, new { @class = "btn btn-info" })
+        }
+        @Html.ActionLink("Calendario", "Index", "CalendarioCurso", new { idCurso = Model.Id_Curso }, new { @class = "btn btn-info" })
+        @Html.ActionLink("Guia", "Index", "ProfesorGuias", new { IdCurso = Model.Id_Curso }, new { @class = "btn btn-info", data_modal = "" })
+        <hr />
+        <div class="row">
+            <div class="col-sm-6">
+
+                <div class="p-2 sticky-top" style="background-color:#d0d3ffa6;">
+                    <div class="p-3 mb-2 bg-dark text-white shadow">Caracteristicas del colegio</div>
+                    <dl>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.AniosACursar.Str_Curso)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.AniosACursar.Str_Curso)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Secciones.Str_Seccion)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Secciones.Str_Seccion)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Modalidades.Str_Modalidad)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Modalidades.Str_Modalidad)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Bl_Estado)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Bl_Estado)
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                @if (ViewBag.AdministrarCursos == true)
+                {
+                    Html.RenderAction("Index", "Curso_Asignaturas", new { IdCurso = Model.Id_Curso });
+
+                }
+                else
+                {
+                    <img src="https://i.pinimg.com/564x/a5/63/b7/a563b79c7543c97058daa786328392b3.jpg" />
+                }
+            </div>
+        </div>
+    </div>
+    <hr />
+</div>

@@ -1,0 +1,26 @@
+﻿@model WebApplication6.Models.Permisos
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Permisos</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.NombrePermiso)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NombrePermiso)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id_Permiso }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,100 @@
+﻿@model WebApplication6.Models.Pago
+
+
+@{
+    ViewBag.Title = "BuscarTrasanciones";
+}
+
+
+    <div class="container body-content">
+        &nbsp;
+        <h1 class=" text-center text-primary">Ingreso de Nueva Transaccion </h1>
+
+
+        <div>
+            @*
+            <nav class="navbar navbar-light navbar-expand-lg fixed-top bg-white clean-navbar">
+                <div class="container">
+                    <div class="collapse navbar-collapse" id="navcol-1">
+                        <ul class="nav navbar-nav ml-auto">
+                            <li class="nav-item" role="presentation"></li>
+                        </ul>
+                    </div>
+                    <nav class="navbar navbar-dark navbar-expand-lg fixed-top bg-dark clean-navbar">
+                        <div class="container">
+                            <a class="navbar-brand logo" href="#">Colegio Bautista</a><button data-target="#navcol-1" data-toggle="collapse" class="navbar-toggler"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+                            <div class="collapse navbar-collapse" id="navcol-1">
+                                <ul class="nav navbar-nav ml-auto">
+                                    <li class="nav-item item" role="presentation"><a class="nav-link" href="/">estado estudiante</a></li>
+                                    <li class="nav-item item" role="presentation"></li>
+                                    <li class="nav-item item" role="presentation"><a class="nav-link" href="pricing.html">Tasa cambio</a></li>
+                                    <li class="nav-item item" role="presentation"><a class="nav-link" href="about-us.html">opcion</a></li>
+                                    <li class="nav-item item" role="presentation"><a class="nav-link" href="contact-us.html">Cerrar sesion</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+            </nav>
+            *@
+            &nbsp;
+            <main class="page payment-page">
+                <div class="container">
+                    <section class="clean-block payment-form dark">
+                        <div class="container text-center align-items-center justify-content-center">
+
+
+
+                            @using (Html.BeginForm("InsertarPago", "Pago"))
+                            {
+                                @Html.AntiForgeryToken()
+                                <div class="products">
+                                    &nbsp;
+                                    <h3 class="title">Numero de Identificacion</h3>
+
+                                    <input class="form-control w-50 mx-auto" type="text" id="codiEstudiate" name="carnet">
+                                    &nbsp;
+                                    <div class="item"></div>
+                                    <div class="item"></div>
+                                    <div class="products">
+                                        &nbsp;
+                                        <div></div>
+                                        <h4 class="item-nam">O utiliza Nombre del Estudiante</h4>
+                                        <input class="form-control w-50 mx-auto" id="NEstu" type="text" />
+
+                                        <p></p>
+                                        &nbsp;
+                                        <h4 class="item-name">O utiliza el Nombre del Apellido</h4>
+                                        <input class="form-control w-50 mx-auto" type="text">
+                                        <div class="item"></div>
+                                        <div class="item"></div>
+                                        <p></p>
+                                        &nbsp;
+                                        <div class="total w-25 mx-auto"><input type="submit" class="btn btn-primary btn-block" value="Aceptar" /></div>
+                                    </div>
+
+                                </div>
+                            }
+
+                        </div>
+                    </section>
+                </div>
+            </main>
+            @section scripts{
+                <script src="~/Scripts/jquery-ui-1.12.1.js"></script>
+                <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.js"></script>
+                <script>
+                    $(function () {
+                        $("#codiEstudiate").autocomplete({ source: "/Estudiantes/BuscarPersona" });
+                    });
+                    $(function () {
+                        $("#NEstu").autocomplete({ source: "/Estudiantes/BuscarPersonaPorNombre" });
+                    });
+                </script>
+
+            }
+        </div>
+
+
+    </div>

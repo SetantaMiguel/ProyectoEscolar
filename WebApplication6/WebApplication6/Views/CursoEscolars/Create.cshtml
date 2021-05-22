@@ -1,0 +1,156 @@
+﻿@model WebApplication6.Models.CursoEscolar
+
+@{
+
+}
+
+@if (ViewBag.ExistenSemestres == null)
+{
+
+    <div class="container">
+        <div id="div-alerta" class="invisibles m-1 row">
+            <div class="" role="alert" id="mensaje-alerta">
+
+            </div>
+            <button class="close float-right" id="btn-cerrar-alerta">
+                <span aria-hidden="true">&times;</span>
+            </button>
+
+        </div>
+        <hr />
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <div class="shadow p-3 bg-success text-white rounded text-center">Crear Curso</div>
+            <div class="">
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Modalidades.Str_Modalidad, htmlAttributes: new { @class = "control-label" })
+                    <div class="">
+                        @Html.DropDownList("Id_Modalidad", null, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Id_Modalidad, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Id_Año, "Año Escolar", htmlAttributes: new { @class = "control-label" })
+                    <div class="">
+                        @Html.DropDownList("Id_Año", null, htmlAttributes: new { @class = "form-control", id = "Anio" })
+                        @Html.ValidationMessageFor(model => model.Id_Año, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Id_Seccion, "Seccion del colegio", htmlAttributes: new { @class = "control-label" })
+                    <div class="">
+                        @Html.DropDownList("Id_Seccion", null, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Id_Seccion, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group text-md-center">
+                    <div class="col-md-offset-2 ">
+                        <input type="button" value="Guardar" class="btn btn-success" id="Save" />
+                    </div>
+                </div>
+            </div>
+        }
+
+    </div>
+
+
+
+    <script language="JavaScript" type="text/javascript">
+    $(function () {
+        $("#Save").click(function () {
+
+            $('#Save').prop('disabled', true);
+            var url = "@Url.Action("Create", "CursoEscolars")";
+            var _Id_Modalidad= $("#Id_Modalidad").val();
+            var _Id_Año = $("#Anio").val();
+            var _Id_Section = $("#Id_Seccion").val();
+            var data = { Id_Modalidad: _Id_Modalidad, Id_Año: _Id_Año, Id_Seccion: _Id_Section }
+            $.post(url, data).done(function (data) {
+
+                if (data.Ok) {
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 2000,
+                        timerProgressBar: true,
+                        onOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    })
+
+                    Toast.fire({
+                        icon: 'success',
+                        title: data.Mensaje
+                    })
+                    setTimeout(function(){ window.location = window.location;  }, 2000);
+
+                }
+                else {
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 2000,
+                        timerProgressBar: true,
+                        onOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    })
+
+                    Toast.fire({
+                        icon: 'error',
+                        title: data.Mensaje
+                    })
+                    $("#div-alerta").removeClass("invisible").addClass("alert alert-danger").slideDown(200);
+                    $("#mensaje-alerta").html(data.Mensaje);
+                    $('#Save').prop('disabled', false);
+                }
+
+            }).fail(function () {
+                  $('#Save').prop('disabled', false);
+               const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 2000,
+                        timerProgressBar: true,
+                        onOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    })
+
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'Ocurrio un error en el servidor'
+                    })
+            }).always(function () {
+            });
+        });
+    });
+
+    $("#btn-cerrar-alerta").click(function () {
+        $(this).parent().slideUp(200);
+    })
+    </script>
+
+
+}
+else if (ViewBag.ExistenSemestres == false)
+{
+    <div class="alert alert-danger h2 text-center m-2">Debe crear semestres antes de iniciar el curso</div>
+    <div class="text-center">   @Html.ActionLink("Ir a menu de semestres", "Index", "SemestresEscolares", null, new { @class = "btn btn-info" })</div>
+    <br />
+}
+
+

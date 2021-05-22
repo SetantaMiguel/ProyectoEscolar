@@ -1,0 +1,71 @@
+﻿@model WebApplication6.Models.Estudios_Maestro
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<div class="container">
+    <br />
+    <h2 class="alert alert-success border border-success shadow mt-1">Editar Estudio</h2>
+
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.Id_Estudio)
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Str_Tipo_Estudio, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Str_Tipo_Estudio, new { htmlAttributes = new { @class = "form-control",@readonly="" } })
+                    @Html.ValidationMessageFor(model => model.Str_Tipo_Estudio, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Str_Nombre_Estudio, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Str_Nombre_Estudio, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Str_Nombre_Estudio, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Str_Centro_Estudio, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Str_Centro_Estudio, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Str_Centro_Estudio, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Bl_Estado_Estudio, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <div class="checkbox">
+                        @Html.EditorFor(model => model.Bl_Estado_Estudio)
+                        @Html.ValidationMessageFor(model => model.Bl_Estado_Estudio, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Fch_Finalizacion, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Fch_Finalizacion, new { htmlAttributes = new { @class = "form-control date", Value = @String.Format("{0:yyyy-MM-dd}", Model.Fch_Finalizacion) } })
+                    @Html.ValidationMessageFor(model => model.Fch_Finalizacion, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Guardar" class="btn btn-success" /> |
+                    @Html.ActionLink("Regresar", "Index", new { id = Model.Id_Empleado }, new { @class = "btn btn-dark" })
+                </div>
+            </div>
+        </div>
+    }
+
+
+</div>

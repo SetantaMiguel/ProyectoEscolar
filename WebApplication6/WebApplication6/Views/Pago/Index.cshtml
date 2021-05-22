@@ -1,0 +1,186 @@
+﻿@model IEnumerable<WebApplication6.Models.Pago>
+
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<script src="~/Content/FileSaver.js"></script>
+<script>
+    function fnExcelReport(id, name) {
+        var tab_text = tab_text + '<html xmins: "urn:schemas-microsoft-com:office:excel">';
+        tab_text = tab_text + '<head><xml><x: ExcelWorkbook><x: ExcelWorksheets><x: ExcelWorkSheet>';
+        tab_text = tab_text + '<x: Name>Test Sheet</x: Name>';
+        tab_text = tab_text + '<x: WorkSheetOptions><x: Panes></x: Panes></x: WorkSheetOptions></x:ExcelWorkSheet>';
+        tab_text = tab_text + '</x:ExcelWorkSheet></x:ExcelWorkbook></xml></head><body>';
+        tab_text = tab_text + "<table border='1px' style='color:black'>";
+
+        var exportTable = $('#' + id).clone();
+        //some code here
+        exportTable.find('input').each(function (index, elem) { $(elem).remove(); });
+        exportTable.find('a').each(function (index, elem) { $(elem).remove(); });
+
+        tab_text = tab_text + exportTable.html();
+        tab_text = tab_text + '</table></body><html>';
+        var fileName = "Reporte Pagos" + '.xls';
+
+        //Save shit
+        var blob = new Blob([tab_text], { type: "application/vnd.ms-excel;charset=utf-8" })
+        window.saveAs(blob, fileName);
+
+    }
+</script>
+
+<div class="container body-content">
+    <hr />
+    <h1 class=" text-center fa-header alert-heading">Historial de Transacciones</h1>
+
+    &nbsp;&nbsp;
+
+
+
+    &nbsp;&nbsp;
+
+
+    <div class="row">
+        @Html.ActionLink("Crear nuevo Pago", "InsertarPago", "Pago", null, new { @class = "btn btn-primary " })
+        <a class="btn btn-success mx-2" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">Filtrar</a>
+        <button class="btn btn-secondary" onclick="javascript: fnExcelReport('dataTable','Deudores')">Generar Reporte</button>&nbsp;
+        @using (Html.BeginForm("Backup_Click", "ConceptosPagoes", FormMethod.Post))
+        {
+            <input type="hidden" name="Backup_Click" />
+
+        }
+        &nbsp;
+    </div>
+    &nbsp; &nbsp;
+    @using (Html.BeginForm())
+
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="collapse multi-collapse" id="multiCollapseExample1">
+            <div class="card card-body">
+                <div class="container-fluid">
+
+                    <div class="form-group">
+
+                        <div class="col-md-10 row">
+                            <dl class="mr-lg-5">
+                                <dt>
+                                    <label>
+                                        Por cajero
+                                    </label>
+                                </dt>
+                                <dd>
+                                    @Html.DropDownList("DropCajeros", ViewBag.DropCajeros as SelectList, new { @class = "form-control", id = "cajeroBuscar" })
+                                </dd>
+                            </dl>
+
+                            <dl>
+                                <dt>
+                                    <label>
+                                        Por caja
+                                    </label>
+                                </dt>
+                                <dd>
+                                    @Html.DropDownList("DropCajas", ViewBag.DropCajas as SelectList, new { @class = "form-control", id = "cajaBuscar" })
+                                </dd>
+                            </dl>
+
+
+
+
+                        </div>
+                        <input type="submit" name="name" class="btn btn-primary mx-2 " value="Buscar" />
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    &nbsp; &nbsp;
+
+
+    <div class="table-responsive">
+        <table class="table " id="dataTable">
+            <thead class="table-info">
+
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Id_Pago)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Caja.NumCaja)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Cajero.Empleado.Nombre)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FechaTransaccion)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.IdEstudiante)
+                    </th>
+                    <th></th>
+                </tr>
+
+            </thead>
+
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Id_Pago)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Caja.NumCaja)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Cajero.Empleado.Nombre)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FechaTransaccion)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IdEstudiante)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Editar", "Edit", new { id = item.Id_Pago }, new { @class = "btn btn-outline-info" })
+                            @Html.ActionLink("Detalles", "Details", new { id = item.Id_Pago }, new { @class = "btn btn-outline-secondary" })
+
+
+                        </td>
+                    </tr>
+
+                }
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+</div>
+
+            &nbsp;&nbsp;
+
+
+
+@*
+    @using (Html.BeginForm())
+    {
+        <p>
+            Find by name: @Html.TextBox("SearchString")
+            <input type="submit" class="btn btn-block btn-warning" value="Buscar" />
+        </p>
+    }
+*@
+
+
+
+
+

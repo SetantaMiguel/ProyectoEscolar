@@ -1,0 +1,64 @@
+﻿@model WebApplication6.Models.HistorialAñosCursado
+
+@{
+    ViewBag.Title = "Create";
+}
+<div class="container">
+    <hr />
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <h4> Año Cursado de <b>@ViewBag.nom</b></h4>
+            <hr />
+            <br />
+            <div class="form-group">
+                @Html.LabelFor(model => model.Id_Anio, "Año a cursar", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("Id_Anio", null, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Id_Anio, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.FechFinaly, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.FechFinaly, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.FechFinaly, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Guardar" class="btn btn-success" /> |     @Html.ActionLink("Regresar", "Index", new { id = Convert.ToInt32(ViewBag.Id) }, new { @class = "btn btn-dark" })
+                </div>
+                <br />
+                <div>
+                    @{
+                        if (ViewBag.Error == null)
+                        {
+
+                        }
+                        else
+                        {
+
+                            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+                            <script>
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Oops...',
+                                    text: 'El Error se origina porque el estudiante esta violando el orden de asignaturas!',
+                                    footer: '<p>Deberia revisar la informacion</p>'
+                                })
+                            </script>
+
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    }
+
+</div>
+

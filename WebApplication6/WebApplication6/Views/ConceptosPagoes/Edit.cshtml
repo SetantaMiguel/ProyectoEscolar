@@ -1,0 +1,56 @@
+﻿@model WebApplication6.Models.ConceptosPago
+
+@{
+    ViewBag.Title = "Editar "+Model.NombreConcepto;
+}
+
+<div class="container">
+    <hr />
+    <h2 class="text-center">Editar el Concepto De Pago <b>@Model.NombreConcepto</b></h2>
+</div>
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="container align-content-md-center">
+        <div class="form-horizontal w-75">
+
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.Id_Concepto)
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.NombreConcepto, "Nuevo Nombre", htmlAttributes: new { @class = "control-label" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.NombreConcepto, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.NombreConcepto, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Monto, "Nuevo Monto", htmlAttributes: new { @class = "control-label " })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Monto, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Monto, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.fechaMora, "Nuevo Monto", htmlAttributes: new { @class = "control-label " })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.fechaMora, new { htmlAttributes = new { @class = "form-control" , Value = @String.Format("{0:yyyy-MM-dd}", Model.fechaMora)} })
+                    @Html.ValidationMessageFor(model => model.fechaMora, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            &nbsp;
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Guardar Cambios" class="btn btn-success" /> |
+                    @Html.ActionLink("Regresar", "Index", null, new { @class = "btn btn-dark" })
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+

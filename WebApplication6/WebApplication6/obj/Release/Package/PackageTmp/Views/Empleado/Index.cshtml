@@ -1,0 +1,409 @@
+﻿@model WebApplication6.viewModels.IndexViewModel2
+@using WebApplication6.Models;
+@using Microsoft.AspNet.Identity;
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+    <div class="container body-content">
+        <br />
+        <div class="">
+
+            <h2 class="text-center alert alert-secondary thead-light border border-secondary p-4 shadow"> Menu de Empleados </h2>
+        </div>
+        <br />
+        <div class="row ">
+            @{
+                ApplicationDbContext db = new ApplicationDbContext();
+                var usuario = db.Users.Find(User.Identity.GetUserId());
+                bool respues = Validador.PuedeEntrar(usuario.Id, "Administrar Empleados");
+                if (respues == true)
+                {
+                    @Html.ActionLink("Añadir Empleado", "Create", null, new { @class = "btn btn-primary mb-auto " })
+
+                }
+            }
+            <a class="btn btn-primary mx-2 mb-auto" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">Buscar Empleado</a>
+            @{
+                if (ViewBag.UserVacio == null)
+                {
+
+                }
+                else if (ViewBag.UserVacio == "Usuario Encontrado")
+                {
+                    <p class="alert alert-success font-weight-bold text-center col-8">
+                        @ViewBag.UserVacio
+                        <button class="close float-right" id="btn-cerrar-alerta">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </p>
+                }
+                else
+                {
+                    <p class="alert alert-danger font-weight-bold text-center col-8">
+                        @ViewBag.UserVacio
+                        <button class="close float-right" id="btn-cerrar-alerta">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </p>
+                }
+
+            }
+
+
+        </div>
+        <div class="collapse multi-collapse shadow" id="multiCollapseExample1">
+            <div class="card card-body">
+                <div class="container-fluid">
+                    @using (Html.BeginForm())
+                    {
+                        <div class="form-horizontal">
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            <div class="form-group">
+
+                                <div class="col-md-10">
+                                    <dl>
+                                        <dt>
+                                            <label>
+                                                Codigo Empleado
+                                            </label>
+                                        </dt>
+                                        <dd>
+                                            <div class="input-group">
+                                                <input type="text" name="Codigo" id="Codi" class="form-control shadow" placeholder="Codigo de usuario " />
+                                            </div>
+                                            <div class="row">
+                                                <div class="input-group col-4">
+                                                    <input type="text" name="Name" id="Name" class="form-control mt-1 shadow" placeholder="Nombre" />
+                                                </div>
+                                                <div class="input-group col-4">
+                                                    <input type="text" name="LastName" id="LastName" class="form-control mt-1 shadow" placeholder="Apellido" />
+                                                </div>
+                                                <button class="btn btn-outline-secondary border m-1 shadow " type="submit">
+                                                    <i class="fa fa-search"></i>
+                                                </button>
+                                            </div>
+                                        </dd>
+                                    </dl>
+
+                                </div>
+
+
+                            </div>
+
+
+
+                        </div>
+                    }
+                </div>
+
+            </div>
+        </div>
+        <hr />
+        <div>
+            <div class="table-responsive">
+                <table class="table table-hover table-bordered shadow">
+                    <thead class="table-info">
+                        <tr>
+                            <th scope="col">
+                                @Html.DisplayNameFor(model => model.Empleados.FirstOrDefault().Codigo_Empleado)
+                            </th>
+                            <th scope="col">
+                                @Html.DisplayNameFor(model => model.Empleados.FirstOrDefault().Nombre)
+                            </th>
+                            <th scope="col">
+                                @Html.DisplayNameFor(model => model.Empleados.FirstOrDefault().Correo)
+                            </th>
+                            <th scope="col">
+                                @Html.DisplayNameFor(model => model.Empleados.FirstOrDefault().Telefono)
+                            </th>
+                            <th scope="col">
+                                @Html.DisplayNameFor(model => model.Empleados.FirstOrDefault().Identificacion)
+                            </th>
+                            <th>
+                                Edad
+                            </th>
+                            <th>Opciones</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var item in Model.Empleados)
+                        {
+                            <tr>
+                                <td>
+
+                                    @Html.DisplayFor(modelItem => item.Codigo_Empleado)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.NCompleto)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Correo)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Telefono)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Identificacion)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Edad)
+
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Detalles", "Details", new { id = item.Id }, new { @class = "btn btn-outline-success" })
+                                    @if (respues == true)
+                                    {
+                                        @Html.ActionLink("Borrar", "Delete", new { id = item.Id }, new { @class = "btn btn-outline-danger pl-4 text-center" })
+
+                                    }
+                                </td>
+
+                            </tr>
+
+                        }
+
+                    </tbody>
+
+                </table>
+
+                @{Html.RenderPartial("_paginador", Model);}
+            </div>
+            <br />
+            <h1>
+                Graficos
+            </h1>
+            <div class="">
+                <div  class="col-sm-8 border border-dark table-responsive mb-1 p-4">
+                    <button class="btn btn-dark" id="save-pdf-edades"><i class="icon-cloud-download"></i>   @DateTime.Now.ToString("dddd, dd MMMM yyyy") </button>
+                    <div id="chart_div"></div>
+                </div>
+                <div class="col-sm-8 border border-dark table-responsive mb-1 p-4" >
+                    <button class="btn btn-dark" id="save-pdf"><i class="icon-cloud-download"></i>   @DateTime.Now.ToString("dddd, dd MMMM yyyy")</button>
+                    <div id="Div_Genero" >
+
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="col-sm-8  border border-dark table-responsive mb-1 p-4">
+                <button class="btn btn-dark" id="save-pdf-estudios"><i class="icon-cloud-download"></i>  @DateTime.Now.ToString("dddd, dd MMMM yyyy")</button>
+                <div id="Estudios_div">
+
+                </div>
+            </div>
+
+        </div>
+
+        @section scripts{
+            <script src="~/Scripts/jquery-ui-1.12.1.js"></script>
+            <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+
+            <script>
+                $(function () {
+                    $("#Codi").autocomplete({ source: "/Empleado/BuscarPersona" });
+                });
+
+                $(function () {
+                    $("#Name").autocomplete({ source: "/Empleado/BuscarPersonaName" });
+                });
+
+                $(function () {
+                    $("#LastName").autocomplete({ source: "/Empleado/BuscarPersonaLastName" });
+                });
+            </script>
+            <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+            <script type="text/javascript">
+                //Generar Fecha
+                var meses = new Array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+                var diasSemana = new Array("Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado");
+                var f=new Date();
+                //Urls para obtener los json
+            var url1 = "@Url.Action("Generos", "Empleado")";
+            var url2 = "@Url.Action("Edades", "Empleado")";
+            var url3 = "@Url.Action("Estudios", "Empleado")";
+                //Genero
+            $.get(url1, function (data2) {
+
+            // Load the Visualization API and the corechart package.
+            google.charts.load('current', { 'packages': ['corechart'] });
+
+            // Set a callback to run when the Google Visualization API is loaded.
+            google.charts.setOnLoadCallback(drawChart);
+
+            // Callback that creates and populates a data table,
+            // instantiates the pie chart, passes in the data and
+                // draws it.
+                function drawChart() {
+
+                    // Create the data table.
+                    var data = new google.visualization.DataTable();
+                    data.addColumn('string', 'Topping');
+                    data.addColumn('number', 'Slices');
+
+                         data.addRows([
+                            ['Masculino', data2.Masculino],
+                            ['Femenino', data2.Femenino]
+                        ]);
+
+
+                    // Set chart options
+                  var options = {
+                    title: 'Generos de Empleados',
+                    pieHole: 1,
+                    pieSliceText: 'value',
+                    sliceVisibilityThreshold :0,
+                    fontSize: 17,colors: ['#008000', '#ffbf00', '#FF0000','#4E6282'],
+                    legend: {
+                      position: 'labeled'
+                    },
+                  };
+                    // Instantiate and draw our chart, passing in some options.
+                    var chart = new google.visualization.PieChart(document.getElementById('Div_Genero'));
+                    chart.draw(data, options);
+
+                      var btnSave = document.getElementById('save-pdf');
+                    
+                      google.visualization.events.addListener(chart, 'ready', function () {
+                        btnSave.disabled = false;
+                      });
+
+                      btnSave.addEventListener('click', function () {
+                        var doc = new jsPDF();
+                        doc.addImage(chart.getImageURI(), 0, 0);
+                          doc.save('Grafico Genero '+diasSemana[f.getDay()] + ", " + f.getDate() + " de " + meses[f.getMonth()] + " de " + f.getFullYear()+'.pdf');
+                      }, false);
+            }
+
+
+
+
+
+            });
+                //Edades
+            $.get(url2, function (data2) {
+
+            // Load the Visualization API and the corechart package.
+            google.charts.load('current', { 'packages': ['corechart'] });
+
+            // Set a callback to run when the Google Visualization API is loaded.
+            google.charts.setOnLoadCallback(drawChart);
+
+            // Callback that creates and populates a data table,
+            // instantiates the pie chart, passes in the data and
+                // draws it.
+            function drawChart() {
+
+                // Create the data table.
+                var data = new google.visualization.DataTable();
+                data.addColumn('string', 'Topping');
+                data.addColumn('number', 'Slices');
+
+                     data.addRows([
+                        ['20-30 Años', data2.veintetreinta],
+                        ['30-40 Años', data2.treintacuarenta],
+                         ['40-50 Años', data2.cuarentaCincuenta],
+                         ['50-60 Años', data2.CincuentaSesenta],
+                        ['60++ Años', data2.SesentaMas],
+                    ]);
+
+
+                // Set chart options
+                var options = {
+                    title: 'Edades de Empleados',
+                    pieHole: 1,
+                    pieSliceText: 'value',
+                    sliceVisibilityThreshold :0,
+                    fontSize: 17,
+                    legend: {
+                      position: 'labeled'
+                    },
+                    
+                  };
+                // Instantiate and draw our chart, passing in some options.
+                var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+
+                chart.draw(data, options);
+                        var btnSave = document.getElementById('save-pdf-edades');
+                    
+                      google.visualization.events.addListener(chart, 'ready', function () {
+                        btnSave.disabled = false;
+                      });
+
+                      btnSave.addEventListener('click', function () {
+                        var doc = new jsPDF();
+                        doc.addImage(chart.getImageURI(), 0, 0);
+                          doc.save('Grafico Edades '+diasSemana[f.getDay()] + ", " + f.getDate() + " de " + meses[f.getMonth()] + " de " + f.getFullYear()+'.pdf');
+                      }, false);
+            }
+
+
+
+
+
+            });
+                //Estudios
+            $.get(url3, function (data2) {
+
+            // Load the Visualization API and the corechart package.
+            google.charts.load('current', { 'packages': ['corechart'] });
+
+            // Set a callback to run when the Google Visualization API is loaded.
+            google.charts.setOnLoadCallback(drawChart);
+
+            // Callback that creates and populates a data table,
+            // instantiates the pie chart, passes in the data and
+                // draws it.
+            function drawChart() {
+
+                // Create the data table.
+                var data = new google.visualization.DataTable();
+                data.addColumn('string', 'Topping');
+                data.addColumn('number', 'Slices');
+
+                     data.addRows([
+                        ['Bachiller', data2.Bachiller],
+                        ['Licenciatura', data2.Licenciatura],
+                         ['Doctorado', data2.Doctorado],
+                         ['Tecnico', data2.Tecnico],
+                        ['Maestria', data2.Maestria]
+                    ]);
+
+
+                // Set chart options
+                var options = {
+                    'title': 'Tipos de estudios de empleados',
+                    legend: { position: "none" },
+                };
+                // Instantiate and draw our chart, passing in some options.
+                var chart = new google.visualization.BarChart(document.getElementById('Estudios_div'));
+                chart.draw(data, options);
+
+                            var btnSave = document.getElementById('save-pdf-estudios');
+
+                google.visualization.events.addListener(chart, 'ready', function () {
+                btnSave.disabled = false;
+                });
+
+                btnSave.addEventListener('click', function () {
+                var doc = new jsPDF();
+                doc.addImage(chart.getImageURI(), 0, 0);
+                doc.save('Grafico estudios maestros '+diasSemana[f.getDay()] + ", " + f.getDate() + " de " + meses[f.getMonth()] + " de " + f.getFullYear()+'.pdf');
+                }, false);
+            }
+
+
+
+
+
+                });
+            </script>
+            <script src="https://unpkg.com/jspdf@latest/dist/jspdf.min.js"></script>
+        }
+
+    </div>

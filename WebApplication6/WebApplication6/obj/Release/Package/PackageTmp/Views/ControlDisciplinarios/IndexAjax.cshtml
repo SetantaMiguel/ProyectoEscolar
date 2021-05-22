@@ -1,0 +1,85 @@
+﻿
+@model WebApplication6.viewModels.IndexViewModel2
+
+@{
+    Layout = null;
+    ViewBag.Title = "Index";
+}
+<div class="container">
+
+    <table class="table table-hover">
+        <tr class="bg-info">
+            <th>
+                @Html.DisplayNameFor(model => model.controlDisciplinarios.First().Fecha_Emision)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.controlDisciplinarios.First().Descripcion)
+            </th>
+            @if (ViewBag.ModeloEstudiante == null)
+            {
+                <th>
+                    @Html.DisplayNameFor(model => model.controlDisciplinarios.First().Estudiantes.Nombre)
+                </th>
+            }
+            <th>
+                @Html.DisplayNameFor(model => model.controlDisciplinarios.First().IdentityUser.Empleado.Nombre)
+            </th>
+            <th></th>
+
+        </tr>
+
+        @foreach (var item in Model.controlDisciplinarios)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Fecha_Emision)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Descripcion)
+                </td>
+                @if (ViewBag.ModeloEstudiante == null)
+                {
+                    <td>
+                        @{
+                            var nombrecompleto = item.Estudiantes.Nombre + " " + item.Estudiantes.Apellido;
+                        }
+                        @nombrecompleto
+                    </td>
+                }
+                <td>
+                    @Html.ActionLink(item.IdentityUser.Empleado.Nombre, "Details", "Empleado", new { id = item.IdentityUser.Empleado.Id }, new { @class = "btn btn-info" })
+
+                </td>
+                <td>
+                    @Html.ActionLink("Borrar", "Delete", new { id = item.Id_Control }, new { @class = "btn btn-danger", data_modal = "" })
+                </td>
+            </tr>
+        }
+
+    </table>
+    <div class="text-md-center">    @{Html.RenderPartial("_paginador", Model);}</div>
+
+</div>
+<div id="Creden">xd</div>
+@section scripts{
+    <script src="~/Scripts/jquery-ui-1.12.1.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+    <script>
+       function loadPage(){
+             ComboAno();
+         }
+
+            function ComboAno(){
+
+            var d = new Date();
+            var n = d.getFullYear();
+            var select = document.getElementById("filtro1");
+            for(var i = n; i >= 1900; i--) {
+                var opc = document.createElement("option");
+                opc.text = i;
+                opc.value = i;
+                select.add(opc)
+            }
+        }
+    </script>
+}

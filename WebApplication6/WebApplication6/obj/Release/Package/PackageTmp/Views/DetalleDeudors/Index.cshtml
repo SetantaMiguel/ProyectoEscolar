@@ -1,0 +1,69 @@
+﻿@using WebApplication6.Models;
+@{
+    ApplicationDbContext db = new ApplicationDbContext();
+}
+
+
+@model IEnumerable<WebApplication6.Models.DetalleDeudor>
+
+
+@{
+    Layout = "~/Views/Shared/_LayoutCartera.cshtml";
+}
+
+@{
+    ViewBag.Title = "View";
+}
+
+<div class="container align-content-center">
+    <hr />
+    <h1 class="text-center alert-info">Registro de Pago del Deudor</h1>
+    &nbsp;&nbsp;
+
+    
+
+    &nbsp;&nbsp;
+</div>
+
+
+
+<div class="container">
+    <table class="table table-striped table-bordered">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.IdDeudor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdConceptop)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Total_Pagado)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Total_Deber)
+            </th>
+            
+
+
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    @Html.DisplayFor(model => item.IdDeudor)
+                </td>
+                <td>
+                    @db.ConceptosPago.Find(item.IdConceptop).NombreConcepto
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Total_Pagado)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Total_Deber)
+                </td>
+                
+
+            </tr>
+        }
+
+        </table>
+    </div>

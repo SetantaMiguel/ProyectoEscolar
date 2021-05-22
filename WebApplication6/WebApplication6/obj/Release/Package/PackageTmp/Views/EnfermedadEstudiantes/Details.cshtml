@@ -1,0 +1,50 @@
+﻿@model WebApplication6.Models.EnfermedadEstudiantes
+
+@{
+    ViewBag.Title = "Details";
+}
+<div class="container">
+    <div>
+        <h4>Enfermedad Estudiante <b>@Model.Estudiantes.Nombre</b></h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Enfermedad.Str_NombreEnfermedad)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Enfermedad.Str_NombreEnfermedad)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Estudiantes.Codigo_Estudiante)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Estudiantes.Codigo_Estudiante)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.TPMedicacion.Str_Tipo)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.TPMedicacion.Str_Tipo)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Medicacion)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Medicacion)
+            </dd>
+
+        </dl>
+    </div>
+    <div>
+        @Html.ActionLink("Editar", "Edit", new { id = Model.Id }, new { @class = "btn btn-success" }) |
+        @Html.ActionLink("Regresar", "Index", new { id = Model.Id_Estudiante }, new { @class = "btn btn-dark" })
+    </div>
+
+</div>

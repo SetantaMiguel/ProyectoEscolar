@@ -1,0 +1,74 @@
+﻿@model IEnumerable<WebApplication6.Models.PermisosYRoles>
+
+@{
+    Layout = null;
+}
+    <div class="container border border-dark">
+        <h2 class="text-center p-2 shadow alert alert-info mt-2">Permisos</h2>
+        <div class="row p-2">
+            <p class="btn btn-primary mr-2" id="Ani">
+                <i class="icon-plus icon-large "></i>
+                @Html.ActionLink("Añadir Permiso", "Create", null, new { @class = "text-decoration-none text-white", id = "Ani2", data_modal = "" })
+            </p>
+            <div class="d-inline"> 
+                <input class="form-control" name="txtMateria" type="search" placeholder="Buscar Permiso" id="Codi">
+
+            </div>
+        </div>
+
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover " >
+                <tr class="table-info">
+                    <th>
+                        @Html.DisplayNameFor(model => model.Id_Rol)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Id_Permiso)
+                    </th>
+                    <th class="">Eliminar P. </th>
+                </tr>
+                <tbody id="Tb">
+                    @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IdentityRole.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Permisos.NombrePermiso)
+                        </td>
+                        <td class="text-md-center">
+
+                            @Html.ActionLink("Borrar", "Delete", new { id = item.Id }, new { @class = "btn btn-outline-danger" })
+                        </td>
+                    </tr>
+                }
+
+                </tbody>
+
+            </table>
+        </div>
+
+
+    </div>
+<script src="~/Scripts/modalform.js">
+
+</script>
+<script>
+    $("#Ani").click(function () {
+        $("#Ani2").click();
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $("#Codi").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $("#Tb tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value,2) > -1)
+            });
+        });
+    });
+
+</script>
+<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">

@@ -1,0 +1,65 @@
+﻿@model IEnumerable<WebApplication6.Models.CierreCaja>
+
+
+@{
+    Layout = "~/Views/Shared/_LayoutHistorialCaja.cshtml";
+}
+
+<h1 class=" text-center fa-header alert-heading">Listado de Cierres</h1>
+
+&nbsp;&nbsp;
+<div class="container">
+    <div class="form-horizontal">
+        <div class="row">
+            @Html.ActionLink("Ingresar Nuevo Cierre de Caja", "Create", null, new { @class = "btn btn-success " })
+
+
+        </div>
+
+        &nbsp;&nbsp;
+
+        <div class="table-responsive">
+            <table class="table">
+                <thead class="table-dark">
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Caja.NumCaja)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Cajero.Nombre)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Hora_Cierre)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Total_Cordobas)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Total_Dolar)
+                        </th>
+                        <th></th>
+                    </tr>
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Caja.NumCaja)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Cajero.Nombre)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Hora_Cierre)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Total_Cordobas)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Total_Dolar)
+                            </td>
+
+                        </tr>
+                    }
+
+            </table>

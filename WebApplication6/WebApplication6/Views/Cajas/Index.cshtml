@@ -1,0 +1,48 @@
+﻿@model IEnumerable<WebApplication6.Models.Caja>
+
+
+@{
+    ViewBag.Title = "Menu_Cajas";
+}
+
+<div class="container body-content">
+    <hr />
+    <h1 class="text-center alert alert-secondary shadow p-4 border border-secondary">Listado de Cajas</h1>
+    &nbsp;
+
+    <div class="row">
+        @Html.ActionLink("Ingresar Nueva Caja", "Create", null, new { @class = "btn btn-success m-2" })
+        @Html.ActionLink("Listado Aperturas de Caja", "Index","AperturaCajas",  null, new { @class = "btn btn-primary m-2 " })
+        @Html.ActionLink("Cerrar caja", "Create", "CierreCajas", null, new { @class = "btn btn-primary m-2 " })
+    </div>
+
+    &nbsp;
+
+    <div class="table-responsive">
+        <table class="table table-hover table-striped">
+            <thead class="table-info">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.NumCaja)
+                    </th>
+                    <th>Opciones</th>
+                </tr>
+            </thead>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NumCaja)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Editar", "Edit", new { id = item.IdCaja }, new { @class = "btn btn-outline-primary" })
+                        
+                        @Html.ActionLink("Eliminar", "Delete", new { id = item.IdCaja }, new { @class = "btn btn-outline-danger" })
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+</div>

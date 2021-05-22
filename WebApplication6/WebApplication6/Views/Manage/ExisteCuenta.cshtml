@@ -1,0 +1,51 @@
+﻿
+@model WebApplication6.Models.ApplicationUser
+@using System.Globalization;
+<div class="container">
+    <br />
+    <h2 class="alert alert-primary shadow-sm ">
+        Caracteristicas de la cuenta
+        @Html.ActionLink("Regresar", "Details", "Empleado", new { id = Model.Id_Empleado }, new { @class = "btn btn-dark float-right" })
+    </h2>
+
+    <hr />
+    <dl class="dl-horizontal">
+        <dt cl6>
+            @Html.DisplayNameFor(model => model.Empleado.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Empleado.NCompleto)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Fecha_Conexcion)
+        </dt>
+
+        <dd>
+            @Model.Fecha_Conexcion.ToString("yyyy/MM/dd hh:mm:ss tt", new CultureInfo("en-US"))
+        </dd>
+
+        <dt>
+            Correo
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt>
+            contraseña
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PasswordHash)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Empleado.Telefono)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Empleado.Telefono)
+        </dd>
+</dl>
+        </div>

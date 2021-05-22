@@ -1,0 +1,75 @@
+﻿@model WebApplication6.Models.CierreCaja
+
+@{
+    Layout = "~/Views/Shared/_LayoutHistorialCaja.cshtml";
+}
+
+<div class="container">
+    <hr />
+    <h1 class="text-center alert-info">Ingreso de Nuevo Cierre de Caja</h1>
+</div>
+
+&nbsp;&nbsp;
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="container">
+        <div class="form-horizontal w-75">
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.Id_Caja, "IdCaja", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("IdCaja", null, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Id_Caja, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Id_Cajero, "Cajero", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("IdCajero", null, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Id_Cajero, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Hora_Cierre, "Fecha y Hora de Cierre", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Hora_Cierre, new { htmlAttributes = new { @class = "form-control", @Value = DateTime.Now.ToString("yyyy/MM/dd") } })
+                    @Html.ValidationMessageFor(model => model.Hora_Cierre, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Total_Cordobas, "Total en Cordobas", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Total_Cordobas, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Total_Cordobas, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Total_Dolar, "Total en Dolares", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Total_Dolar, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Total_Dolar, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            &nbsp;&nbsp;
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Crear" class="btn btn-success" /> |
+                    @Html.ActionLink("Regresar", "Index", null, new { @class = "btn btn-dark" })
+                </div>
+            </div>
+        </div>
+    
+}
+
+

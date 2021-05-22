@@ -1,0 +1,262 @@
+﻿@model WebApplication6.viewModels.IndexViewModel2
+
+@{
+
+}
+    <div class="container">
+        <hr />
+
+        <div class="alert alert-light shadow h2 p-4 border border-secondary font-weight-bold text-dark">
+            Menu de evaluaciones del parcial actual
+            <div class="row mt-2">
+                @Html.ActionLink("Crear Evaluacion", "Create", new { idCurso = Convert.ToInt32(ViewBag.id) }, new { @class = "btn btn-success" })
+                <a class="btn btn-primary mx-2" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">Buscar Materia</a>
+                @Html.ActionLink("Regresar a notas", "Index", "Notas", new { idCurso = TempData.Peek("idCurso") }, new { @class = "btn btn-secondary" })
+            </div>
+        </div>
+
+
+        <hr />
+        <div>
+            <div class="collapse multi-collapse" id="multiCollapseExample1">
+                <div class="card card-body">
+                    <div class="container-fluid">
+                        @using (Html.BeginForm())
+                        {
+                            <div class="form-horizontal">
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                <div class="form-group">
+
+                                    <div class="col-md-10 row">
+                                        <dl class="mr-3">
+                                            <dt>
+                                                <label>
+                                                    Materia
+                                                </label>
+                                            </dt>
+                                            <dd>
+                                                <select id="NumMaterias" class="form-control" name="idMateria">
+                                                </select>
+                                            </dd>
+                                        </dl>
+
+                                    </div>
+
+                                    <input type="submit" name="name" class="btn btn-block btn-warning " value="Buscar" />
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <br />
+
+        <h4 class="alert alert-success text-center"  data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+            <button class="btn btn-success">Aprobadas</button>
+        </h4>        
+        <div class="border border-success collapse" id="collapseExample">
+
+            <div class="table-responsive">
+                <table class="table table-hover table-bordered">
+                    <tr class="table-primary">
+                        <th>
+                            @Html.DisplayNameFor(model => model.Evaluaciones.FirstOrDefault().Materias.Nombre_Materia)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Evaluaciones.FirstOrDefault().TipoEvaluacion.strTipoEvaluacion)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Evaluaciones.FirstOrDefault().Fecha_Comienzo)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Evaluaciones.FirstOrDefault().Fecha_Final)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Evaluaciones.FirstOrDefault().Descripcion)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Evaluaciones.FirstOrDefault().BL_Aprobado)
+                        </th>
+                        <th>Opciones</th>
+                        <th>Valorar</th>
+                    </tr>
+
+                    @foreach (var item in Model.Evaluaciones.Where(x => x.BL_Aprobado == true).OrderByDescending(x=>x.Fecha_Comienzo))
+                    {
+                        <tr>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Materias.Nombre_Materia)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TipoEvaluacion.strTipoEvaluacion)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Fecha_Comienzo)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Fecha_Final)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Descripcion)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.BL_Aprobado)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Detalles", "Details", new { id = item.Id_Evaluacion }, new { @class = "btn btn-info btn-sm" })
+                                @Html.ActionLink("Borrar", "Delete", new { id = item.Id_Evaluacion }, new { @class = "btn btn-danger btn-sm", data_modal = "" })
+                            </td>
+                            <td>
+                                @Html.ActionLink("Valorar", "Valorar", new { id = item.Id_Evaluacion }, new { @class = "btn btn-primary btn-sm", data_modal = "" })
+                            </td>
+                        </tr>
+                    }
+                </table>
+                @{Html.RenderPartial("_paginador", Model);}
+            </div>
+        </div>
+
+        <hr />
+            
+        <h4 class="alert alert-danger text-center" data-toggle="collapse" data-target="#collapseReprobado" aria-expanded="false" aria-controls="collapseReprobado">
+            <button class="btn btn-danger">No aprobadas</button>
+        </h4>
+        <div class="border border-danger collapse" id="collapseReprobado">
+
+            <div class="table-responsive">
+                <table class="table table-hover table-bordered">
+                    <tr class="table-primary">
+                        <th>
+                            @Html.DisplayNameFor(model => model.Evaluaciones.FirstOrDefault().Materias.Nombre_Materia)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Evaluaciones.FirstOrDefault().TipoEvaluacion.strTipoEvaluacion)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Evaluaciones.FirstOrDefault().Fecha_Comienzo)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Evaluaciones.FirstOrDefault().Fecha_Final)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Evaluaciones.FirstOrDefault().Descripcion)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Evaluaciones.FirstOrDefault().BL_Aprobado)
+                        </th>
+                        <th>Opciones</th>
+                        <th>Valorar</th>
+                    </tr>
+
+                    @foreach (var item in Model.Evaluaciones.Where(x => x.BL_Aprobado == false).OrderBy(x=>x.Fecha_Comienzo))
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Materias.Nombre_Materia)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TipoEvaluacion.strTipoEvaluacion)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Fecha_Comienzo)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Fecha_Final)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Descripcion)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.BL_Aprobado)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Detalles", "Details", new { id = item.Id_Evaluacion }, new { @class = "btn btn-info btn-sm" })
+                                @Html.ActionLink("Borrar", "Delete", new { id = item.Id_Evaluacion }, new { @class = "btn btn-danger btn-sm", data_modal = "" })
+                            </td>
+                            <td>
+                                @Html.ActionLink("Valorar", "Valorar", new { id = item.Id_Evaluacion }, new { @class = "btn btn-primary btn-sm", data_modal = "" })
+                            </td>
+                        </tr>
+                    }
+                </table>
+                @{Html.RenderPartial("_paginador", Model);}
+            </div>
+        </div>
+
+        <hr />
+        <h3 class="border border-bottom">
+            Graficos
+        </h3>
+        <div class="row">
+            <div id="Div_Materias">
+
+            </div>
+        </div>
+
+    </div>
+
+@section scripts{
+    <script src="~/Scripts/jquery-ui-1.12.1.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script>
+        var url1 = "@Url.Action("CantidadClases", "Evaluaciones")";
+        $.get(url1, {idCurso:@ViewBag.id }, function (data2) {
+
+                // Load the Visualization API and the corechart package.
+                google.charts.load('current', { 'packages': ['corechart'] });
+
+                // Set a callback to run when the Google Visualization API is loaded.
+                google.charts.setOnLoadCallback(drawChart);
+
+                // Callback that creates and populates a data table,
+                // instantiates the pie chart, passes in the data and
+                    // draws it.
+                function drawChart() {
+
+                    // Create the data table.
+                    var data = new google.visualization.DataTable();
+                    data.addColumn('string', 'Topping');
+                    data.addColumn('number', 'Slices');
+
+                    $.each(data2, function(i, obj) {
+
+                        data.addRows([
+                            [obj.Materia, obj.Total]
+                        ]);
+                    });
+
+
+
+                    // Set chart options
+                    var options = {
+                        'title': 'Cantidad de evaluaciones por materias ',
+                        'width': 400,'is3D':true,
+                        'height': 400
+                    };
+                    // Instantiate and draw our chart, passing in some options.
+                    var chart = new google.visualization.PieChart(document.getElementById('Div_Materias'));
+                    chart.draw(data, options);
+                }
+
+        });
+
+    </script>
+    <script language="JavaScript" type="text/javascript">
+            var url = "@Url.Action("Materias","Evaluaciones")";
+            //pasar los datos al post
+            $.post(url).done(function (data) {
+                //se ejecutara si fue un exito
+                $("#NumMaterias").html(data);
+                $("#NumMaterias").append('<option value='  + '>' + '---Seleccione una materia ---' + '</option>');
+                $.each(data, function (key, data) {
+                    $("#NumMaterias").append('<option value=' + data.Materias.Id_Materia + '>' + data.Materias.Nombre_Materia + '</option>');
+                });
+            });
+    </script>
+}
